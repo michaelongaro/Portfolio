@@ -1,0 +1,10 @@
+.skillsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.skillsContainer>img {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: .5rem;
+}

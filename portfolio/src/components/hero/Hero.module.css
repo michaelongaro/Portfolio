@@ -3,3 +3,15 @@
 .hero>span {
   background-color: #ed9f31;
 }
+
+.backgroundPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* width: 100vh; */
+  height: 100vh;
+  z-index: -5;
+  transform: scaleX(1.5);
+}
+
+/* <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 700" xmlns="http://www.w3.org/2000/svg" class="transition duration-300 ease-in-out delay-150"><path d="M 0,700 C 0,700 0,350 0,350 C 113.96428571428572,335.4642857142857 227.92857142857144,320.92857142857144 327,354 C 426.07142857142856,387.07142857142856 510.2500000000001,467.74999999999994 654,471 C 797.7499999999999,474.25000000000006 1001.0714285714284,400.0714285714286 1142,367 C 1282.9285714285716,333.9285714285714 1361.4642857142858,341.96428571428567 1440,350 C 1440,350 1440,700 1440,700 Z" stroke="none" stroke-width="0" fill="#ed9f31" fill-opacity="1" class="transition-all duration-300 ease-in-out delay-150 path-0"></path></svg> */

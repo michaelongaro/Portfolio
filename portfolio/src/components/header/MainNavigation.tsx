@@ -5,8 +5,8 @@ export function MainNavigation(props: any) {
   // useEffect resize logic to render mobile sidebar
 
   return (
-    <div>
+    <>
       <DesktopNavbar />
-    </div>
+    </>
   );
 }
