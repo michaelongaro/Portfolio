@@ -1,0 +1,5 @@
+.hero {}
+
+.hero>span {
+  background-color: #ed9f31;
+}

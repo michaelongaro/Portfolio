@@ -1,0 +1,39 @@
+.navContainer {
+  justify-content: flex-end !important;
+  margin-right: 10rem;
+  height: 6rem;
+}
+
+.navButton>a {
+  position: relative;
+  color: black;
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.navButton>a:before,
+.navButton>a:after {
+  position: absolute;
+  opacity: 0;
+  width: 0%;
+  height: 2px;
+  content: "";
+  background: #ed9f31;
+  transition: all 0.3s;
+}
+
+.navButton>a:before {
+  left: 0px;
+  top: 0px;
+}
+
+.navButton>a:after {
+  right: 0px;
+  bottom: 0px;
+}
+
+.navButton>a:hover:before,
+.navButton>a:hover:after {
+  opacity: 1;
+  width: 100%;
+}
