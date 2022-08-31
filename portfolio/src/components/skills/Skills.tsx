@@ -19,6 +19,7 @@ export function Skills(props: any) {
   const { ref, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,
+    triggerOnce: true,
   });
 
   useEffect(() => {
@@ -40,7 +41,12 @@ export function Skills(props: any) {
   }, [inView]);
 
   return (
-    <div ref={ref} style={{ gap: "1rem" }} className={"baseVertFlex"}>
+    <div
+      ref={ref}
+      id={"skills"}
+      style={{ marginTop: "8rem", gap: "2rem", scrollMargin: "8rem" }}
+      className={"baseVertFlex"}
+    >
       <div className={"heading"}>Skills</div>
 
       <div

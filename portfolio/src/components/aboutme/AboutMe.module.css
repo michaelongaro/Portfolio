@@ -1,0 +1,94 @@
+.aboutMeContainer {
+  gap: 5.5rem;
+  margin-top: 5rem;
+  height: 300px;
+  width: 70%;
+}
+
+.avatarContainer {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  /* display: flex; */
+  /* ? */
+}
+
+.iconContainer {
+  position: absolute;
+  left: 56px;
+  right: 0;
+  top: 48px;
+  bottom: 0;
+  margin: auto;
+
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  margin: auto;
+}
+
+.iconContainer li {
+  /* 120px */
+  --d: 120px;
+  grid-area: 1/1;
+  transform: rotate(var(--r)) translateX(var(--d)) rotate(calc(-1*var(--r)));
+}
+
+/* adjust the angle for each icon */
+.iconContainer li:nth-child(1) {
+  --r: -150deg;
+}
+
+.iconContainer li:nth-child(2) {
+  --r: -110deg;
+}
+
+.iconContainer li:nth-child(3) {
+  --r: -70deg;
+}
+
+.iconContainer li:nth-child(4) {
+  --r: -30deg;
+}
+
+/* 
+.iconContainer li>img:nth-child(1) {
+  transform: rotate(-45deg);
+}
+
+.iconContainer li>img:nth-child(2) {
+  transform: rotate(-5deg);
+}
+
+.iconContainer li>img:nth-child(3) {
+  transform: rotate(5deg);
+}
+
+.iconContainer li>img:nth-child(4) {
+  transform: rotate(45deg);
+} */
+
+/* .iconContainer li a {
+  display: block;
+} */
+
+.iconContainer li img {
+  width: 50px;
+}
+
+.profileIcon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+
+  width: 10rem;
+  height: 10rem;
+}
+
+.aboutMeText {
+  font-size: 1.15em;
+  width: clamp(45ch, 50%, 75ch)
+}

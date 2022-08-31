@@ -1,0 +1,49 @@
+.projectContainer {
+  gap: 1rem;
+  width: 70%;
+  /* align-items: flex-start; */
+  background: linear-gradient(145deg, #ed9f3180 30%, #ed9f31eb);
+  border-radius: 0.5em;
+  padding: 1em;
+  box-shadow: 4px 3px 9px 0px #000000a6;
+}
+
+.reversedProjectContainer {
+  gap: 1rem;
+  width: 70%;
+  /* align-items: flex-start; */
+  flex-direction: row-reverse;
+  background: linear-gradient(145deg, #ed9f31eb -30%, #ed9f3180);
+  border-radius: 0.5em;
+  padding: 1em;
+  box-shadow: 4px 3px 9px 0px #000000a6;
+}
+
+.projectDetails {
+  width: 50%;
+}
+
+.projectTitle {
+  font-size: 1.5em;
+  letter-spacing: 2px;
+}
+
+.techIcons {
+  gap: 0.5em;
+}
+
+.techIcons>img {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 0.5em;
+}
+
+.projectImageContain {
+  background-color: #05204a;
+  width: 50%;
+  padding: 1em 0 1em 1em;
+  border-radius: 0.5em;
+}
+
+/* #ed9f319c */
+/* #9198e5 */

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100;500;700&display=swap');
+
 *,
 *::before,
 *::after {
@@ -8,12 +10,18 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   height: 100%;
 }
 
 body {
+  /* font-family: 'Helvetica', 'Arial', sans-serif; */
+  font-family: 'M PLUS 1', sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
