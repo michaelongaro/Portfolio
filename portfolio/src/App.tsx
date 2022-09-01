@@ -5,6 +5,8 @@ import { Hero } from "./components/hero/Hero";
 import { Projects } from "./components/projects/Projects";
 import { Skills } from "./components/skills/Skills";
 import { AboutMe } from "./components/aboutme/AboutMe";
+import { Contact } from "./components/contact/Contact";
+import { ScrollToTop } from "./components/scrollToTop/ScrollToTop";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
       <Skills />
       <Projects />
       <AboutMe />
+      <Contact />
+      <ScrollToTop />
     </div>
   );
 }

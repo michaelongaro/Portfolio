@@ -1,14 +1,17 @@
-import * as React from "react";
-
-// export interface IAppProps {
-// }
-
 import heroBackgroundPattern from "../../assets/heroBackgroundPattern.svg";
+import mediumGithubLogo from "../../assets/mediumGithubLogo.png";
 
 import classes from "./Hero.module.css";
 import "../../index.css";
 
 export function Hero(props: any) {
+  function openInNewTab(url: string) {
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) {
+      newWindow.opener = null;
+    }
+  }
+
   return (
     <div
       style={{ position: "relative", height: "100vh" }}
@@ -40,6 +43,18 @@ export function Hero(props: any) {
           {/* maybe animate the < and /> pushing the text on the left and the . on the right? */}
           I'm a <div>&lt;</div>full stack web developer<div>/&gt;</div>.
         </div>
+
+        <img
+          src={mediumGithubLogo}
+          alt={"Github Logo"}
+          className={classes.githubLogo}
+          onMouseDown={(e) => {
+            if (e.button === 1) {
+              openInNewTab("https://github.com/michaelongaro");
+            }
+          }}
+          onClick={() => openInNewTab("https://github.com/michaelongaro")}
+        />
       </div>
     </div>
   );

@@ -1,0 +1,22 @@
+.scrollToTopContainer {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  border: 2px solid black;
+  border-radius: 50%;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+  transition: all 250ms;
+}
+
+.scrollToTopContainer:hover {
+  background-color: #ed9f31;
+  filter: brightness(1.1);
+}
+
+.scrollToTopContainer:active {
+  filter: brightness(0.95);
+}

@@ -1,0 +1,16 @@
+.submitButton {
+  border-style: none;
+  border-radius: 0.5rem;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  background-color: #ed9f31;
+  transition: all 250ms;
+}
+
+.submitButton:hover {
+  filter: brightness(1.1);
+}
+
+.submitButton:active {
+  filter: brightness(.95);
+}
