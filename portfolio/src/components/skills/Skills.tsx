@@ -7,6 +7,7 @@ import html5Icon from "../../assets/html5.png";
 import css3Icon from "../../assets/css3.png";
 import javaScriptIcon from "../../assets/javascript.png";
 import typeScriptIcon from "../../assets/typescript.png";
+import auth0Icon from "../../assets/auth0.png";
 import reactIcon from "../../assets/react.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
@@ -28,14 +29,14 @@ export function Skills(props: any) {
         targets: "#iconGrid .icon",
         opacity: [0, 1],
         duration: 4000,
-        delay: anime.stagger(200, { grid: [4, 2], from: "first" }),
+        delay: anime.stagger(200, { grid: [5, 2], from: "first" }),
       });
     } else {
       anime({
         targets: "#iconGrid .icon",
         opacity: [1, 0],
         duration: 4000,
-        delay: anime.stagger(200, { grid: [4, 2], from: "last" }),
+        delay: anime.stagger(200, { grid: [5, 2], from: "last" }),
       });
     }
   }, [inView]);
@@ -58,6 +59,7 @@ export function Skills(props: any) {
         <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
         <img className={"icon"} src={javaScriptIcon} alt={"JavaScript"} />
         <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+        <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
         <img className={"icon"} src={reactIcon} alt={"React"} />
         <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />

@@ -6,16 +6,20 @@ import { useInView } from "react-intersection-observer";
 // export interface IAppProps {
 // }
 
+import openInNewTab from "../../util/openInNewTab";
+
 import heroBackgroundPattern from "../../assets/heroBackgroundPattern.svg";
 
 import html5Icon from "../../assets/html5.png";
 import css3Icon from "../../assets/css3.png";
 import javaScriptIcon from "../../assets/javascript.png";
 import typeScriptIcon from "../../assets/typescript.png";
+import auth0Icon from "../../assets/auth0.png";
 import reactIcon from "../../assets/react.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
+import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
 
 import classes from "./Projects.module.css";
 import "../../index.css";
@@ -40,6 +44,13 @@ export function Projects(props: any) {
     threshold: 0,
     triggerOnce: true,
   });
+
+  const [hoveringOnProjects, setHoveringOnProjects] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   useEffect(() => {
     if (firstInView) {
@@ -79,6 +90,14 @@ export function Projects(props: any) {
     }
   }, [firstInView, secondInView, thirdInView, fourthInView]);
 
+  function updatePictureHoverStates(index: number, newValue: boolean) {
+    setHoveringOnProjects((prevProjectStates) => {
+      let newProjectStates: boolean[] = [...prevProjectStates];
+      newProjectStates[index] = newValue;
+      return newProjectStates;
+    });
+  }
+
   return (
     <div
       id={"projects"}
@@ -93,7 +112,7 @@ export function Projects(props: any) {
       <div className="heading">Projects</div>
 
       {/* maybe have fonts used in projects be used for
-    each description? */}
+      each description? */}
 
       {/* maybe have for left */}
 
@@ -111,29 +130,64 @@ export function Projects(props: any) {
           <div id={"firstTechUsed"} className={`${classes.techIcons} baseFlex`}>
             <img className={"icon"} src={reactIcon} alt={"React"} />
             <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
+            <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
             <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
           <div>What I learned:</div>
           <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
+            <li>
+              React + Firebase + Auth0 stack. How to design a full-stack
+              application that is both secure and feature rich.
+            </li>
+            <li>
+              React's context management system along with canvas manipulation.
+            </li>
+            <li>UI/UX/Responsive design fundamentals.</li>
           </ul>
 
           <div>Challenges:</div>
           <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
+            <li>
+              React's learning curve was quite a struggle coming from vanilla
+              JS.
+            </li>
+            <li>
+              Logic and rendering of suspense states + structuring Firebase
+              schema + fine-tuning animations.
+            </li>
+            <li>Tweaking 3rd party modules to fit project's needs.</li>
           </ul>
         </div>
-        <div className={classes.projectImageContain}>
+        <div
+          style={{
+            padding: hoveringOnProjects[0]
+              ? ".5em .5em 1em .5em"
+              : "1em 1em 1em 1em",
+          }}
+          className={`${classes.projectImageContain} baseVertFlex`}
+          onMouseEnter={() => {
+            updatePictureHoverStates(0, true);
+          }}
+          onMouseLeave={() => {
+            updatePictureHoverStates(0, false);
+          }}
+        >
           <img
-            src={
-              "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
-            }
+            className={classes.projectImage}
+            src={"https://i.gyazo.com/514de4173276f3b07c811ec94849ec59.png"}
+            onClick={() => {
+              openInNewTab("https://drawingdash.com/");
+            }}
+          />
+          <img
+            className={classes.githubIcon}
+            src={smallLightGithubIcon}
+            alt={"Github"}
+            onClick={() => {
+              openInNewTab("https://github.com/michaelongaro/DrawingDash");
+            }}
           />
         </div>
       </div>
@@ -162,26 +216,57 @@ export function Projects(props: any) {
 
           <div>What I learned:</div>
           <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
+            <li>
+              The fetch API and how to work with retrieving data from an API.
+            </li>
+            <li>
+              Skeleton loading animations with help from the library AnimeJS.
+            </li>
+            <li>Custom keyboard navigation through autofill search results.</li>
           </ul>
 
           <div>Challenges:</div>
           <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
+            <li>DOM manipulation while trying to keep code DRY.</li>
+            <li>
+              Reading through and understanding how to target nested elements
+              from a JSON response.
+            </li>
+            <li>
+              Creating layout that is visually pleasing and informative while
+              conforming to the API's restrictions.
+            </li>
           </ul>
         </div>
         <div
-          style={{ padding: "1em 1em 1em 0" }}
-          className={classes.projectImageContain}
+          style={{
+            padding: hoveringOnProjects[1]
+              ? ".5em .5em 1em .5em"
+              : "1em 1em 1em 1em",
+          }}
+          className={`${classes.projectImageContain} baseVertFlex`}
+          onMouseEnter={() => {
+            updatePictureHoverStates(1, true);
+          }}
+          onMouseLeave={() => {
+            updatePictureHoverStates(1, false);
+          }}
         >
           <img
+            className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
+          />
+          <img
+            className={classes.githubIcon}
+            src={smallLightGithubIcon}
+            alt={"Github"}
+            onClick={() => {
+              openInNewTab(
+                "https://github.com/michaelongaro/UniversalForecast"
+              );
+            }}
           />
         </div>
       </div>
@@ -219,16 +304,40 @@ export function Projects(props: any) {
             <li>third</li>
           </ul>
         </div>
-        <div className={classes.projectImageContain}>
+        <div
+          style={{
+            padding: hoveringOnProjects[2]
+              ? ".5em .5em .5em .5em"
+              : "1em 1em 1em 1em",
+          }}
+          className={`${classes.projectImageContain} baseVertFlex`}
+          onMouseEnter={() => {
+            updatePictureHoverStates(2, true);
+          }}
+          onMouseLeave={() => {
+            updatePictureHoverStates(2, false);
+          }}
+        >
           <img
+            className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
           />
+          <img
+            className={classes.githubIcon}
+            src={smallLightGithubIcon}
+            alt={"Github"}
+            onClick={() => {
+              openInNewTab(
+                "https://github.com/michaelongaro/AnthonyAOngaroDDS"
+              );
+            }}
+          />
         </div>
       </div>
 
-      {/* Lyricize (Spotify API) */}
+      {/* Lyricize (Spotify API App) */}
       <div
         ref={lyricizeRef}
         className={`${classes.reversedProjectContainer} baseFlex`}
@@ -265,13 +374,33 @@ export function Projects(props: any) {
           </ul>
         </div>
         <div
-          style={{ padding: "1em 1em 1em 0" }}
-          className={classes.projectImageContain}
+          style={{
+            padding: hoveringOnProjects[3]
+              ? ".5em .5em .5em .5em"
+              : "1em 1em 1em 1em",
+          }}
+          className={`${classes.projectImageContain} baseVertFlex`}
+          onMouseEnter={() => {
+            updatePictureHoverStates(3, true);
+          }}
+          onMouseLeave={() => {
+            updatePictureHoverStates(3, false);
+          }}
         >
           <img
+            className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
+          />
+
+          <img
+            className={classes.githubIcon}
+            src={smallLightGithubIcon}
+            alt={"Github"}
+            onClick={() => {
+              openInNewTab("https://github.com/michaelongaro/Lyricize");
+            }}
           />
         </div>
       </div>
