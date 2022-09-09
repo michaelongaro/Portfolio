@@ -1,3 +1,5 @@
+import openInNewTab from "../../util/openInNewTab";
+
 import heroBackgroundPattern from "../../assets/heroBackgroundPattern.svg";
 import mediumGithubLogo from "../../assets/mediumGithubLogo.png";
 
@@ -5,13 +7,6 @@ import classes from "./Hero.module.css";
 import "../../index.css";
 
 export function Hero(props: any) {
-  function openInNewTab(url: string) {
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) {
-      newWindow.opener = null;
-    }
-  }
-
   return (
     <div
       style={{ position: "relative", height: "100vh" }}
