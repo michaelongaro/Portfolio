@@ -21,8 +21,26 @@
 
 .projectDetails {
   width: 50%;
+  gap: .5rem;
 }
 
+.projectDetails>div:nth-child(3),
+.projectDetails>div:nth-child(5) {
+  margin-top: 1rem
+}
+
+.blurred {
+  filter: blur(5px);
+  user-select: none;
+}
+
+.blurred div {
+  margin-top: 1rem;
+}
+
+.blurred ul {
+  margin-top: .5rem;
+}
 
 .projectTitle {
   font-size: 1.5em;
@@ -31,6 +49,7 @@
 
 .techIcons {
   gap: 0.5em;
+  margin-top: .5rem;
 }
 
 .techIcons>img {

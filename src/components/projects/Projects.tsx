@@ -119,10 +119,7 @@ export function Projects(props: any) {
         ref={drawingDashRef}
         className={`${classes.projectContainer} baseFlex`}
       >
-        <div
-          style={{ gap: "1em" }}
-          className={`${classes.projectDetails} baseVertFlex`}
-        >
+        <div className={`${classes.projectDetails} baseVertFlex`}>
           <div className={classes.projectTitle}>Drawing Dash</div>
 
           <div id={"firstTechUsed"} className={`${classes.techIcons} baseFlex`}>
@@ -195,10 +192,7 @@ export function Projects(props: any) {
         ref={weatherAPIRef}
         className={`${classes.reversedProjectContainer} baseFlex`}
       >
-        <div
-          style={{ gap: "1em" }}
-          className={`${classes.projectDetails} baseVertFlex`}
-        >
+        <div className={`${classes.projectDetails} baseVertFlex`}>
           <div className={classes.projectTitle}>Universal Forecast</div>
 
           <div
@@ -216,10 +210,11 @@ export function Projects(props: any) {
           <div>What I learned:</div>
           <ul>
             <li>
-              The fetch API and how to work with retrieving data from an API.
+              Vanilla TypeScript and the value of splitting code up into small
+              reusable functions.
             </li>
             <li>
-              Skeleton loading animations with help from the library AnimeJS.
+              The fetch API and how to work with retrieving data from an API.
             </li>
             <li>Custom keyboard navigation through autofill search results.</li>
           </ul>
@@ -228,8 +223,8 @@ export function Projects(props: any) {
           <ul>
             <li>DOM manipulation while trying to keep code DRY.</li>
             <li>
-              Reading through and understanding how to target nested elements
-              from a JSON response.
+              Targeting nested elements from a JSON response and creating an
+              interface for the data.
             </li>
             <li>
               Creating layout that is visually pleasing and informative while
@@ -278,33 +273,49 @@ export function Projects(props: any) {
         ref={officeWebsiteRef}
         className={`${classes.projectContainer} baseFlex`}
       >
-        <div
-          style={{ gap: "1em" }}
-          className={`${classes.projectDetails} baseVertFlex`}
-        >
+        <div className={`${classes.projectDetails} baseVertFlex`}>
           <div className={classes.projectTitle}>Anthony A. Ongaro DDS</div>
 
           <div id={"thirdTechUsed"} className={`${classes.techIcons} baseFlex`}>
-            <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
-            <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
-            <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
             <img className={"icon"} src={reactIcon} alt={"React"} />
+            <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+            <img className={"icon"} src={viteIcon} alt={"Vite"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
-          <div>What I learned:</div>
-          <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
-          </ul>
+          <div className={`${classes.blurred} baseVertFlex`}>
+            <div>What I learned:</div>
+            <ul>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore.
+              </li>
+            </ul>
 
-          <div>Challenges:</div>
-          <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
-          </ul>
+            <div>Challenges:</div>
+            <ul>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna.
+              </li>
+            </ul>
+          </div>
         </div>
         <div
           style={{
@@ -315,16 +326,17 @@ export function Projects(props: any) {
           className={`${classes.projectImageContain} baseVertFlex`}
         >
           <img
+            style={{ cursor: "auto" }}
             className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
-            onMouseEnter={() => {
-              updatePictureHoverStates(2, true);
-            }}
-            onMouseLeave={() => {
-              updatePictureHoverStates(2, false);
-            }}
+            // onMouseEnter={() => {
+            //   updatePictureHoverStates(2, true);
+            // }}
+            // onMouseLeave={() => {
+            //   updatePictureHoverStates(2, false);
+            // }}
           />
           <img
             className={classes.githubIcon}
@@ -344,10 +356,7 @@ export function Projects(props: any) {
         ref={lyricizeRef}
         className={`${classes.reversedProjectContainer} baseFlex`}
       >
-        <div
-          style={{ gap: "1em" }}
-          className={`${classes.projectDetails} baseVertFlex`}
-        >
+        <div className={`${classes.projectDetails} baseVertFlex`}>
           <div className={classes.projectTitle}>Lyricize</div>
 
           <div
@@ -356,24 +365,44 @@ export function Projects(props: any) {
           >
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
             <img className={"icon"} src={reactIcon} alt={"React"} />
-            <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
+            <img className={"icon"} src={viteIcon} alt={"Vite"} />
             <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
-          <div>What I learned:</div>
-          <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
-          </ul>
+          <div className={`${classes.blurred} baseVertFlex`}>
+            <div>What I learned:</div>
+            <ul>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore.
+              </li>
+            </ul>
 
-          <div>Challenges:</div>
-          <ul>
-            <li>first</li>
-            <li>second</li>
-            <li>third</li>
-          </ul>
+            <div>Challenges:</div>
+            <ul>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna.
+              </li>
+            </ul>
+          </div>
         </div>
         <div
           style={{
@@ -384,16 +413,17 @@ export function Projects(props: any) {
           className={`${classes.projectImageContain} baseVertFlex`}
         >
           <img
+            style={{ cursor: "auto" }}
             className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
-            onMouseEnter={() => {
-              updatePictureHoverStates(3, true);
-            }}
-            onMouseLeave={() => {
-              updatePictureHoverStates(3, false);
-            }}
+            // onMouseEnter={() => {
+            //   updatePictureHoverStates(3, true);
+            // }}
+            // onMouseLeave={() => {
+            //   updatePictureHoverStates(3, false);
+            // }}
           />
 
           <img
