@@ -161,22 +161,22 @@ export function Projects(props: any) {
         <div
           style={{
             padding: hoveringOnProjects[0]
-              ? ".5em .5em 1em .5em"
+              ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
-          onMouseEnter={() => {
-            updatePictureHoverStates(0, true);
-          }}
-          onMouseLeave={() => {
-            updatePictureHoverStates(0, false);
-          }}
         >
           <img
             className={classes.projectImage}
             src={"https://i.gyazo.com/514de4173276f3b07c811ec94849ec59.png"}
             onClick={() => {
               openInNewTab("https://drawingdash.com/");
+            }}
+            onMouseEnter={() => {
+              updatePictureHoverStates(0, true);
+            }}
+            onMouseLeave={() => {
+              updatePictureHoverStates(0, false);
             }}
           />
           <img
@@ -207,15 +207,7 @@ export function Projects(props: any) {
           >
             <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
             <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
-
-            {/* <div style={{ backgroundColor: "white" }}> */}
-            <img
-              style={{ backgroundColor: "white", overflow: "hidden" }}
-              className={"icon"}
-              src={typeScriptIcon}
-              alt={"TypeScript"}
-            />
-            {/* </div> */}
+            <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
             <img className={"icon"} src={viteIcon} alt={"Vite"} />
             <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
@@ -248,22 +240,25 @@ export function Projects(props: any) {
         <div
           style={{
             padding: hoveringOnProjects[1]
-              ? ".5em .5em 1em .5em"
+              ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
-          onMouseEnter={() => {
-            updatePictureHoverStates(1, true);
-          }}
-          onMouseLeave={() => {
-            updatePictureHoverStates(1, false);
-          }}
         >
           <img
             className={classes.projectImage}
-            src={
-              "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
-            }
+            src={"https://i.gyazo.com/c6dd51d042b8f12d63d6ced34834ee8d.png"}
+            onClick={() => {
+              openInNewTab(
+                "https://michaelongaro.github.io/UniversalForecast/"
+              );
+            }}
+            onMouseEnter={() => {
+              updatePictureHoverStates(1, true);
+            }}
+            onMouseLeave={() => {
+              updatePictureHoverStates(1, false);
+            }}
           />
           <img
             className={classes.githubIcon}
@@ -314,22 +309,22 @@ export function Projects(props: any) {
         <div
           style={{
             padding: hoveringOnProjects[2]
-              ? ".5em .5em .5em .5em"
+              ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
-          onMouseEnter={() => {
-            updatePictureHoverStates(2, true);
-          }}
-          onMouseLeave={() => {
-            updatePictureHoverStates(2, false);
-          }}
         >
           <img
             className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
+            onMouseEnter={() => {
+              updatePictureHoverStates(2, true);
+            }}
+            onMouseLeave={() => {
+              updatePictureHoverStates(2, false);
+            }}
           />
           <img
             className={classes.githubIcon}
@@ -383,22 +378,22 @@ export function Projects(props: any) {
         <div
           style={{
             padding: hoveringOnProjects[3]
-              ? ".5em .5em .5em .5em"
+              ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
-          onMouseEnter={() => {
-            updatePictureHoverStates(3, true);
-          }}
-          onMouseLeave={() => {
-            updatePictureHoverStates(3, false);
-          }}
         >
           <img
             className={classes.projectImage}
             src={
               "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
             }
+            onMouseEnter={() => {
+              updatePictureHoverStates(3, true);
+            }}
+            onMouseLeave={() => {
+              updatePictureHoverStates(3, false);
+            }}
           />
 
           <img
