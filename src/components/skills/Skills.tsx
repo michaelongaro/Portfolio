@@ -60,12 +60,12 @@ export function Skills(props: any) {
         <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
         <img className={"icon"} src={javaScriptIcon} alt={"JavaScript"} />
         <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-        <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
         <img className={"icon"} src={reactIcon} alt={"React"} />
         <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
+        <img className={"icon"} src={viteIcon} alt={"Vite"} />
+        <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
         <img className={"icon"} src={gitIcon} alt={"Git"} />
-        <img className={"icon"} src={viteIcon} alt={"Vite"} />
       </div>
     </div>
   );
