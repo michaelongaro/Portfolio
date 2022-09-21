@@ -14,6 +14,24 @@
   transform: scaleX(1.5);
 }
 
+#heroContent {
+  opacity: 0;
+}
+
+.parentGrid {
+  display: grid;
+}
+
+.parentGrid>* {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+.overlay {
+  z-index: 10;
+  background-color: red;
+}
+
 .githubLogo {
   padding: 1rem;
   cursor: pointer;

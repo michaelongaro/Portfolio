@@ -12,6 +12,7 @@ import reactIcon from "../../assets/react.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
+import viteIcon from "../../assets/vite.png";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -64,6 +65,7 @@ export function Skills(props: any) {
         <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
         <img className={"icon"} src={gitIcon} alt={"Git"} />
+        <img className={"icon"} src={viteIcon} alt={"Vite"} />
       </div>
     </div>
   );

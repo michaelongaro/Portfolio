@@ -8,14 +8,12 @@ import { useInView } from "react-intersection-observer";
 
 import openInNewTab from "../../util/openInNewTab";
 
-import heroBackgroundPattern from "../../assets/heroBackgroundPattern.svg";
-
 import html5Icon from "../../assets/html5.png";
 import css3Icon from "../../assets/css3.png";
-import javaScriptIcon from "../../assets/javascript.png";
 import typeScriptIcon from "../../assets/typescript.png";
 import auth0Icon from "../../assets/auth0.png";
 import reactIcon from "../../assets/react.png";
+import viteIcon from "../../assets/vite.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
@@ -201,7 +199,7 @@ export function Projects(props: any) {
           style={{ gap: "1em" }}
           className={`${classes.projectDetails} baseVertFlex`}
         >
-          <div className={classes.projectTitle}>Weekly Forcast</div>
+          <div className={classes.projectTitle}>Universal Forecast</div>
 
           <div
             id={"secondTechUsed"}
@@ -209,7 +207,16 @@ export function Projects(props: any) {
           >
             <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
             <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
-            <img className={"icon"} src={javaScriptIcon} alt={"JavaScript"} />
+
+            {/* <div style={{ backgroundColor: "white" }}> */}
+            <img
+              style={{ backgroundColor: "white", overflow: "hidden" }}
+              className={"icon"}
+              src={typeScriptIcon}
+              alt={"TypeScript"}
+            />
+            {/* </div> */}
+            <img className={"icon"} src={viteIcon} alt={"Vite"} />
             <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
