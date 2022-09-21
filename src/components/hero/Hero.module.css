@@ -4,6 +4,77 @@
   background-color: #ed9f31;
 }
 
+.topHero {
+  color: #05204a;
+  text-shadow: #05204a66 4px 4px 9px;
+  opacity: 0;
+  animation: fadeInRight 1s forwards;
+}
+
+.middleHero {
+  color: #05204a;
+  text-shadow: #05204a66 4px 4px 9px;
+  gap: 0.5rem;
+  font-size: 3rem;
+  /* text-shadow: rgb(118 118 118 / 57%) 4px 4px 9px; */
+  white-space: nowrap;
+
+  opacity: 0;
+  animation: fadeInRight 1s forwards;
+  animation-delay: 300ms;
+}
+
+.bottomHero {
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+  animation-delay: 500ms;
+}
+
+.leftBracket {
+  color: #ed9f31;
+  text-shadow: #ed9f31 1px 1px 3px;
+  opacity: 0;
+  width: 0;
+  /* animation: fadeInUpLeftBracket 2s forwards; */
+  animation: fadeInUpLeftBracket 2s forwards, glow 2s infinite alternate;
+  animation-delay: 400ms;
+}
+
+.rightBracket {
+  color: #ed9f31;
+  text-shadow: #ed9f31 1px 1px 3px;
+  opacity: 0;
+  width: 0;
+  animation: fadeInUpRightBracket 2s forwards, glow 2s infinite alternate;
+  animation-delay: 400ms;
+}
+
+@keyframes glow {
+  0% {
+    /* text-shadow: #ed9f31 1px 1px 3px; */
+    transform: scale(1);
+  }
+
+  100% {
+    /* text-shadow: hsl(35, 84%, 56%) 4px 4px 9px; */
+    transform: scale(1.5);
+  }
+
+}
+
+/* .leftBracket::after,
+.rightBracket::after {
+  content: '&lt;';
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  text-shadow: #ed9f31 4px 4px 9px;
+  opacity: 0;
+  animation: increaseBoxShadow 1s forwards;
+  animation-delay: 400ms;
+} */
+
 .backgroundPattern {
   position: absolute;
   top: 0;
@@ -12,24 +83,6 @@
   height: 100vh;
   z-index: -5;
   transform: scaleX(1.5);
-}
-
-#heroContent {
-  opacity: 0;
-}
-
-.parentGrid {
-  display: grid;
-}
-
-.parentGrid>* {
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
-}
-
-.overlay {
-  z-index: 10;
-  background-color: red;
 }
 
 .githubLogo {
@@ -45,4 +98,58 @@
 
 .githubLogo:active {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-350px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeInUpLeftBracket {
+  0% {
+    opacity: 0;
+    width: 0%;
+    transform: translateY(100px);
+  }
+
+  100% {
+    opacity: 1;
+    width: 100%;
+    margin-left: 0.5rem;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeInUpRightBracket {
+  0% {
+    opacity: 0;
+    width: 0%;
+    transform: translateY(100px);
+  }
+
+  100% {
+    opacity: 1;
+    width: 100%;
+    margin-right: 0.5rem;
+    transform: translateY(0px);
+  }
 }
