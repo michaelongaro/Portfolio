@@ -3,7 +3,8 @@
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.skillsContainer>img {
+.skillsContainer>img,
+.currentlyLearning>img {
   width: 3.5rem;
   height: 3.5rem;
   border-radius: .5rem;

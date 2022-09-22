@@ -13,6 +13,7 @@ import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
+import graphQLIcon from "../../assets/graphql.png";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -29,14 +30,14 @@ export function Skills(props: any) {
       anime({
         targets: "#iconGrid .icon",
         opacity: [0, 1],
-        duration: 4000,
+        duration: 3000,
         delay: anime.stagger(200, { grid: [5, 2], from: "first" }),
       });
     } else {
       anime({
         targets: "#iconGrid .icon",
         opacity: [1, 0],
-        duration: 4000,
+        duration: 3000,
         delay: anime.stagger(200, { grid: [5, 2], from: "last" }),
       });
     }
@@ -66,6 +67,14 @@ export function Skills(props: any) {
         <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
         <img className={"icon"} src={gitIcon} alt={"Git"} />
+      </div>
+
+      <div
+        style={{ gap: "1rem" }}
+        className={`${classes.currentlyLearning} baseFlex`}
+      >
+        Currently learning:
+        <img className={"icon"} src={graphQLIcon} alt={"GraphQL"} />
       </div>
     </div>
   );
