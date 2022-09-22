@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { MainNavigation } from "./components/header/MainNavigation";
 import { Hero } from "./components/hero/Hero";
 import { Projects } from "./components/projects/Projects";
