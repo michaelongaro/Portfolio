@@ -5,23 +5,53 @@
 }
 
 .topHero {
-  color: #05204a;
+  color: #02020a;
   text-shadow: #05204a66 4px 4px 9px;
+  /* maybe need to change this */
   opacity: 0;
   animation: fadeInRight 1s forwards;
 }
 
+.nameUnderline {
+  display: inline-block;
+  background-image: linear-gradient(#ed9f31 0 0);
+  background-position: 100% 100%;
+  background-size: 0% 5px;
+  background-repeat: no-repeat;
+  animation: underline 1s forwards;
+  animation-delay: 500ms;
+}
+
+.nameUnderline:hover {
+  background-position: 100% 100%;
+  /*OR bottom right*/
+  background-size: 100% 2px;
+}
+
 .middleHero {
-  color: #05204a;
+  color: #02020a;
   text-shadow: #05204a66 4px 4px 9px;
+  /* maybe need to change this */
   gap: 0.5rem;
   font-size: 3rem;
-  /* text-shadow: rgb(118 118 118 / 57%) 4px 4px 9px; */
   white-space: nowrap;
 
   opacity: 0;
   animation: fadeInRight 1s forwards;
   animation-delay: 300ms;
+}
+
+.webDevText {
+  color: #02020a;
+  text-shadow: #05204a66 4px 4px 9px;
+  /* maybe need to change this */
+  gap: 0.5rem;
+  font-size: 3rem;
+  white-space: nowrap;
+
+  /* opacity: 0; */
+  animation: fadeToBlue 1s forwards;
+  animation-delay: 400ms;
 }
 
 .bottomHero {
@@ -32,48 +62,23 @@
 
 .leftBracket {
   color: #ed9f31;
-  text-shadow: #ed9f31 1px 1px 3px;
+  text-shadow: none;
   opacity: 0;
   width: 0;
-  /* animation: fadeInUpLeftBracket 2s forwards; */
-  animation: fadeInUpLeftBracket 2s forwards, glow 2s infinite alternate;
-  animation-delay: 400ms;
+  animation: fadeInUpLeftBracket 2s forwards,
+    glow 1s ease-in-out infinite alternate;
+  animation-delay: 400ms, 1000ms;
 }
 
 .rightBracket {
   color: #ed9f31;
-  text-shadow: #ed9f31 1px 1px 3px;
+  text-shadow: none;
   opacity: 0;
   width: 0;
-  animation: fadeInUpRightBracket 2s forwards, glow 2s infinite alternate;
-  animation-delay: 400ms;
+  animation: fadeInUpRightBracket 2s forwards,
+    glow 1s ease-in-out infinite alternate;
+  animation-delay: 400ms, 1000ms;
 }
-
-@keyframes glow {
-  0% {
-    /* text-shadow: #ed9f31 1px 1px 3px; */
-    transform: scale(1);
-  }
-
-  100% {
-    /* text-shadow: hsl(35, 84%, 56%) 4px 4px 9px; */
-    transform: scale(1.5);
-  }
-
-}
-
-/* .leftBracket::after,
-.rightBracket::after {
-  content: '&lt;';
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  text-shadow: #ed9f31 4px 4px 9px;
-  opacity: 0;
-  animation: increaseBoxShadow 1s forwards;
-  animation-delay: 400ms;
-} */
 
 .backgroundPattern {
   position: absolute;
@@ -97,7 +102,7 @@
 }
 
 .githubLogo:active {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(5, 32, 74, 0.15);
 }
 
 @keyframes fadeInRight {
@@ -124,11 +129,21 @@
   }
 }
 
+@keyframes fadeToBlue {
+  0% {
+    color: #02020a;
+  }
+
+  100% {
+    color: rgb(5, 32, 74);
+  }
+}
+
 @keyframes fadeInUpLeftBracket {
   0% {
     opacity: 0;
     width: 0%;
-    transform: translateY(100px);
+    transform: translateY(75px);
   }
 
   100% {
@@ -143,13 +158,34 @@
   0% {
     opacity: 0;
     width: 0%;
-    transform: translateY(100px);
+    transform: translateY(75px);
   }
 
   100% {
     opacity: 1;
     width: 100%;
-    margin-right: 0.5rem;
     transform: translateY(0px);
+  }
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(2px 2px 2px #ed9f316c) brightness(1);
+  }
+
+  100% {
+    filter: drop-shadow(2px 2px 4px #ed9f31) brightness(1.15);
+  }
+}
+
+@keyframes underline {
+  0% {
+    background-position: 100% 100%;
+    background-size: 0% 5px;
+  }
+
+  100% {
+    background-position: 100% 100%;
+    background-size: 100% 5px;
   }
 }

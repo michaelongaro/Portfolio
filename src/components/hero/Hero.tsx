@@ -26,11 +26,12 @@ export function Hero(props: any) {
           }}
           className={classes.topHero}
         >
-          Hi, I'm <span>Michael</span>
+          Hi, I'm <span className={classes.nameUnderline}>Michael</span>
         </div>
         <div className={`${classes.middleHero} baseFlex`}>
-          I'm a<div className={classes.leftBracket}>&lt;</div>full stack web
-          developer<div className={classes.rightBracket}>/&gt;</div>.
+          I'm a<div className={classes.leftBracket}>&lt;</div>
+          <div className={classes.webDevText}>full stack web developer</div>
+          <div className={classes.rightBracket}>/&gt;</div>.
         </div>
 
         <img
