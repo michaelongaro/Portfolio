@@ -29,9 +29,15 @@
   margin-top: 1rem
 }
 
+.projectImage {
+  cursor: pointer;
+  transition: all 250ms;
+}
+
 .blurred {
   filter: blur(5px);
   user-select: none;
+  cursor: auto;
 }
 
 .blurred div {
@@ -64,12 +70,6 @@
   width: 50%;
   padding: 1em 1em 1em 1em;
   border-radius: 0.5rem;
-  /* overflow: hidden; */
-  transition: all 250ms;
-}
-
-.projectImage {
-  cursor: pointer;
   transition: all 250ms;
 }
 
@@ -77,6 +77,42 @@
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  transition: all 250ms;
+}
+
+.githubIcon:hover {
+  transform: scale(1.18);
+}
+
+.githubIcon:active {
+  transform: scale(.95);
+}
+
+.stackedContainer {
+  display: grid;
+}
+
+.stackedContainer>* {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+.stacked>img {
+  z-index: -1;
+}
+
+.warningContainer {
+  gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  padding: 1rem 0;
+  color: rgb(241, 241, 241);
+  font-size: 1.5rem;
+}
+
+.warningContainer>img {
+  width: 3rem;
+  height: 3rem;
 }
 
 /* #ed9f319c */
