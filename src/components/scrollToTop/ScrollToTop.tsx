@@ -21,19 +21,20 @@ export function ScrollToTop(props: any) {
   }, []);
 
   return (
-    <button
+    <a
       style={{
         opacity: scrollThresholdReached ? 1 : 0,
         pointerEvents: scrollThresholdReached ? "auto" : "none",
       }}
       className={`${classes.scrollToTopContainer} baseFlex`}
       onClick={() => window.scrollTo(0, 0)}
+      href={"#"}
     >
       <img
         style={{ width: "25px", height: "25px" }}
         src={upArrowIcon}
         alt={"Scroll to top"}
       />
-    </button>
+    </a>
   );
 }
