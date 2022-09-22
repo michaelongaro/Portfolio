@@ -18,6 +18,8 @@ import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
+import constructionConeIcon from "../../assets/cone.svg";
+import calendarIcon from "../../assets/calendar.svg";
 
 import classes from "./Projects.module.css";
 import "../../index.css";
@@ -325,19 +327,25 @@ export function Projects(props: any) {
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
-          <img
-            style={{ cursor: "auto" }}
-            className={classes.projectImage}
-            src={
-              "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
-            }
-            // onMouseEnter={() => {
-            //   updatePictureHoverStates(2, true);
-            // }}
-            // onMouseLeave={() => {
-            //   updatePictureHoverStates(2, false);
-            // }}
-          />
+          <div className={`${classes.stackedContainer} baseFlex`}>
+            <img
+              style={{ filter: "blur(2px)" }}
+              className={` ${classes.projectImage} ${classes.blurred}`}
+              src={
+                "https://mbluxury1.s3.amazonaws.com/2021/09/03151922/tend.jpg"
+              }
+              // onMouseEnter={() => {
+              //   updatePictureHoverStates(2, true);
+              // }}
+              // onMouseLeave={() => {
+              //   updatePictureHoverStates(2, false);
+              // }}
+            />
+            <div className={`${classes.warningContainer} baseVertFlex`}>
+              <img src={constructionConeIcon} alt={"Construction cone"} />
+              Under Construction
+            </div>
+          </div>
           <img
             className={classes.githubIcon}
             src={smallLightGithubIcon}
@@ -412,19 +420,26 @@ export function Projects(props: any) {
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
-          <img
-            style={{ cursor: "auto" }}
-            className={classes.projectImage}
-            src={
-              "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg"
-            }
-            // onMouseEnter={() => {
-            //   updatePictureHoverStates(3, true);
-            // }}
-            // onMouseLeave={() => {
-            //   updatePictureHoverStates(3, false);
-            // }}
-          />
+          <div className={`${classes.stackedContainer} baseFlex`}>
+            <img
+              style={{ filter: "blur(2px)" }}
+              className={` ${classes.projectImage} ${classes.blurred}`}
+              src={
+                "https://images.unsplash.com/photo-1480380799266-582d808d748a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+              }
+              // onMouseEnter={() => {
+              //   updatePictureHoverStates(3, true);
+              // }}
+              // onMouseLeave={() => {
+              //   updatePictureHoverStates(3, false);
+              // }}
+            />
+
+            <div className={`${classes.warningContainer} baseVertFlex`}>
+              <img src={calendarIcon} alt={"Calendar icon"} />
+              Coming Soon...
+            </div>
+          </div>
 
           <img
             className={classes.githubIcon}
