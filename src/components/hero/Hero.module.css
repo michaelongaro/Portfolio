@@ -1,14 +1,22 @@
-.hero {}
+.heroBackground {
+  position: relative;
+  /* roughly height of navbar */
+  top: 60px;
+  background: url("../../assets/heroBackgroundPattern.svg") no-repeat center center fixed;
+  height: 100vh;
+}
 
 .hero>span {
   background-color: #ed9f31;
+  text-shadow: rgb(118 118 118 / 57%) 4px 4px 9px;
 }
 
 .topHero {
   color: #02020a;
-  text-shadow: #05204a66 4px 4px 9px;
-  /* maybe need to change this */
+  text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
   opacity: 0;
+  font-size: 4rem;
+  /* font-size: clamp(1rem, -0.465rem + 6.25vw, 4rem); */
   animation: fadeInRight 1s forwards;
 }
 
@@ -24,16 +32,14 @@
 
 .nameUnderline:hover {
   background-position: 100% 100%;
-  /*OR bottom right*/
   background-size: 100% 2px;
 }
 
 .middleHero {
   color: #02020a;
-  text-shadow: #05204a66 4px 4px 9px;
-  /* maybe need to change this */
+  text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
   gap: 0.5rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   white-space: nowrap;
 
   opacity: 0;
@@ -42,14 +48,7 @@
 }
 
 .webDevText {
-  color: #02020a;
-  text-shadow: #05204a66 4px 4px 9px;
-  /* maybe need to change this */
-  gap: 0.5rem;
-  font-size: 3rem;
-  white-space: nowrap;
-
-  /* opacity: 0; */
+  text-shadow: rgb(5 32 74 / 27%) 3px 3px 3px;
   animation: fadeToBlue 1s forwards;
   animation-delay: 400ms;
 }
@@ -65,7 +64,7 @@
   text-shadow: none;
   opacity: 0;
   width: 0;
-  animation: fadeInUpLeftBracket 2s forwards,
+  animation: fadeInUpLeftBracket .75s cubic-bezier(.22, .56, .8, 1.5) forwards,
     glow 1s ease-in-out infinite alternate;
   animation-delay: 400ms, 1000ms;
 }
@@ -75,19 +74,9 @@
   text-shadow: none;
   opacity: 0;
   width: 0;
-  animation: fadeInUpRightBracket 2s forwards,
+  animation: fadeInUpRightBracket 1s cubic-bezier(.22, .56, .8, 1.5) forwards,
     glow 1s ease-in-out infinite alternate;
   animation-delay: 400ms, 1000ms;
-}
-
-.backgroundPattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  /* width: 100vh; */
-  height: 100vh;
-  z-index: -5;
-  transform: scaleX(1.5);
 }
 
 .githubLogo {
@@ -187,5 +176,11 @@
   100% {
     background-position: 100% 100%;
     background-size: 100% 5px;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    transform: scale(.7);
   }
 }
