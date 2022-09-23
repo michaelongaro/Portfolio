@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import DesktopNavbar from "./DesktopNavbar";
 import Sidebar from "./Sidebar";
 
-export function MainNavigation(props: any) {
+function MainNavigation(props: any) {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,3 +26,5 @@ export function MainNavigation(props: any) {
 
   return <>{showSidebar ? <Sidebar /> : <DesktopNavbar />}</>;
 }
+
+export default MainNavigation;

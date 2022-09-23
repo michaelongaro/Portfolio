@@ -6,25 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import classes from "./Contact.module.css";
 import "../../index.css";
 
-export function Contact(props: any) {
+function Contact(props: any) {
   const formRef = useRef<HTMLFormElement>(null);
-
-  // const [showVerticalStyling, setShowVerticalStyling] =
-  //   useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (window.innerWidth <= 725) {
-  //     setShowVerticalStyling(true);
-  //   }
-
-  //   function resizeHandler() {
-  //     if (window.innerWidth <= 725) {
-  //       setShowVerticalStyling(true);
-  //     }
-  //   }
-
-  //   window.addEventListener("resize", resizeHandler);
-  // }, []);
 
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,3 +69,5 @@ export function Contact(props: any) {
     </div>
   );
 }
+
+export default Contact;

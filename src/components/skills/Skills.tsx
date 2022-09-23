@@ -18,7 +18,7 @@ import graphQLIcon from "../../assets/graphql.png";
 import classes from "./Skills.module.css";
 import "../../index.css";
 
-export function Skills(props: any) {
+function Skills(props: any) {
   const { ref, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,
@@ -79,3 +79,5 @@ export function Skills(props: any) {
     </div>
   );
 }
+
+export default Skills;

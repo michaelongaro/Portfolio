@@ -5,7 +5,7 @@ import mediumGithubLogo from "../../assets/mediumGithubLogo.png";
 import classes from "./Hero.module.css";
 import "../../index.css";
 
-export function Hero(props: any) {
+function Hero(props: any) {
   return (
     <div className={`${classes.heroBackground} baseFlex`}>
       <div style={{ gap: ".5em" }} className={`${classes.hero} baseVertFlex`}>
@@ -33,3 +33,5 @@ export function Hero(props: any) {
     </div>
   );
 }
+
+export default Hero;

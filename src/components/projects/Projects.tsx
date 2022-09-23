@@ -24,7 +24,7 @@ import calendarIcon from "../../assets/calendar.svg";
 import classes from "./Projects.module.css";
 import "../../index.css";
 
-export function Projects(props: any) {
+function Projects(props: any) {
   const [drawingDashRef, firstInView] = useInView({
     threshold: 0,
     triggerOnce: true,
@@ -577,3 +577,5 @@ export function Projects(props: any) {
     </div>
   );
 }
+
+export default Projects;

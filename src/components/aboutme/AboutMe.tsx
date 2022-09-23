@@ -9,7 +9,7 @@ import lightbulbIcon from "../../assets/lamp.svg";
 import classes from "./AboutMe.module.css";
 import "../../index.css";
 
-export function AboutMe(props: any) {
+function AboutMe(props: any) {
   return (
     <div
       id={"aboutme"}
@@ -53,3 +53,5 @@ export function AboutMe(props: any) {
     </div>
   );
 }
+
+export default AboutMe;
