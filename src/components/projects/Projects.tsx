@@ -52,13 +52,16 @@ export function Projects(props: any) {
     false,
   ]);
 
+  const [showVerticalStyling, setShowVerticalStyling] =
+    useState<boolean>(false);
+
   useEffect(() => {
     if (firstInView) {
       anime({
         targets: "#firstTechUsed .icon",
         opacity: [0, 1],
-        // duration: 4000,
-        delay: anime.stagger(200),
+        duration: 2000,
+        delay: anime.stagger(100),
       });
     }
 
@@ -66,26 +69,26 @@ export function Projects(props: any) {
       anime({
         targets: "#secondTechUsed .icon",
         opacity: [0, 1],
-        duration: 4000,
-        delay: anime.stagger(200),
+        duration: 2000,
+        delay: anime.stagger(100),
       });
     }
 
     if (thirdInView) {
       anime({
-        targets: "#thirdTechUsed.icon",
+        targets: "#thirdTechUsed .icon",
         opacity: [0, 1],
-        duration: 4000,
-        delay: anime.stagger(200),
+        duration: 2000,
+        delay: anime.stagger(100),
       });
     }
 
     if (fourthInView) {
       anime({
-        targets: "#fourthTechUsed.icon",
+        targets: "#fourthTechUsed .icon",
         opacity: [0, 1],
-        duration: 4000,
-        delay: anime.stagger(200),
+        duration: 2000,
+        delay: anime.stagger(100),
       });
     }
   }, [firstInView, secondInView, thirdInView, fourthInView]);
@@ -97,6 +100,24 @@ export function Projects(props: any) {
       return newProjectStates;
     });
   }
+
+  useEffect(() => {
+    if (window.innerWidth <= 1000) {
+      setShowVerticalStyling(true);
+    } else {
+      setShowVerticalStyling(false);
+    }
+
+    function resizeHandler() {
+      if (window.innerWidth <= 1000) {
+        setShowVerticalStyling(true);
+      } else {
+        setShowVerticalStyling(false);
+      }
+    }
+
+    window.addEventListener("resize", resizeHandler);
+  }, []);
 
   return (
     <div
@@ -111,20 +132,24 @@ export function Projects(props: any) {
     >
       <div className="heading">Projects</div>
 
-      {/* maybe have fonts used in projects be used for
-      each description? */}
-
-      {/* maybe have for left */}
-
       {/* Drawing Dash */}
       <div
         ref={drawingDashRef}
         className={`${classes.projectContainer} baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div className={classes.projectTitle}>Drawing Dash</div>
+          <div
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={classes.projectTitle}
+          >
+            Drawing Dash
+          </div>
 
-          <div id={"firstTechUsed"} className={`${classes.techIcons} baseFlex`}>
+          <div
+            id={"firstTechUsed"}
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={`${classes.techIcons} baseFlex`}
+          >
             <img className={"icon"} src={reactIcon} alt={"React"} />
             <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
             <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
@@ -157,6 +182,7 @@ export function Projects(props: any) {
             <li>Tweaking 3rd party modules to fit project's needs.</li>
           </ul>
         </div>
+
         <div
           style={{
             padding: hoveringOnProjects[0]
@@ -187,6 +213,25 @@ export function Projects(props: any) {
             }}
           />
         </div>
+
+        <div
+          id={"firstTechUsed"}
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={`${classes.techIcons} baseFlex`}
+        >
+          <img className={"icon"} src={reactIcon} alt={"React"} />
+          <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
+          <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
+          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+          <img className={"icon"} src={gitIcon} alt={"Git"} />
+        </div>
+
+        <div
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={classes.projectTitle}
+        >
+          Drawing Dash
+        </div>
       </div>
 
       {/* Weather API */}
@@ -195,10 +240,16 @@ export function Projects(props: any) {
         className={`${classes.reversedProjectContainer} baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div className={classes.projectTitle}>Universal Forecast</div>
+          <div
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={classes.projectTitle}
+          >
+            Universal Forecast
+          </div>
 
           <div
             id={"secondTechUsed"}
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={`${classes.techIcons} baseFlex`}
           >
             <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
@@ -268,6 +319,26 @@ export function Projects(props: any) {
             }}
           />
         </div>
+
+        <div
+          id={"secondTechUsed"}
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={`${classes.techIcons} baseFlex`}
+        >
+          <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
+          <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
+          <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+          <img className={"icon"} src={viteIcon} alt={"Vite"} />
+          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+          <img className={"icon"} src={gitIcon} alt={"Git"} />
+        </div>
+
+        <div
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={classes.projectTitle}
+        >
+          Universal Forecast
+        </div>
       </div>
 
       {/* Office Website */}
@@ -276,9 +347,18 @@ export function Projects(props: any) {
         className={`${classes.projectContainer} baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div className={classes.projectTitle}>Anthony A. Ongaro DDS</div>
+          <div
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={classes.projectTitle}
+          >
+            Anthony A. Ongaro DDS
+          </div>
 
-          <div id={"thirdTechUsed"} className={`${classes.techIcons} baseFlex`}>
+          <div
+            id={"thirdTechUsed"}
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={`${classes.techIcons} baseFlex`}
+          >
             <img className={"icon"} src={reactIcon} alt={"React"} />
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
             <img className={"icon"} src={viteIcon} alt={"Vite"} />
@@ -357,6 +437,24 @@ export function Projects(props: any) {
             }}
           />
         </div>
+
+        <div
+          id={"thirdTechUsed"}
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={`${classes.techIcons} baseFlex`}
+        >
+          <img className={"icon"} src={reactIcon} alt={"React"} />
+          <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+          <img className={"icon"} src={viteIcon} alt={"Vite"} />
+          <img className={"icon"} src={gitIcon} alt={"Git"} />
+        </div>
+
+        <div
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={classes.projectTitle}
+        >
+          Anthony A. Ongaro DDS
+        </div>
       </div>
 
       {/* Lyricize (Spotify API App) */}
@@ -365,10 +463,16 @@ export function Projects(props: any) {
         className={`${classes.reversedProjectContainer} baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div className={classes.projectTitle}>Lyricize</div>
+          <div
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={classes.projectTitle}
+          >
+            Lyricize
+          </div>
 
           <div
             id={"fourthTechUsed"}
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={`${classes.techIcons} baseFlex`}
           >
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
@@ -449,6 +553,25 @@ export function Projects(props: any) {
               openInNewTab("https://github.com/michaelongaro/Lyricize");
             }}
           />
+        </div>
+
+        <div
+          id={"fourthTechUsed"}
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={`${classes.techIcons} baseFlex`}
+        >
+          <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+          <img className={"icon"} src={reactIcon} alt={"React"} />
+          <img className={"icon"} src={viteIcon} alt={"Vite"} />
+          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+          <img className={"icon"} src={gitIcon} alt={"Git"} />
+        </div>
+
+        <div
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={classes.projectTitle}
+        >
+          Lyricize
         </div>
       </div>
     </div>
