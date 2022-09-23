@@ -1,32 +1,30 @@
-.projectContainer {
+.projectContainer,
+.reversedProjectContainer {
   gap: 1rem;
   width: 70%;
-  /* align-items: flex-start; */
-  background: linear-gradient(145deg, #ed9f3180 30%, #ed9f31eb);
   border-radius: 0.5rem;
   padding: 3rem 1rem;
   box-shadow: 4px 3px 9px 0px #000000a6;
 }
 
+.projectContainer {
+  background: linear-gradient(145deg, #ed9f3180 30%, #ed9f31eb);
+}
+
 .reversedProjectContainer {
-  gap: 1rem;
-  width: 70%;
-  /* align-items: flex-start; */
   flex-direction: row-reverse;
   background: linear-gradient(145deg, #ed9f31eb -30%, #ed9f3180);
-  border-radius: 0.5rem;
-  padding: 3rem 1rem;
-  box-shadow: 4px 3px 9px 0px #000000a6;
 }
 
 .projectDetails {
   width: 50%;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .projectDetails>div:nth-child(3),
 .projectDetails>div:nth-child(5) {
-  margin-top: 1rem
+  margin-top: 1rem;
+  text-shadow: 1px 1px 1px #0000007a;
 }
 
 .projectImage {
@@ -45,17 +43,19 @@
 }
 
 .blurred ul {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .projectTitle {
   font-size: 1.5em;
-  letter-spacing: 1.25px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  text-decoration-line: underline;
 }
 
 .techIcons {
   gap: 0.5em;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .techIcons>img {
@@ -85,7 +85,7 @@
 }
 
 .githubIcon:active {
-  transform: scale(.95);
+  transform: scale(0.95);
 }
 
 .stackedContainer {
@@ -117,3 +117,24 @@
 
 /* #ed9f319c */
 /* #9198e5 */
+
+@media (max-width: 1500px) {
+
+  .projectContainer,
+  .reversedProjectContainer {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1000px) {
+
+  .projectContainer,
+  .reversedProjectContainer {
+    flex-direction: column-reverse;
+  }
+
+  .projectImageContain,
+  .projectDetails {
+    width: 90%;
+  }
+}

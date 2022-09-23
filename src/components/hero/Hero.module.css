@@ -184,3 +184,9 @@
     transform: scale(.7);
   }
 }
+
+@media(max-width: 600px) {
+  .hero {
+    transform: scale(.5);
+  }
+}

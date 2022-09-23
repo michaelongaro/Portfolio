@@ -9,3 +9,12 @@
   height: 3.5rem;
   border-radius: .5rem;
 }
+
+@media (max-width: 550px) {
+
+  .skillsContainer>img,
+  .currentlyLearning>img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

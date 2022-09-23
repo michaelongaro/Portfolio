@@ -7,7 +7,7 @@
 
 .navLinks {
   justify-content: flex-end !important;
-  margin-right: 10rem;
+  margin-right: 8%;
   height: 5rem;
 }
 
@@ -43,4 +43,11 @@
 .navButton>a:hover:after {
   opacity: 1;
   width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .navLinks {
+    justify-content: center !important;
+    margin-right: 0;
+  }
 }

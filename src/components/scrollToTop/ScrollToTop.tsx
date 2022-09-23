@@ -30,11 +30,7 @@ export function ScrollToTop(props: any) {
       onClick={() => window.scrollTo(0, 0)}
       href={"#"}
     >
-      <img
-        style={{ width: "25px", height: "25px" }}
-        src={upArrowIcon}
-        alt={"Scroll to top"}
-      />
+      <img src={upArrowIcon} alt={"Scroll to top"} />
     </a>
   );
 }

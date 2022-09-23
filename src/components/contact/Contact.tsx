@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,23 @@ import "../../index.css";
 
 export function Contact(props: any) {
   const formRef = useRef<HTMLFormElement>(null);
+
+  // const [showVerticalStyling, setShowVerticalStyling] =
+  //   useState<boolean>(false);
+
+  // useEffect(() => {
+  //   if (window.innerWidth <= 725) {
+  //     setShowVerticalStyling(true);
+  //   }
+
+  //   function resizeHandler() {
+  //     if (window.innerWidth <= 725) {
+  //       setShowVerticalStyling(true);
+  //     }
+  //   }
+
+  //   window.addEventListener("resize", resizeHandler);
+  // }, []);
 
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,22 +49,13 @@ export function Contact(props: any) {
   };
 
   return (
-    <div
-      id={"contact"}
-      style={{
-        marginTop: "8rem",
-        paddingBottom: "5rem",
-        gap: "2rem",
-        scrollMargin: "8rem",
-      }}
-      className={"baseVertFlex"}
-    >
+    <div id={"contact"} className={`${classes.contactContainer} baseVertFlex`}>
       <ToastContainer />
 
       <div className={"heading"}>Contact</div>
 
       <div style={{ textAlign: "center" }}>
-        <p>
+        <p className={classes.contactText}>
           I would love to answer any questions, comments, or invitation to work
           together!
         </p>
@@ -60,7 +68,10 @@ export function Contact(props: any) {
         className={`${classes.formContainer} baseVertFlex`}
         onSubmit={sendEmail}
       >
-        <div style={{ gap: "1rem" }} className={"baseFlex"}>
+        <div
+          style={{ gap: "1rem" }}
+          className={`${classes.nameAndEmail} baseFlex`}
+        >
           <label>Name</label>
           <input type="text" name="user_name" />
           <label>Email</label>
@@ -68,7 +79,7 @@ export function Contact(props: any) {
         </div>
         <div style={{ gap: ".75rem" }} className={"baseVertFlex"}>
           <label>Message</label>
-          <textarea name="message" cols={65} rows={4} />
+          <textarea className={classes.messageInput} name="message" rows={4} />
         </div>
         <input className={classes.submitButton} type="submit" value="Send" />
       </form>

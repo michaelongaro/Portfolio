@@ -1,6 +1,6 @@
 .aboutMeContainer {
   gap: 5.5rem;
-  margin-top: 5rem;
+  margin-top: 2rem;
   height: 300px;
   width: 70%;
 }
@@ -31,7 +31,7 @@
   /* 120px */
   --d: 120px;
   grid-area: 1/1;
-  transform: rotate(var(--r)) translateX(var(--d)) rotate(calc(-1*var(--r)));
+  transform: rotate(var(--r)) translateX(var(--d)) rotate(calc(-1 * var(--r)));
 }
 
 /* adjust the angle for each icon */
@@ -51,27 +51,6 @@
   --r: -30deg;
 }
 
-/* 
-.iconContainer li>img:nth-child(1) {
-  transform: rotate(-45deg);
-}
-
-.iconContainer li>img:nth-child(2) {
-  transform: rotate(-5deg);
-}
-
-.iconContainer li>img:nth-child(3) {
-  transform: rotate(5deg);
-}
-
-.iconContainer li>img:nth-child(4) {
-  transform: rotate(45deg);
-} */
-
-/* .iconContainer li a {
-  display: block;
-} */
-
 .iconContainer li img {
   width: 50px;
 }
@@ -90,5 +69,74 @@
 
 .aboutMeText {
   font-size: 1.15em;
-  width: clamp(45ch, 50%, 75ch)
+  width: 50%;
+  /* width: clamp(45ch, 50%, 75ch); */
+  /* this most likely doesn't work the way you think it does */
+}
+
+@media (max-width: 1400px) {
+  .aboutMeText {
+    width: 70%;
+  }
+}
+
+@media (max-width: 950px) {
+  .aboutMeContainer {
+    flex-direction: column-reverse;
+    margin-top: 5rem;
+  }
+
+  .avatarContainer {
+    margin-top: 2rem;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .profileIcon {
+    top: 50px;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .iconContainer {
+    left: 34px;
+    top: 53px;
+  }
+
+  .iconContainer li {
+    --d: 100px;
+  }
+
+  .iconContainer li img {
+    width: 35px;
+  }
+
+  .iconContainer li:nth-child(1) {
+    --r: -146deg;
+  }
+
+  .iconContainer li:nth-child(2) {
+    --r: -111deg;
+  }
+
+  .iconContainer li:nth-child(3) {
+    --r: -71deg;
+  }
+
+  .iconContainer li:nth-child(4) {
+    --r: -33deg;
+  }
+}
+
+@media (max-width: 775px) {
+  .aboutMeText {
+    font-size: 1.08em;
+  }
+}
+
+@media (max-width: 500px) {
+  .aboutMeText {
+    font-size: 1em;
+    width: 100%;
+  }
 }
