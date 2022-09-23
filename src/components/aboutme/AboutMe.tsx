@@ -19,13 +19,7 @@ export function AboutMe(props: any) {
       <div className={"heading"}>About Me</div>
 
       <div className={`${classes.aboutMeContainer} baseFlex`}>
-        {/* hmm maybe generic user skeleton image and then in an arc around it 
-        (idk how you would do that, look it up) have icons for a lightbulb,
-  </>, wrench, and  "?" in that order */}
-
         <div className={classes.avatarContainer}>
-          {/* <div className={classes.test}></div> */}
-
           <ul className={classes.iconContainer}>
             <li>
               <img src={questionMarkIcon} />
