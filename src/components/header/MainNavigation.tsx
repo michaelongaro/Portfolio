@@ -1,12 +1,28 @@
-import * as React from "react";
-import { DesktopNavbar } from "./DesktopNavbar";
+import { useEffect, useState } from "react";
+
+import DesktopNavbar from "./DesktopNavbar";
+import Sidebar from "./Sidebar";
 
 export function MainNavigation(props: any) {
-  // useEffect resize logic to render mobile sidebar
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
-  return (
-    <>
-      <DesktopNavbar />
-    </>
-  );
+  useEffect(() => {
+    if (window.innerWidth <= 600) {
+      setShowSidebar(true);
+    } else {
+      setShowSidebar(false);
+    }
+
+    function resizeHandler() {
+      if (window.innerWidth <= 600) {
+        setShowSidebar(true);
+      } else {
+        setShowSidebar(false);
+      }
+    }
+
+    window.addEventListener("resize", resizeHandler);
+  }, []);
+
+  return <>{showSidebar ? <Sidebar /> : <DesktopNavbar />}</>;
 }
