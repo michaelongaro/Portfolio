@@ -5,7 +5,7 @@ import Skills from "./components/skills/Skills";
 import AboutMe from "./components/aboutme/AboutMe";
 import Contact from "./components/contact/Contact";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
-import Footer from "./components/footer/footer";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
