@@ -6,7 +6,7 @@ import * as React from "react";
 import classes from "./DesktopNavbar.module.css";
 import "../../index.css";
 
-export function DesktopNavbar(props: any) {
+function DesktopNavbar(props: any) {
   return (
     <div className={classes.navContainer}>
       <div className={`${classes.navLinks} baseFlex`}>
@@ -23,3 +23,5 @@ export function DesktopNavbar(props: any) {
     </div>
   );
 }
+
+export default DesktopNavbar;
