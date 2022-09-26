@@ -10,6 +10,10 @@
   border-radius: .5rem;
 }
 
+.currentlyLearning>img {
+  opacity: 0;
+}
+
 @media (max-width: 550px) {
 
   .skillsContainer>img,

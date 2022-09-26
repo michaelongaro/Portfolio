@@ -30,15 +30,14 @@ function Skills(props: any) {
       anime({
         targets: "#iconGrid .icon",
         opacity: [0, 1],
-        duration: 3000,
         delay: anime.stagger(200, { grid: [5, 2], from: "first" }),
       });
-    } else {
+
       anime({
-        targets: "#iconGrid .icon",
-        opacity: [1, 0],
-        duration: 3000,
-        delay: anime.stagger(200, { grid: [5, 2], from: "last" }),
+        targets: "#currentlyLearning",
+        opacity: [0, 1],
+        duration: 1000,
+        delay: 950,
       });
     }
   }, [inView]);
@@ -74,7 +73,12 @@ function Skills(props: any) {
         className={`${classes.currentlyLearning} baseFlex`}
       >
         Currently learning:
-        <img className={"icon"} src={graphQLIcon} alt={"GraphQL"} />
+        <img
+          id="currentlyLearning"
+          className={"icon"}
+          src={graphQLIcon}
+          alt={"GraphQL"}
+        />
       </div>
     </div>
   );
