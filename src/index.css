@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100;500;700&display=swap");
 
 *,
 *::before,
@@ -21,9 +21,9 @@ body {
 }
 
 body {
-  /* font-family: 'Helvetica', 'Arial', sans-serif; */
-  font-family: 'M PLUS 1', sans-serif;
+  font-family: "M PLUS 1", sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -78,10 +78,10 @@ h6 {
 
 .heading:after {
   position: absolute;
-  content: '';
+  content: "";
   height: 3px;
   background-color: #ed9f31;
-  bottom: .25rem;
+  bottom: 0.25rem;
   right: 0;
   left: 0;
   z-index: -1;
@@ -93,4 +93,42 @@ img.icon {
 
 img.icon:hover {
   transform: scale(1.1);
+}
+
+#projects {
+  padding-bottom: 0.75rem;
+}
+
+.hiddenLeft,
+.hiddenRight {
+  opacity: 0;
+  filter: blur(10px);
+  transition: all 500ms;
+}
+
+.hiddenLeft {
+  transform: translateX(-100%);
+}
+
+.hiddenRight {
+  transform: translateX(100%);
+}
+
+.showing {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateX(0%);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border: 2px solid #ed9f31;
+  border-radius: 0.25rem;
+}
+
+@media (max-width: 500px) {
+  #contact {
+    scroll-margin: 5rem;
+  }
 }
