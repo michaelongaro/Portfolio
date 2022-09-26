@@ -53,6 +53,10 @@ h6 {
   overflow-wrap: break-word;
 }
 
+ul {
+  width: 100%;
+}
+
 #root,
 #__next {
   isolation: isolate;
@@ -97,6 +101,10 @@ img.icon:hover {
 
 #projects {
   padding-bottom: 0.75rem;
+}
+
+#projects div {
+  overflow-x: hidden;
 }
 
 .hiddenLeft,
