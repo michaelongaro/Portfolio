@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import Hamburger from "hamburger-react";
+import useNavbarHighlighter from "../../util/useNavbarHighlighter";
 
 import classes from "./Sidebar.module.css";
 import navClasses from "./DesktopNavbar.module.css";
@@ -9,21 +10,12 @@ import "../../index.css";
 type Props = {};
 
 function Sidebar({}: Props) {
-  const skills = document.getElementById("skills") as HTMLDivElement;
-  const projects = document.getElementById("projects") as HTMLDivElement;
-  const aboutMe = document.getElementById("aboutme") as HTMLDivElement;
-  const contact = document.getElementById("contact") as HTMLDivElement;
+  let linkStates = useNavbarHighlighter();
 
   const burgerRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const [sidebarOpened, setSidebarOpened] = useState<boolean>(false);
-  const [linkStates, setLinkStates] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-  ]);
 
   useEffect(() => {
     function closeSidebarHandler(e: TouchEvent | MouseEvent) {
@@ -44,78 +36,12 @@ function Sidebar({}: Props) {
     };
   }, []);
 
-  // dont forget to add basic footer
-
-  useEffect(() => {
-    scrollHandler();
-
-    function scrollHandler() {
-      const skillsStartHeight =
-        skills.getBoundingClientRect().top + window.scrollY - 500;
-      const skillsEndHeight =
-        skillsStartHeight + skills.getBoundingClientRect().height + 200;
-
-      const projectsStartHeight =
-        projects.getBoundingClientRect().top + window.scrollY - 500;
-      const projectsEndHeight =
-        projectsStartHeight + projects.getBoundingClientRect().height + 200;
-
-      const aboutMeStartHeight =
-        aboutMe.getBoundingClientRect().top + window.scrollY - 500;
-      const aboutMeEndHeight =
-        aboutMeStartHeight + aboutMe.getBoundingClientRect().height + 200;
-
-      const contactStartHeight =
-        contact.getBoundingClientRect().top + window.scrollY - 500;
-      const contactEndHeight =
-        contactStartHeight + contact.getBoundingClientRect().height + 200;
-
-      console.log(
-        window.scrollY,
-        [skillsStartHeight, skillsEndHeight],
-        [projectsStartHeight, projectsEndHeight],
-        [aboutMeStartHeight, aboutMeEndHeight],
-        [contactStartHeight, contactEndHeight]
-      );
-
-      if (
-        window.scrollY >= skillsStartHeight &&
-        window.scrollY < skillsEndHeight
-      ) {
-        updateLinkStates(0);
-      } else if (
-        window.scrollY >= projectsStartHeight &&
-        window.scrollY < projectsEndHeight
-      ) {
-        updateLinkStates(1);
-      } else if (
-        window.scrollY >= aboutMeStartHeight &&
-        window.scrollY < aboutMeEndHeight
-      ) {
-        updateLinkStates(2);
-      } else if (
-        window.scrollY >= contactStartHeight &&
-        window.scrollY < contactEndHeight
-      ) {
-        updateLinkStates(3);
-      } else {
-        setLinkStates([false, false, false, false]);
-      }
-    }
-
-    document.addEventListener("scroll", scrollHandler);
-
-    return () => {
-      document.removeEventListener("scroll", scrollHandler);
-    };
-  }, []);
-
   function updateLinkStates(idx: number) {
     let tempLinkStates: boolean[] = [false, false, false, false];
 
     tempLinkStates[idx] = true;
 
-    setLinkStates(tempLinkStates);
+    linkStates = tempLinkStates;
   }
 
   return (
