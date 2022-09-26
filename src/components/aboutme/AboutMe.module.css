@@ -1,5 +1,5 @@
 .aboutMeContainer {
-  gap: 5.5rem;
+  gap: 6.5rem;
   margin-top: 2rem;
   height: 300px;
   width: 70%;
@@ -7,15 +7,13 @@
 
 .avatarContainer {
   position: relative;
-  width: 10rem;
-  height: 10rem;
-  /* display: flex; */
-  /* ? */
+  width: 7rem;
+  height: 7rem;
 }
 
 .iconContainer {
   position: absolute;
-  left: 56px;
+  left: 38px;
   right: 0;
   top: 48px;
   bottom: 0;
@@ -28,8 +26,7 @@
 }
 
 .iconContainer li {
-  /* 120px */
-  --d: 120px;
+  --d: 108px;
   grid-area: 1/1;
   transform: rotate(var(--r)) translateX(var(--d)) rotate(calc(-1 * var(--r)));
 }
@@ -52,7 +49,7 @@
 }
 
 .iconContainer li img {
-  width: 50px;
+  width: 38px;
 }
 
 .profileIcon {

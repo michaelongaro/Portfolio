@@ -13,7 +13,7 @@ function AboutMe(props: any) {
   return (
     <div
       id={"aboutme"}
-      style={{ marginTop: "8rem", gap: "2rem", scrollMargin: "8rem" }}
+      style={{ marginTop: "7.25rem", gap: "2rem", scrollMargin: "8rem" }}
       className={"baseVertFlex"}
     >
       <div className={"heading"}>About Me</div>
