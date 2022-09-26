@@ -87,7 +87,8 @@ function Projects(props: any) {
         marginTop: "8rem",
         gap: "1.5rem",
         width: "100%",
-        scrollMargin: "8rem",
+        overflow: "clip",
+        scrollMarginTop: "8rem",
       }}
       className={"baseVertFlex"}
     >
