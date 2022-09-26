@@ -25,26 +25,6 @@ import classes from "./Projects.module.css";
 import "../../index.css";
 
 function Projects(props: any) {
-  const [drawingDashRef, firstInView] = useInView({
-    threshold: 0,
-    triggerOnce: true,
-  });
-
-  const [weatherAPIRef, secondInView] = useInView({
-    threshold: 0,
-    triggerOnce: true,
-  });
-
-  const [officeWebsiteRef, thirdInView] = useInView({
-    threshold: 0,
-    triggerOnce: true,
-  });
-
-  const [lyricizeRef, fourthInView] = useInView({
-    threshold: 0,
-    triggerOnce: true,
-  });
-
   const [hoveringOnProjects, setHoveringOnProjects] = useState<boolean[]>([
     false,
     false,
@@ -56,42 +36,23 @@ function Projects(props: any) {
     useState<boolean>(false);
 
   useEffect(() => {
-    if (firstInView) {
-      anime({
-        targets: "#firstTechUsed .icon",
-        opacity: [0, 1],
-        duration: 2000,
-        delay: anime.stagger(100),
-      });
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("showing");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: showVerticalStyling ? 0 : 0.1 }
+    );
 
-    if (secondInView) {
-      anime({
-        targets: "#secondTechUsed .icon",
-        opacity: [0, 1],
-        duration: 2000,
-        delay: anime.stagger(100),
-      });
-    }
-
-    if (thirdInView) {
-      anime({
-        targets: "#thirdTechUsed .icon",
-        opacity: [0, 1],
-        duration: 2000,
-        delay: anime.stagger(100),
-      });
-    }
-
-    if (fourthInView) {
-      anime({
-        targets: "#fourthTechUsed .icon",
-        opacity: [0, 1],
-        duration: 2000,
-        delay: anime.stagger(100),
-      });
-    }
-  }, [firstInView, secondInView, thirdInView, fourthInView]);
+    const leftHiddenElements = document.querySelectorAll(".hiddenLeft");
+    const rightHiddenElements = document.querySelectorAll(".hiddenRight");
+    leftHiddenElements.forEach((el) => observer.observe(el));
+    rightHiddenElements.forEach((el) => observer.observe(el));
+  }, [showVerticalStyling]);
 
   function updatePictureHoverStates(index: number, newValue: boolean) {
     setHoveringOnProjects((prevProjectStates) => {
@@ -102,11 +63,7 @@ function Projects(props: any) {
   }
 
   useEffect(() => {
-    if (window.innerWidth <= 1000) {
-      setShowVerticalStyling(true);
-    } else {
-      setShowVerticalStyling(false);
-    }
+    resizeHandler();
 
     function resizeHandler() {
       if (window.innerWidth <= 1000) {
@@ -117,6 +74,10 @@ function Projects(props: any) {
     }
 
     window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
   }, []);
 
   return (
@@ -133,10 +94,7 @@ function Projects(props: any) {
       <div className="heading">Projects</div>
 
       {/* Drawing Dash */}
-      <div
-        ref={drawingDashRef}
-        className={`${classes.projectContainer} baseFlex`}
-      >
+      <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <div
             style={{ display: showVerticalStyling ? "none" : "flex" }}
@@ -188,6 +146,7 @@ function Projects(props: any) {
             padding: hoveringOnProjects[0]
               ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
+            marginTop: showVerticalStyling ? "0.5rem" : 0,
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
@@ -236,8 +195,7 @@ function Projects(props: any) {
 
       {/* Weather API */}
       <div
-        ref={weatherAPIRef}
-        className={`${classes.reversedProjectContainer} baseFlex`}
+        className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <div
@@ -290,6 +248,7 @@ function Projects(props: any) {
             padding: hoveringOnProjects[1]
               ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
+            marginTop: showVerticalStyling ? "0.5rem" : 0,
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
@@ -342,10 +301,7 @@ function Projects(props: any) {
       </div>
 
       {/* Office Website */}
-      <div
-        ref={officeWebsiteRef}
-        className={`${classes.projectContainer} baseFlex`}
-      >
+      <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <div
             style={{ display: showVerticalStyling ? "none" : "flex" }}
@@ -362,6 +318,7 @@ function Projects(props: any) {
             <img className={"icon"} src={reactIcon} alt={"React"} />
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
             <img className={"icon"} src={viteIcon} alt={"Vite"} />
+            <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
@@ -404,6 +361,7 @@ function Projects(props: any) {
             padding: hoveringOnProjects[2]
               ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
+            marginTop: showVerticalStyling ? "0.5rem" : 0,
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
@@ -459,8 +417,7 @@ function Projects(props: any) {
 
       {/* Lyricize (Spotify API App) */}
       <div
-        ref={lyricizeRef}
-        className={`${classes.reversedProjectContainer} baseFlex`}
+        className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <div
@@ -521,6 +478,7 @@ function Projects(props: any) {
             padding: hoveringOnProjects[3]
               ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
+            marginTop: showVerticalStyling ? "0.5rem" : 0,
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
