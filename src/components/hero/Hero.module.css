@@ -6,6 +6,10 @@
   height: 100vh;
 }
 
+.hero {
+  transition: all 200ms;
+}
+
 .hero>span {
   background-color: #ed9f31;
   text-shadow: rgb(118 118 118 / 57%) 4px 4px 9px;
@@ -15,6 +19,7 @@
   color: #02020a;
   text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
   opacity: 0;
+  filter: blur(5px);
   font-size: 4rem;
   /* font-size: clamp(1rem, -0.465rem + 6.25vw, 4rem); */
   animation: fadeInRight 1s forwards;
@@ -39,6 +44,7 @@
   color: #02020a;
   text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
   gap: 0.5rem;
+  filter: blur(5px);
   font-size: 2.5rem;
   white-space: nowrap;
 
@@ -55,6 +61,7 @@
 
 .bottomHero {
   opacity: 0;
+  filter: blur(5px);
   animation: fadeInUp 1s forwards;
   animation-delay: 500ms;
 }
@@ -97,11 +104,13 @@
 @keyframes fadeInRight {
   0% {
     opacity: 0;
+    filter: blur(5px);
     transform: translateX(-350px);
   }
 
   100% {
     opacity: 1;
+    filter: blur(0px);
     transform: translateX(0px);
   }
 }
@@ -109,11 +118,13 @@
 @keyframes fadeInUp {
   0% {
     opacity: 0;
+    filter: blur(5px);
     transform: translateY(25px);
   }
 
   100% {
     opacity: 1;
+    filter: blur(0px);
     transform: translateY(0px);
   }
 }
@@ -186,7 +197,15 @@
 }
 
 @media(max-width: 600px) {
+
+  /* maybe don't do the scale because it makes it look blurry */
   .hero {
     transform: scale(.5);
+  }
+
+  .githubLogo {
+    width: 100px;
+    height: 100px;
+    margin-top: 1rem;
   }
 }
