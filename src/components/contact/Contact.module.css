@@ -1,6 +1,6 @@
 .contactContainer {
   margin-top: 5rem;
-  padding-bottom: 5rem;
+  padding-bottom: 7rem;
   gap: 2rem;
   scroll-margin: 8rem;
 }
@@ -33,6 +33,10 @@
 }
 
 @media (max-width: 725px) {
+  .contactContainer {
+    padding-bottom: 5rem;
+  }
+
   .contactText {
     max-width: 45ch;
     word-wrap: break-word;
