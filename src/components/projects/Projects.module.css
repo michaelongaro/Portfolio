@@ -8,12 +8,12 @@
 }
 
 .projectContainer {
-  background: linear-gradient(145deg, #ed9f3180 30%, #ed9f31eb);
+  background: linear-gradient(145deg, #ed9f3194 30%, #ed9f31cf);
 }
 
 .reversedProjectContainer {
   flex-direction: row-reverse;
-  background: linear-gradient(145deg, #ed9f31eb -30%, #ed9f3180);
+  background: linear-gradient(145deg, #ed9f31cf 30%, #ed9f3194);
 }
 
 .projectDetails {
