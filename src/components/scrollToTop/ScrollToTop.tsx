@@ -27,8 +27,10 @@ function ScrollToTop(props: any) {
         pointerEvents: scrollThresholdReached ? "auto" : "none",
       }}
       className={`${classes.scrollToTopContainer} baseFlex`}
-      onClick={() => window.scrollTo(0, 0)}
-      href={"#"}
+      onClick={() => {
+        history.pushState(null, "", "/");
+        window.scrollTo(0, 0);
+      }}
     >
       <img src={upArrowIcon} alt={"Scroll to top"} />
     </a>
