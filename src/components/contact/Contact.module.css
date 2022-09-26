@@ -34,7 +34,7 @@
 
 @media (max-width: 725px) {
   .contactText {
-    max-width: 48ch;
+    max-width: 45ch;
     word-wrap: break-word;
   }
 
