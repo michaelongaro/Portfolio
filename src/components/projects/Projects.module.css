@@ -33,7 +33,7 @@
 }
 
 .blurred {
-  filter: blur(5px);
+  filter: blur(4px);
   user-select: none;
   cursor: auto;
 }
@@ -132,6 +132,10 @@
   .projectContainer,
   .reversedProjectContainer {
     flex-direction: column-reverse;
+  }
+
+  .reversedProjectContainer {
+    background: linear-gradient(145deg, #ed9f3194 30%, #ed9f31cf);
   }
 
   .projectImageContain,
