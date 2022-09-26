@@ -7,11 +7,7 @@ function MainNavigation(props: any) {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
   useEffect(() => {
-    if (window.innerWidth <= 600) {
-      setShowSidebar(true);
-    } else {
-      setShowSidebar(false);
-    }
+    resizeHandler();
 
     function resizeHandler() {
       if (window.innerWidth <= 600) {
@@ -22,6 +18,10 @@ function MainNavigation(props: any) {
     }
 
     window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
   }, []);
 
   return <>{showSidebar ? <Sidebar /> : <DesktopNavbar />}</>;
