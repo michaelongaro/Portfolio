@@ -28,7 +28,7 @@ function ScrollToTop(props: any) {
       }}
       className={`${classes.scrollToTopContainer} baseFlex`}
       onClick={() => {
-        history.pushState(null, "", "/");
+        history.pushState(null, "", "/Portfolio/");
         window.scrollTo(0, 0);
       }}
     >
