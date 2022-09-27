@@ -255,7 +255,7 @@ function Projects(props: any) {
         >
           <img
             className={classes.projectImage}
-            src={"https://i.gyazo.com/c6dd51d042b8f12d63d6ced34834ee8d.png"}
+            src={"https://i.gyazo.com/0de8e5b002d91c85dd1cad84ac3c25ec.png"}
             onClick={() => {
               openInNewTab(
                 "https://michaelongaro.github.io/UniversalForecast/"
