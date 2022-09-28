@@ -1,2 +1,2 @@
 # Portfolio
-React portfolio website
+My portfolio website build with React, TypeScript, and Vite.
