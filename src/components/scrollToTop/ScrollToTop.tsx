@@ -11,7 +11,9 @@ function ScrollToTop(props: any) {
 
   useEffect(() => {
     function handleScroll() {
-      setScrollThresholdReached(window.scrollY > 50);
+      setScrollThresholdReached(
+        window.scrollY > Math.floor(0.25 * window.innerHeight)
+      );
     }
 
     window.addEventListener("scroll", handleScroll);
