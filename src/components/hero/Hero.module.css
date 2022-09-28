@@ -55,8 +55,12 @@
 
 .webDevText {
   text-shadow: rgb(5 32 74 / 27%) 3px 3px 3px;
+  background: linear-gradient(180deg, hsl(217, 87%, 15%), hsl(217, 87%, 35%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   animation: fadeToBlue 1s forwards;
-  animation-delay: 400ms;
+  animation-delay: 400ms, 1500ms;
 }
 
 .bottomHero {
@@ -71,9 +75,10 @@
   text-shadow: none;
   opacity: 0;
   width: 0;
-  animation: fadeInUpLeftBracket .75s cubic-bezier(.22, .56, .8, 1.5) forwards,
-    glow 1.5s ease-in-out infinite alternate;
-  animation-delay: 400ms, 1000ms;
+  filter: drop-shadow(2px 2px 1px hsla(35, 84%, 56%, 0.424));
+  animation: fadeInUpLeftBracket 0.75s cubic-bezier(0.22, 0.56, 0.8, 1.5) forwards,
+    bracketGlow 1.5s ease-in-out infinite alternate;
+  animation-delay: 400ms, 1500ms;
 }
 
 .rightBracket {
@@ -81,9 +86,10 @@
   text-shadow: none;
   opacity: 0;
   width: 0;
-  animation: fadeInUpRightBracket 1s cubic-bezier(.22, .56, .8, 1.5) forwards,
-    glow 1.5s ease-in-out infinite alternate;
-  animation-delay: 400ms, 1000ms;
+  filter: drop-shadow(2px 2px 1px hsla(35, 84%, 56%, 0.424));
+  animation: fadeInUpRightBracket 1s cubic-bezier(0.22, 0.56, 0.8, 1.5) forwards,
+    bracketGlow 1.5s ease-in-out infinite alternate;
+  animation-delay: 400ms, 1500ms;
 }
 
 .githubLogo {
@@ -168,13 +174,13 @@
   }
 }
 
-@keyframes glow {
+@keyframes bracketGlow {
   0% {
-    filter: drop-shadow(2px 2px 2px #ed9f316c) brightness(1);
+    filter: drop-shadow(2px 2px 1px hsla(35, 84%, 56%, 0.424)) brightness(1);
   }
 
   100% {
-    filter: drop-shadow(2px 2px 5px #ed9f31) brightness(1.2);
+    filter: drop-shadow(2px 2px 5px hsl(35, 84%, 56%)) brightness(1.1);
   }
 }
 
@@ -192,15 +198,15 @@
 
 @media (max-width: 900px) {
   .hero {
-    transform: scale(.7);
+    transform: scale(0.7);
   }
 }
 
-@media(max-width: 600px) {
+@media (max-width: 600px) {
 
   /* maybe don't do the scale because it makes it look blurry */
   .hero {
-    transform: scale(.5);
+    transform: scale(0.5);
   }
 
   .githubLogo {
