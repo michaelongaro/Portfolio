@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
 
-import anime from "animejs";
-import { useInView } from "react-intersection-observer";
-
 // export interface IAppProps {
 // }
 
@@ -36,23 +33,20 @@ function Projects(props: any) {
     useState<boolean>(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("showing");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: showVerticalStyling ? 0 : 0.1 }
-    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("showing");
+          observer.unobserve(entry.target);
+        }
+      });
+    });
 
     const leftHiddenElements = document.querySelectorAll(".hiddenLeft");
     const rightHiddenElements = document.querySelectorAll(".hiddenRight");
     leftHiddenElements.forEach((el) => observer.observe(el));
     rightHiddenElements.forEach((el) => observer.observe(el));
-  }, [showVerticalStyling]);
+  }, []);
 
   function updatePictureHoverStates(index: number, newValue: boolean) {
     setHoveringOnProjects((prevProjectStates) => {
