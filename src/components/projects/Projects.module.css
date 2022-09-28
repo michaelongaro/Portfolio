@@ -8,12 +8,12 @@
 }
 
 .projectContainer {
-  background: linear-gradient(145deg, #ed9f3194 30%, #ed9f31cf);
+  background: linear-gradient(145deg, #ed9f3194 30%, #ed9f31d8);
 }
 
 .reversedProjectContainer {
   flex-direction: row-reverse;
-  background: linear-gradient(145deg, #ed9f31cf 30%, #ed9f3194);
+  background: linear-gradient(145deg, #ed9f31d8 30%, #ed9f3194);
 }
 
 .projectDetails {
@@ -57,6 +57,7 @@
 .techIcons {
   gap: 0.5em;
   margin-top: 0.5rem;
+  overflow: visible !important;
 }
 
 .techIcons>img {
@@ -135,7 +136,7 @@
   }
 
   .reversedProjectContainer {
-    background: linear-gradient(145deg, #ed9f3194 30%, #ed9f31cf);
+    background: linear-gradient(145deg, #ed9f3194 30%, #ed9f31d8);
   }
 
   .projectImageContain,
