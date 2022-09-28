@@ -72,7 +72,7 @@
   opacity: 0;
   width: 0;
   animation: fadeInUpLeftBracket .75s cubic-bezier(.22, .56, .8, 1.5) forwards,
-    glow 1s ease-in-out infinite alternate;
+    glow 1.5s ease-in-out infinite alternate;
   animation-delay: 400ms, 1000ms;
 }
 
@@ -82,7 +82,7 @@
   opacity: 0;
   width: 0;
   animation: fadeInUpRightBracket 1s cubic-bezier(.22, .56, .8, 1.5) forwards,
-    glow 1s ease-in-out infinite alternate;
+    glow 1.5s ease-in-out infinite alternate;
   animation-delay: 400ms, 1000ms;
 }
 
@@ -174,7 +174,7 @@
   }
 
   100% {
-    filter: drop-shadow(2px 2px 4px #ed9f31) brightness(1.15);
+    filter: drop-shadow(2px 2px 5px #ed9f31) brightness(1.2);
   }
 }
 
