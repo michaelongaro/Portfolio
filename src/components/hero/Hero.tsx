@@ -15,7 +15,7 @@ function Hero(props: any) {
         <div className={`${classes.middleHero} baseFlex`}>
           I'm a<div className={classes.leftBracket}>&lt;</div>
           <div className={classes.webDevText}>full stack web developer</div>
-          <div className={classes.rightBracket}>/&gt;</div>.
+          <div className={classes.rightBracket}>/&gt;</div>
         </div>
 
         <img
