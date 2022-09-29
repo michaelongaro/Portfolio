@@ -56,16 +56,17 @@ function Contact(props: any) {
           style={{ gap: "1rem" }}
           className={`${classes.nameAndEmail} baseFlex`}
         >
-          <label>Name</label>
-          <input type="text" name="user_name" required />
-          <label>Email</label>
-          <input type="email" name="user_email" required />
+          <label htmlFor={"user_name"}>Name</label>
+          <input type="text" name="user_name" id={"user_name"} required />
+          <label htmlFor={"user_email"}>Email</label>
+          <input type="email" name="user_email" id={"user_email"} required />
         </div>
         <div style={{ gap: ".75rem" }} className={"baseVertFlex"}>
-          <label>Message</label>
+          <label htmlFor={"message"}>Message</label>
           <textarea
             className={classes.messageInput}
             name="message"
+            id={"message"}
             rows={4}
             required
           />
