@@ -148,6 +148,7 @@ function Projects(props: any) {
           <img
             className={classes.projectImage}
             src={"https://i.gyazo.com/514de4173276f3b07c811ec94849ec59.png"}
+            alt={"Screenshot of my first project, Drawing Dash."}
             onClick={() => {
               openInNewTab("https://drawingdash.com/");
             }}
@@ -250,6 +251,7 @@ function Projects(props: any) {
           <img
             className={classes.projectImage}
             src={"https://i.gyazo.com/0de8e5b002d91c85dd1cad84ac3c25ec.png"}
+            alt={"Screenshot of my second project, Universal Forecast."}
             onClick={() => {
               openInNewTab(
                 "https://michaelongaro.github.io/UniversalForecast/"
@@ -366,6 +368,9 @@ function Projects(props: any) {
               className={` ${classes.projectImage} ${classes.blurred}`}
               src={
                 "https://mbluxury1.s3.amazonaws.com/2021/09/03151922/tend.jpg"
+              }
+              alt={
+                "Sample screenshot of my third project, a website for my Dad's dental office."
               }
               // onMouseEnter={() => {
               //   updatePictureHoverStates(2, true);
@@ -484,6 +489,7 @@ function Projects(props: any) {
               src={
                 "https://images.unsplash.com/photo-1480380799266-582d808d748a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
               }
+              alt={""}
               // onMouseEnter={() => {
               //   updatePictureHoverStates(3, true);
               // }}

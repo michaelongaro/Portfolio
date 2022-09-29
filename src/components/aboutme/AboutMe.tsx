@@ -22,16 +22,16 @@ function AboutMe(props: any) {
         <div className={classes.avatarContainer}>
           <ul className={classes.iconContainer}>
             <li>
-              <img src={questionMarkIcon} />
+              <img src={questionMarkIcon} alt={""} />
             </li>
             <li>
-              <img src={lightbulbIcon} />
+              <img src={lightbulbIcon} alt={""} />
             </li>
             <li>
-              <img src={codeIcon} />
+              <img src={codeIcon} alt={""} />
             </li>
             <li>
-              <img src={wrenchIcon} />
+              <img src={wrenchIcon} alt={""} />
             </li>
           </ul>
 
