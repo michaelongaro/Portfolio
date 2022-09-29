@@ -206,7 +206,7 @@
 
   /* maybe don't do the scale because it makes it look blurry */
   .hero {
-    transform: scale(0.5);
+    transform: scale(0.52);
   }
 
   .githubLogo {
