@@ -23,7 +23,7 @@ function ScrollToTop(props: any) {
   }, []);
 
   return (
-    <a
+    <button
       style={{
         opacity: scrollThresholdReached ? 1 : 0,
         pointerEvents: scrollThresholdReached ? "auto" : "none",
@@ -35,7 +35,7 @@ function ScrollToTop(props: any) {
       }}
     >
       <img src={upArrowIcon} alt={"Scroll to top"} />
-    </a>
+    </button>
   );
 }
 
