@@ -20,7 +20,7 @@
   text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
   opacity: 0;
   filter: blur(5px);
-  font-size: 4rem;
+  font-size: 4.5rem;
   /* font-size: clamp(1rem, -0.465rem + 6.25vw, 4rem); */
   animation: fadeInRight 1s forwards;
 }
