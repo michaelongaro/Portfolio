@@ -45,7 +45,7 @@ function AboutMe(props: any) {
         <p className={classes.aboutMeText}>
           My name is Michael Ongaro and I am incredibly passionate about
           learning how to create more enjoyable, accessible, and feature-rich
-          React apps. I believe that small, deliberate, and consistent
+          web apps. I believe that small, deliberate, and consistent
           iteration-based design is the key to improving any project. I will
           always try to include the bleeding edge of new technologies whenever
           applicable.
