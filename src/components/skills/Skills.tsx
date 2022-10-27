@@ -9,6 +9,7 @@ import javaScriptIcon from "../../assets/javascript.png";
 import typeScriptIcon from "../../assets/typescript.png";
 import auth0Icon from "../../assets/auth0.png";
 import reactIcon from "../../assets/react.png";
+import mongoDBIcon from "../../assets/mongodb.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
@@ -30,14 +31,14 @@ function Skills(props: any) {
       anime({
         targets: "#iconGrid .icon",
         opacity: [0, 1],
-        delay: anime.stagger(200, { grid: [5, 2], from: "first" }),
+        delay: anime.stagger(200, { grid: [6, 2], from: "first" }),
       });
 
       anime({
         targets: "#currentlyLearning",
         opacity: [0, 1],
         duration: 1000,
-        delay: 950,
+        delay: 1150,
       });
     }
   }, [inView]);
@@ -62,9 +63,10 @@ function Skills(props: any) {
         <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
         <img className={"icon"} src={reactIcon} alt={"React"} />
         <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
-        <img className={"icon"} src={viteIcon} alt={"Vite"} />
-        <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
+        <img className={"icon"} src={mongoDBIcon} alt={"MongoDB"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+        <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
+        <img className={"icon"} src={viteIcon} alt={"Vite"} />
         <img className={"icon"} src={gitIcon} alt={"Git"} />
       </div>
 
