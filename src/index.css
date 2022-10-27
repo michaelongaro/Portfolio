@@ -57,6 +57,10 @@ ul {
   width: 100%;
 }
 
+li {
+  margin: .5rem 0;
+}
+
 #root,
 #__next {
   isolation: isolate;
