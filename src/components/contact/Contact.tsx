@@ -71,7 +71,9 @@ function Contact(props: any) {
             required
           />
         </div>
-        <input className={classes.submitButton} type="submit" value="Send" />
+        <button className={classes.submitButton} type="submit">
+          Send
+        </button>
       </form>
     </div>
   );
