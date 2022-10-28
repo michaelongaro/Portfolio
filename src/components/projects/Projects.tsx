@@ -11,6 +11,7 @@ import typeScriptIcon from "../../assets/typescript.png";
 import auth0Icon from "../../assets/auth0.png";
 import reactIcon from "../../assets/react.png";
 import viteIcon from "../../assets/vite.png";
+import mongoDB from "../../assets/mongodb.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
@@ -297,8 +298,123 @@ function Projects(props: any) {
         </div>
       </div>
 
+      {/* Lyricize (Spotify API App) */}
+      <div className={`${classes.projectContainer} hiddenRight baseFlex`}>
+        <div className={`${classes.projectDetails} baseVertFlex`}>
+          <div
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={classes.projectTitle}
+          >
+            Lyricize
+          </div>
+
+          <div
+            id={"thirdTechUsed"}
+            style={{ display: showVerticalStyling ? "none" : "flex" }}
+            className={`${classes.techIcons} baseFlex`}
+          >
+            <img className={"icon"} src={reactIcon} alt={"React"} />
+            <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+            <img className={"icon"} src={mongoDB} alt={"MongoDB"} />
+            <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+            <img className={"icon"} src={viteIcon} alt={"Vite"} />
+            <img className={"icon"} src={gitIcon} alt={"Git"} />
+          </div>
+
+          <div>What I learned:</div>
+          <ul>
+            <li>
+              How to communicate between the frontend and backend on the MERN
+              stack. Making certain axios calls within custom hooks for code
+              readability.
+            </li>
+            <li>
+              How to use MongoDB (with mongoose) to achieve basic CRUD
+              functionality. Pros and cons of a non-relational database.
+            </li>
+            <li>
+              How to tweak an installed npm package and keep the changes in
+              production with the patch-package library.
+            </li>
+          </ul>
+
+          <div>Challenges:</div>
+          <ul>
+            <li>
+              Testing the numerous lyric-fetching npm package to find one that
+              works as expected.
+            </li>
+            <li>
+              Filtering the resulting lyrics to remove any extraneous metadata,
+              punctuation, and variable whitespace with RegEx.
+            </li>
+            <li>
+              Organizing the client/backend code structure and deployment
+              scripts to successfully deploy the project to Heroku.
+            </li>
+          </ul>
+        </div>
+        <div
+          style={{
+            padding: hoveringOnProjects[2]
+              ? ".75em .75em 1em .75em"
+              : "1em 1em 1em 1em",
+            marginTop: showVerticalStyling ? "0.5rem" : 0,
+          }}
+          className={`${classes.projectImageContain} baseVertFlex`}
+        >
+          <div className={`${classes.stackedContainer} baseFlex`}>
+            <img
+              className={classes.projectImage}
+              src={"https://i.gyazo.com/b48c4d7bf04f4f4e1b61ef574dc6ab42.png"}
+              alt={""}
+              onClick={() => {
+                openInNewTab("https://lyricize-app.herokuapp.com/");
+              }}
+              onMouseEnter={() => {
+                updatePictureHoverStates(2, true);
+              }}
+              onMouseLeave={() => {
+                updatePictureHoverStates(2, false);
+              }}
+            />
+          </div>
+
+          <img
+            className={classes.githubIcon}
+            src={smallLightGithubIcon}
+            alt={"Github"}
+            onClick={() => {
+              openInNewTab("https://github.com/michaelongaro/Lyricize");
+            }}
+          />
+        </div>
+
+        <div
+          id={"thirdTechUsed"}
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={`${classes.techIcons} baseFlex`}
+        >
+          <img className={"icon"} src={reactIcon} alt={"React"} />
+          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+          <img className={"icon"} src={mongoDB} alt={"MongoDB"} />
+          <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+          <img className={"icon"} src={viteIcon} alt={"Vite"} />
+          <img className={"icon"} src={gitIcon} alt={"Git"} />
+        </div>
+
+        <div
+          style={{ display: showVerticalStyling ? "flex" : "none" }}
+          className={classes.projectTitle}
+        >
+          Lyricize
+        </div>
+      </div>
+
       {/* Office Website */}
-      <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
+      <div
+        className={`${classes.reversedProjectContainer} hiddenLeft baseFlex`}
+      >
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <div
             style={{ display: showVerticalStyling ? "none" : "flex" }}
@@ -308,7 +424,7 @@ function Projects(props: any) {
           </div>
 
           <div
-            id={"thirdTechUsed"}
+            id={"fourthTechUsed"}
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={`${classes.techIcons} baseFlex`}
           >
@@ -370,13 +486,13 @@ function Projects(props: any) {
                 "https://mbluxury1.s3.amazonaws.com/2021/09/03151922/tend.jpg"
               }
               alt={
-                "Sample screenshot of my third project, a website for my Dad's dental office."
+                "Sample screenshot of my fourth project, a website for my Dad's dental office."
               }
               // onMouseEnter={() => {
-              //   updatePictureHoverStates(2, true);
+              //   updatePictureHoverStates(3, true);
               // }}
               // onMouseLeave={() => {
-              //   updatePictureHoverStates(2, false);
+              //   updatePictureHoverStates(3, false);
               // }}
             />
             <div className={`${classes.warningContainer} baseVertFlex`}>
@@ -397,7 +513,7 @@ function Projects(props: any) {
         </div>
 
         <div
-          id={"thirdTechUsed"}
+          id={"fourthTechUsed"}
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={`${classes.techIcons} baseFlex`}
         >
@@ -412,125 +528,6 @@ function Projects(props: any) {
           className={classes.projectTitle}
         >
           Anthony A. Ongaro DDS
-        </div>
-      </div>
-
-      {/* Lyricize (Spotify API App) */}
-      <div
-        className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
-      >
-        <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div
-            style={{ display: showVerticalStyling ? "none" : "flex" }}
-            className={classes.projectTitle}
-          >
-            Lyricize
-          </div>
-
-          <div
-            id={"fourthTechUsed"}
-            style={{ display: showVerticalStyling ? "none" : "flex" }}
-            className={`${classes.techIcons} baseFlex`}
-          >
-            <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-            <img className={"icon"} src={reactIcon} alt={"React"} />
-            <img className={"icon"} src={viteIcon} alt={"Vite"} />
-            <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
-            <img className={"icon"} src={gitIcon} alt={"Git"} />
-          </div>
-
-          <div className={`${classes.blurred} baseVertFlex`}>
-            <div>What I learned:</div>
-            <ul>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore.
-              </li>
-            </ul>
-
-            <div>Challenges:</div>
-            <ul>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna.
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div
-          style={{
-            padding: hoveringOnProjects[3]
-              ? ".75em .75em 1em .75em"
-              : "1em 1em 1em 1em",
-            marginTop: showVerticalStyling ? "0.5rem" : 0,
-          }}
-          className={`${classes.projectImageContain} baseVertFlex`}
-        >
-          <div className={`${classes.stackedContainer} baseFlex`}>
-            <img
-              style={{ filter: "blur(2px)" }}
-              className={` ${classes.projectImage} ${classes.blurred}`}
-              src={
-                "https://images.unsplash.com/photo-1480380799266-582d808d748a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-              }
-              alt={""}
-              // onMouseEnter={() => {
-              //   updatePictureHoverStates(3, true);
-              // }}
-              // onMouseLeave={() => {
-              //   updatePictureHoverStates(3, false);
-              // }}
-            />
-
-            <div className={`${classes.warningContainer} baseVertFlex`}>
-              <img src={calendarIcon} alt={"Calendar icon"} />
-              Coming Soon...
-            </div>
-          </div>
-
-          <img
-            className={classes.githubIcon}
-            src={smallLightGithubIcon}
-            alt={"Github"}
-            onClick={() => {
-              openInNewTab("https://github.com/michaelongaro/Lyricize");
-            }}
-          />
-        </div>
-
-        <div
-          id={"fourthTechUsed"}
-          style={{ display: showVerticalStyling ? "flex" : "none" }}
-          className={`${classes.techIcons} baseFlex`}
-        >
-          <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-          <img className={"icon"} src={reactIcon} alt={"React"} />
-          <img className={"icon"} src={viteIcon} alt={"Vite"} />
-          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
-          <img className={"icon"} src={gitIcon} alt={"Git"} />
-        </div>
-
-        <div
-          style={{ display: showVerticalStyling ? "flex" : "none" }}
-          className={classes.projectTitle}
-        >
-          Lyricize
         </div>
       </div>
     </div>
