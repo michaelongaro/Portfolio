@@ -13,11 +13,11 @@ import reactIcon from "../../assets/react.png";
 import viteIcon from "../../assets/vite.png";
 import mongoDB from "../../assets/mongodb.png";
 import firebaseIcon from "../../assets/firebase.png";
+import jestIcon from "../../assets/jest.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
 import constructionConeIcon from "../../assets/cone.svg";
-import calendarIcon from "../../assets/calendar.svg";
 
 import classes from "./Projects.module.css";
 import "../../index.css";
@@ -33,6 +33,7 @@ function Projects(props: any) {
   const [showVerticalStyling, setShowVerticalStyling] =
     useState<boolean>(false);
 
+  // move to a hook?
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -75,6 +76,10 @@ function Projects(props: any) {
     };
   }, []);
 
+  // should have each individual project below be in a general <Project />
+  // that takes in an object called details/metadata that has all specific data
+  // for that project and fills it into the jsx
+
   return (
     <div
       id={"projects"}
@@ -92,12 +97,15 @@ function Projects(props: any) {
       {/* Drawing Dash */}
       <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div
+          <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={classes.projectTitle}
+            href={"https://drawingdash.com/"}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Drawing Dash
-          </div>
+          </a>
 
           <div
             id={"firstTechUsed"}
@@ -195,12 +203,15 @@ function Projects(props: any) {
         className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div
+          <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={classes.projectTitle}
+            href={"https://michaelongaro.github.io/UniversalForecast/"}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Universal Forecast
-          </div>
+          </a>
 
           <div
             id={"secondTechUsed"}
@@ -299,14 +310,17 @@ function Projects(props: any) {
       </div>
 
       {/* Lyricize (Spotify API App) */}
-      <div className={`${classes.projectContainer} hiddenRight baseFlex`}>
+      <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div
+          <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={classes.projectTitle}
+            href={"https://lyricize-app.herokuapp.com/"}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Lyricize
-          </div>
+          </a>
 
           <div
             id={"thirdTechUsed"}
@@ -317,6 +331,7 @@ function Projects(props: any) {
             <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={mongoDB} alt={"MongoDB"} />
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
+            <img className={"icon"} src={jestIcon} alt={"Jest"} />
             <img className={"icon"} src={viteIcon} alt={"Vite"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
@@ -341,8 +356,8 @@ function Projects(props: any) {
           <div>Challenges:</div>
           <ul>
             <li>
-              Testing the numerous lyric-fetching npm package to find one that
-              works as expected.
+              Testing various lyric-fetching npm packages to find one that fit
+              the project's needs.
             </li>
             <li>
               Filtering the resulting lyrics to remove any extraneous metadata,
@@ -413,7 +428,7 @@ function Projects(props: any) {
 
       {/* Office Website */}
       <div
-        className={`${classes.reversedProjectContainer} hiddenLeft baseFlex`}
+        className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <div
