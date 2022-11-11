@@ -12,9 +12,10 @@ import reactIcon from "../../assets/react.png";
 import mongoDBIcon from "../../assets/mongodb.png";
 import firebaseIcon from "../../assets/firebase.png";
 import nodeJSIcon from "../../assets/nodejs.png";
+import jestIcon from "../../assets/jest.png";
 import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
-import graphQLIcon from "../../assets/graphql.png";
+import t3Icon from "../../assets/t3.svg";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -62,9 +63,10 @@ function Skills(props: any) {
         <img className={"icon"} src={javaScriptIcon} alt={"JavaScript"} />
         <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
         <img className={"icon"} src={reactIcon} alt={"React"} />
-        <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
-        <img className={"icon"} src={mongoDBIcon} alt={"MongoDB"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+        <img className={"icon"} src={mongoDBIcon} alt={"MongoDB"} />
+        <img className={"icon"} src={jestIcon} alt={"Jest"} />
+        <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
         <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
         <img className={"icon"} src={viteIcon} alt={"Vite"} />
         <img className={"icon"} src={gitIcon} alt={"Git"} />
@@ -78,7 +80,7 @@ function Skills(props: any) {
         <img
           id="currentlyLearning"
           className={"icon"}
-          src={graphQLIcon}
+          src={t3Icon}
           alt={"GraphQL"}
         />
       </div>
