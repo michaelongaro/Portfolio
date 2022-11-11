@@ -8,6 +8,7 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: .5rem;
+  filter: drop-shadow(2px 1px 1px rgba(0, 0, 0, 0.2));
 }
 
 .currentlyLearning>img {
