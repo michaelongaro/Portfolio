@@ -16,6 +16,10 @@ import firebaseIcon from "../../assets/firebase.png";
 import jestIcon from "../../assets/jest.png";
 import nodeJSIcon from "../../assets/nodejs.png";
 import gitIcon from "../../assets/git.png";
+import nextIcon from "../../assets/nextjs.svg";
+import trpcIcon from "../../assets/trpc.svg";
+import prismaIcon from "../../assets/prisma.svg";
+import tailwindIcon from "../../assets/tailwind.svg";
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
 import constructionConeIcon from "../../assets/cone.svg";
 
@@ -435,7 +439,7 @@ function Projects(props: any) {
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={classes.projectTitle}
           >
-            Anthony A. Ongaro DDS
+            Stash
           </div>
 
           <div
@@ -443,50 +447,54 @@ function Projects(props: any) {
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={`${classes.techIcons} baseFlex`}
           >
-            <img className={"icon"} src={reactIcon} alt={"React"} />
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-            <img className={"icon"} src={viteIcon} alt={"Vite"} />
-            <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+            <img className={"icon"} src={nextIcon} alt={"NextJS"} />
+            <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
+            <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
+            <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
-          <div className={`${classes.blurred} baseVertFlex`}>
-            <div>What I learned:</div>
-            <ul>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore.
-              </li>
-            </ul>
+          {/* <div className="baseVertFlex"> */}
+          <div>What I learned:</div>
+          <ul>
+            <li>
+              How and why you would want to implement optimistic fetching in an
+              app. Basic cache fundamentals with TRPC (a typesafe react-query
+              wrapper).
+            </li>
+            <li>
+              How to quickly prototype out a design with Tailwind, including
+              custom + responsive classes. Also I feel much more confident with
+              CSS Grid, since it was the cornerstone of all user modals.
+            </li>
+            <li>
+              How to structure a PostgreSQL schema within Prisma in a clean and
+              cohesive manner.
+            </li>
+          </ul>
 
-            <div>Challenges:</div>
-            <ul>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et.
-              </li>
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna.
-              </li>
-            </ul>
-          </div>
+          <div>Challenges:</div>
+          <ul>
+            <li>
+              Despite the T3 stack handling some folder scaffolding for me,
+              taking the time to understand how every technology interacted with
+              one another took a lot of research.
+            </li>
+            <li>
+              Restructuring and creating mock interfaces to make the database
+              queries play nicely with React-Select's typing system.
+            </li>
+            <li>
+              Creating a user friendly UI that was breathable while also
+              behaving as expected.
+            </li>
+          </ul>
+          {/* </div> */}
         </div>
         <div
           style={{
-            padding: hoveringOnProjects[2]
+            padding: hoveringOnProjects[3]
               ? ".75em .75em 1em .75em"
               : "1em 1em 1em 1em",
             marginTop: showVerticalStyling ? "0.5rem" : 0,
@@ -495,34 +503,28 @@ function Projects(props: any) {
         >
           <div className={`${classes.stackedContainer} baseFlex`}>
             <img
-              style={{ filter: "blur(2px)" }}
-              className={` ${classes.projectImage} ${classes.blurred}`}
-              src={
-                "https://mbluxury1.s3.amazonaws.com/2021/09/03151922/tend.jpg"
-              }
+              className={classes.projectImage}
+              src={"https://i.imgur.com/svZD8xy.png"}
               alt={
-                "Sample screenshot of my fourth project, a website for my Dad's dental office."
+                "Sample screenshot of my fourth project, an image storage/hosting web app."
               }
-              // onMouseEnter={() => {
-              //   updatePictureHoverStates(3, true);
-              // }}
-              // onMouseLeave={() => {
-              //   updatePictureHoverStates(3, false);
-              // }}
+              onClick={() => {
+                openInNewTab("https://stash-xi.vercel.app/");
+              }}
+              onMouseEnter={() => {
+                updatePictureHoverStates(3, true);
+              }}
+              onMouseLeave={() => {
+                updatePictureHoverStates(3, false);
+              }}
             />
-            <div className={`${classes.warningContainer} baseVertFlex`}>
-              <img src={constructionConeIcon} alt={"Construction cone"} />
-              Under Construction
-            </div>
           </div>
           <img
             className={classes.githubIcon}
             src={smallLightGithubIcon}
             alt={"Github"}
             onClick={() => {
-              openInNewTab(
-                "https://github.com/michaelongaro/AnthonyAOngaroDDS"
-              );
+              openInNewTab("https://github.com/michaelongaro/stash");
             }}
           />
         </div>
@@ -532,9 +534,11 @@ function Projects(props: any) {
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={`${classes.techIcons} baseFlex`}
         >
-          <img className={"icon"} src={reactIcon} alt={"React"} />
           <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-          <img className={"icon"} src={viteIcon} alt={"Vite"} />
+          <img className={"icon"} src={nextIcon} alt={"NextJS"} />
+          <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
+          <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
+          <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
           <img className={"icon"} src={gitIcon} alt={"Git"} />
         </div>
 
@@ -542,7 +546,7 @@ function Projects(props: any) {
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={classes.projectTitle}
         >
-          Anthony A. Ongaro DDS
+          Stash
         </div>
       </div>
     </div>
