@@ -5,6 +5,8 @@ import questionMarkIcon from "../../assets/question-mark.svg";
 import codeIcon from "../../assets/window.svg";
 import wrenchIcon from "../../assets/wrench.svg";
 import lightbulbIcon from "../../assets/lamp.svg";
+import externalLink from "../../assets/externalLink.svg";
+import resumePDF from "../../assets/MichaelOngaroResume.pdf";
 
 import classes from "./AboutMe.module.css";
 import "../../index.css";
@@ -51,6 +53,20 @@ function AboutMe(props: any) {
           applicable.
         </p>
       </div>
+
+      <a
+        className={classes.resumeButton}
+        href={resumePDF}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open portfolio
+        <img
+          style={{ width: "1rem", height: "1rem" }}
+          src={externalLink}
+          alt={"external link icon"}
+        ></img>
+      </a>
     </div>
   );
 }

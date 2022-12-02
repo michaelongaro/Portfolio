@@ -71,6 +71,28 @@
   /* this most likely doesn't work the way you think it does */
 }
 
+.resumeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid black;
+  transition: all 150ms;
+}
+
+.resumeButton:hover {
+  background-color: #ed9f31;
+}
+
+.resumeButton:active {
+  filter: brightness(0.95);
+  transform: translateY(2px);
+}
+
 @media (max-width: 1400px) {
   .aboutMeText {
     width: 70%;
