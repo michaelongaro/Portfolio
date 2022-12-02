@@ -16,6 +16,10 @@ import jestIcon from "../../assets/jest.png";
 import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
 import t3Icon from "../../assets/t3.svg";
+import nextIcon from "../../assets/nextjs.svg";
+import trpcIcon from "../../assets/trpc.svg";
+import prismaIcon from "../../assets/prisma.svg";
+import tailwindIcon from "../../assets/tailwind.svg";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -64,6 +68,10 @@ function Skills(props: any) {
         <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
         <img className={"icon"} src={reactIcon} alt={"React"} />
         <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+        <img className={"icon"} src={nextIcon} alt={"NextJS"} />
+        <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
+        <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
+        <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
         <img className={"icon"} src={mongoDBIcon} alt={"MongoDB"} />
         <img className={"icon"} src={jestIcon} alt={"Jest"} />
         <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
