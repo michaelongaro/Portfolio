@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import profileIcon from "../../assets/profile.svg";
 import questionMarkIcon from "../../assets/question-mark.svg";
 import codeIcon from "../../assets/window.svg";
@@ -15,7 +13,7 @@ function AboutMe(props: any) {
   return (
     <div
       id={"aboutme"}
-      style={{ marginTop: "7.25rem", gap: "2rem", scrollMargin: "8rem" }}
+      style={{ marginTop: "7.25rem", scrollMargin: "8rem" }}
       className={"baseVertFlex"}
     >
       <div className={"heading"}>About Me</div>
@@ -45,12 +43,12 @@ function AboutMe(props: any) {
         </div>
 
         <p className={classes.aboutMeText}>
-          My name is Michael Ongaro and I am incredibly passionate about
-          learning how to create more enjoyable, accessible, and feature-rich
-          web apps. I believe that small, deliberate, and consistent
-          iteration-based design is the key to improving any project. I will
-          always try to include the bleeding edge of new technologies whenever
-          applicable.
+          My name is Michael Ongaro, and I am a passionate web developer with a
+          focus on creating accessible, enjoyable, and feature-rich web
+          applications. I believe in the power of small, consistent improvements
+          to drive progress and success. Whether working with established
+          technologies or exploring the cutting-edge, I am always eager to learn
+          and innovate.
         </p>
       </div>
 
@@ -60,7 +58,7 @@ function AboutMe(props: any) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Open portfolio
+        Open resume
         <img
           style={{ width: "1rem", height: "1rem" }}
           src={externalLink}
