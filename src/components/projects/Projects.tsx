@@ -19,6 +19,7 @@ import gitIcon from "../../assets/git.png";
 import nextIcon from "../../assets/nextjs.svg";
 import trpcIcon from "../../assets/trpc.svg";
 import prismaIcon from "../../assets/prisma.svg";
+import postgresIcon from "../../assets/postgresql.svg";
 import tailwindIcon from "../../assets/tailwind.svg";
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
 import constructionConeIcon from "../../assets/cone.svg";
@@ -119,7 +120,6 @@ function Projects(props: any) {
             <img className={"icon"} src={reactIcon} alt={"React"} />
             <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
             <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
-            <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
@@ -130,7 +130,8 @@ function Projects(props: any) {
               application that is both secure and feature rich.
             </li>
             <li>
-              React's context management system along with canvas manipulation.
+              React's built-in context management system along with canvas
+              manipulation techniques.
             </li>
             <li>UI/UX/Responsive design fundamentals.</li>
           </ul>
@@ -145,7 +146,10 @@ function Projects(props: any) {
               Logic and rendering of suspense states + structuring Firebase
               schema + fine-tuning animations.
             </li>
-            <li>Tweaking 3rd party modules to fit project's needs.</li>
+            <li>
+              Modifications to "react-slideshow-image" and "react-easy-crop"
+              libraries to achieve desired functionality.
+            </li>
           </ul>
         </div>
 
@@ -160,7 +164,7 @@ function Projects(props: any) {
         >
           <img
             className={classes.projectImage}
-            src={"https://i.gyazo.com/514de4173276f3b07c811ec94849ec59.png"}
+            src={"https://i.gyazo.com/961e9be0427c8298ca89b5b19a85d239.png"}
             alt={"Screenshot of my first project, Drawing Dash."}
             onClick={() => {
               openInNewTab("https://drawingdash.com/");
@@ -202,7 +206,7 @@ function Projects(props: any) {
         </div>
       </div>
 
-      {/* Weather API */}
+      {/* Stash */}
       <div
         className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
@@ -210,11 +214,11 @@ function Projects(props: any) {
           <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={classes.projectTitle}
-            href={"https://michaelongaro.github.io/UniversalForecast/"}
+            href={"https://stash-xi.vercel.app/"}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Universal Forecast
+            Stash
           </a>
 
           <div
@@ -222,36 +226,46 @@ function Projects(props: any) {
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={`${classes.techIcons} baseFlex`}
           >
-            <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
-            <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-            <img className={"icon"} src={viteIcon} alt={"Vite"} />
-            <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+            <img className={"icon"} src={nextIcon} alt={"NextJS"} />
+            <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
+            <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
+            <img className={"icon"} src={postgresIcon} alt={"PostgreSQL"} />
+            <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
           <div>What I learned:</div>
           <ul>
             <li>
-              Vanilla TypeScript and the value of splitting code up into small
-              reusable functions.
+              How and why you would want to implement optimistic fetching. Basic
+              cache fundamentals with tRPC (a typesafe React Query wrapper).
             </li>
             <li>
-              The fetch API and how to work with retrieving data from an API.
+              How to quickly prototype out a design with Tailwind, including
+              custom + responsive classes. Also I feel much more confident with
+              CSS Grid, since it was the cornerstone of all user modals.
             </li>
-            <li>Custom keyboard navigation through autofill search results.</li>
+            <li>
+              How to structure a PostgreSQL schema within Prisma to be concise
+              and scalable.
+            </li>
           </ul>
 
           <div>Challenges:</div>
           <ul>
-            <li>DOM manipulation while trying to keep code DRY.</li>
             <li>
-              Targeting nested elements from a JSON response and creating an
-              interface for the data.
+              Despite the T3 stack handling some folder scaffolding for me,
+              understanding how each technology interacted with one another took
+              a great deal of research.
             </li>
             <li>
-              Creating layout that is visually pleasing and informative while
-              conforming to the API's restrictions.
+              Creating a tRPC API route that fetches a low resolution
+              placeholder for the image being requested.
+            </li>
+            <li>
+              Custom responsive styling for the image editor and slideshow
+              components.
             </li>
           </ul>
         </div>
@@ -264,30 +278,30 @@ function Projects(props: any) {
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
-          <img
-            className={classes.projectImage}
-            src={"https://i.gyazo.com/0de8e5b002d91c85dd1cad84ac3c25ec.png"}
-            alt={"Screenshot of my second project, Universal Forecast."}
-            onClick={() => {
-              openInNewTab(
-                "https://michaelongaro.github.io/UniversalForecast/"
-              );
-            }}
-            onMouseEnter={() => {
-              updatePictureHoverStates(1, true);
-            }}
-            onMouseLeave={() => {
-              updatePictureHoverStates(1, false);
-            }}
-          />
+          <div className={`${classes.stackedContainer} baseFlex`}>
+            <img
+              className={classes.projectImage}
+              src={"https://i.gyazo.com/b82af8a596e46e6688c24a99cdc3b0e0.jpg"}
+              alt={
+                "Sample screenshot of my second project, an image storage/hosting web app."
+              }
+              onClick={() => {
+                openInNewTab("https://stash-xi.vercel.app/");
+              }}
+              onMouseEnter={() => {
+                updatePictureHoverStates(1, true);
+              }}
+              onMouseLeave={() => {
+                updatePictureHoverStates(1, false);
+              }}
+            />
+          </div>
           <img
             className={classes.githubIcon}
             src={smallLightGithubIcon}
             alt={"Github"}
             onClick={() => {
-              openInNewTab(
-                "https://github.com/michaelongaro/UniversalForecast"
-              );
+              openInNewTab("https://github.com/michaelongaro/stash");
             }}
           />
         </div>
@@ -297,11 +311,12 @@ function Projects(props: any) {
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={`${classes.techIcons} baseFlex`}
         >
-          <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
-          <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
           <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-          <img className={"icon"} src={viteIcon} alt={"Vite"} />
-          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
+          <img className={"icon"} src={nextIcon} alt={"NextJS"} />
+          <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
+          <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
+          <img className={"icon"} src={postgresIcon} alt={"PostgreSQL"} />
+          <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
           <img className={"icon"} src={gitIcon} alt={"Git"} />
         </div>
 
@@ -309,7 +324,7 @@ function Projects(props: any) {
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={classes.projectTitle}
         >
-          Universal Forecast
+          Stash
         </div>
       </div>
 
@@ -353,7 +368,7 @@ function Projects(props: any) {
             </li>
             <li>
               How to tweak an installed npm package and keep the changes in
-              production with the patch-package library.
+              production with the "patch-package" library.
             </li>
           </ul>
 
@@ -364,12 +379,12 @@ function Projects(props: any) {
               the project's needs.
             </li>
             <li>
-              Filtering the resulting lyrics to remove any extraneous metadata,
-              punctuation, and variable whitespace with RegEx.
+              Sanitizing the fetched lyric data by remove any extraneous
+              metadata, punctuation, and variable whitespace with RegEx.
             </li>
             <li>
-              Organizing the client/backend code structure and deployment
-              scripts to successfully deploy the project to Heroku.
+              Splitting up the API requests into small chunks to avoid Heroku's
+              30 second maximum timeout for HTTP requests.
             </li>
           </ul>
         </div>
@@ -430,67 +445,57 @@ function Projects(props: any) {
         </div>
       </div>
 
-      {/* Office Website */}
+      {/* Weather API */}
       <div
         className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
-          <div
+          <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={classes.projectTitle}
+            href={"https://michaelongaro.github.io/UniversalForecast/"}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Stash
-          </div>
+            Universal Forecast
+          </a>
 
           <div
             id={"fourthTechUsed"}
             style={{ display: showVerticalStyling ? "none" : "flex" }}
             className={`${classes.techIcons} baseFlex`}
           >
+            <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
+            <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
             <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-            <img className={"icon"} src={nextIcon} alt={"NextJS"} />
-            <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
-            <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
-            <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
+            <img className={"icon"} src={viteIcon} alt={"Vite"} />
             <img className={"icon"} src={gitIcon} alt={"Git"} />
           </div>
 
-          {/* <div className="baseVertFlex"> */}
           <div>What I learned:</div>
           <ul>
             <li>
-              How and why you would want to implement optimistic fetching in an
-              app. Basic cache fundamentals with TRPC (a typesafe react-query
-              wrapper).
+              Vanilla TypeScript and the value of splitting code up into small
+              reusable functions.
             </li>
             <li>
-              How to quickly prototype out a design with Tailwind, including
-              custom + responsive classes. Also I feel much more confident with
-              CSS Grid, since it was the cornerstone of all user modals.
+              The Fetch API and how to properly retrieve data from an API.
             </li>
-            <li>
-              How to structure a PostgreSQL schema within Prisma in a clean and
-              cohesive manner.
-            </li>
+            <li>How to handle custom keyboard navigation through a list.</li>
           </ul>
 
           <div>Challenges:</div>
           <ul>
+            <li>DOM manipulation while trying to keep DRY code.</li>
             <li>
-              Despite the T3 stack handling some folder scaffolding for me,
-              taking the time to understand how every technology interacted with
-              one another took a lot of research.
+              Targeting nested elements from a JSON response and creating an
+              interface for the data.
             </li>
             <li>
-              Restructuring and creating mock interfaces to make the database
-              queries play nicely with React-Select's typing system.
-            </li>
-            <li>
-              Creating a user friendly UI that was breathable while also
-              behaving as expected.
+              Creating a layout that is visually pleasing and informative while
+              conforming to the API's restrictions.
             </li>
           </ul>
-          {/* </div> */}
         </div>
         <div
           style={{
@@ -501,30 +506,30 @@ function Projects(props: any) {
           }}
           className={`${classes.projectImageContain} baseVertFlex`}
         >
-          <div className={`${classes.stackedContainer} baseFlex`}>
-            <img
-              className={classes.projectImage}
-              src={"https://i.imgur.com/svZD8xy.png"}
-              alt={
-                "Sample screenshot of my fourth project, an image storage/hosting web app."
-              }
-              onClick={() => {
-                openInNewTab("https://stash-xi.vercel.app/");
-              }}
-              onMouseEnter={() => {
-                updatePictureHoverStates(3, true);
-              }}
-              onMouseLeave={() => {
-                updatePictureHoverStates(3, false);
-              }}
-            />
-          </div>
+          <img
+            className={classes.projectImage}
+            src={"https://i.gyazo.com/0de8e5b002d91c85dd1cad84ac3c25ec.png"}
+            alt={"Screenshot of my fourth project, Universal Forecast."}
+            onClick={() => {
+              openInNewTab(
+                "https://michaelongaro.github.io/UniversalForecast/"
+              );
+            }}
+            onMouseEnter={() => {
+              updatePictureHoverStates(3, true);
+            }}
+            onMouseLeave={() => {
+              updatePictureHoverStates(3, false);
+            }}
+          />
           <img
             className={classes.githubIcon}
             src={smallLightGithubIcon}
             alt={"Github"}
             onClick={() => {
-              openInNewTab("https://github.com/michaelongaro/stash");
+              openInNewTab(
+                "https://github.com/michaelongaro/UniversalForecast"
+              );
             }}
           />
         </div>
@@ -534,11 +539,11 @@ function Projects(props: any) {
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={`${classes.techIcons} baseFlex`}
         >
+          <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
+          <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
           <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-          <img className={"icon"} src={nextIcon} alt={"NextJS"} />
-          <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
-          <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
-          <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
+          <img className={"icon"} src={viteIcon} alt={"Vite"} />
+          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
           <img className={"icon"} src={gitIcon} alt={"Git"} />
         </div>
 
@@ -546,7 +551,7 @@ function Projects(props: any) {
           style={{ display: showVerticalStyling ? "flex" : "none" }}
           className={classes.projectTitle}
         >
-          Stash
+          Universal Forecast
         </div>
       </div>
     </div>
