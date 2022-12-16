@@ -103,6 +103,11 @@
   .aboutMeContainer {
     flex-direction: column-reverse;
     margin-top: 5rem;
+    height: auto;
+  }
+
+  .resumeButton {
+    margin-top: 5rem;
   }
 
   .avatarContainer {
