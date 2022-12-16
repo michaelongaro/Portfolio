@@ -15,11 +15,12 @@ import nodeJSIcon from "../../assets/nodejs.png";
 import jestIcon from "../../assets/jest.png";
 import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
-import t3Icon from "../../assets/t3.svg";
+import postgresIcon from "../../assets/postgresql.svg";
 import nextIcon from "../../assets/nextjs.svg";
 import trpcIcon from "../../assets/trpc.svg";
 import prismaIcon from "../../assets/prisma.svg";
 import tailwindIcon from "../../assets/tailwind.svg";
+import graphQLIcon from "../../assets/graphql.png";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -62,22 +63,73 @@ function Skills(props: any) {
         id={"iconGrid"}
         className={classes.skillsContainer}
       >
-        <img className={"icon"} src={html5Icon} alt={"HTML 5"} />
-        <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
-        <img className={"icon"} src={javaScriptIcon} alt={"JavaScript"} />
-        <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
-        <img className={"icon"} src={reactIcon} alt={"React"} />
-        <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
-        <img className={"icon"} src={nextIcon} alt={"NextJS"} />
-        <img className={"icon"} src={trpcIcon} alt={"TRPC"} />
-        <img className={"icon"} src={prismaIcon} alt={"Prisma"} />
-        <img className={"icon"} src={tailwindIcon} alt={"TailwindCSS"} />
-        <img className={"icon"} src={mongoDBIcon} alt={"MongoDB"} />
-        <img className={"icon"} src={jestIcon} alt={"Jest"} />
-        <img className={"icon"} src={firebaseIcon} alt={"Firebase"} />
-        <img className={"icon"} src={auth0Icon} alt={"Auth0"} />
-        <img className={"icon"} src={viteIcon} alt={"Vite"} />
-        <img className={"icon"} src={gitIcon} alt={"Git"} />
+        <img
+          className={"icon"}
+          src={html5Icon}
+          title={"HTML 5"}
+          alt={"HTML 5"}
+        />
+        <img className={"icon"} src={css3Icon} title={"CSS 3"} alt={"CSS 3"} />
+        <img
+          className={"icon"}
+          src={javaScriptIcon}
+          title={"JavaScipt"}
+          alt={"JavaScript"}
+        />
+        <img
+          className={"icon"}
+          src={typeScriptIcon}
+          title={"TypeScipt"}
+          alt={"TypeScript"}
+        />
+        <img className={"icon"} src={reactIcon} title={"React"} alt={"React"} />
+        <img
+          className={"icon"}
+          src={nextIcon}
+          title={"NextJS"}
+          alt={"NextJS"}
+        />
+        <img className={"icon"} src={trpcIcon} title={"TRPC"} alt={"TRPC"} />
+        <img
+          className={"icon"}
+          src={prismaIcon}
+          title={"Prisma"}
+          alt={"Prisma"}
+        />
+        <img
+          className={"icon"}
+          src={tailwindIcon}
+          title={"TailwindCSS"}
+          alt={"TailwindCSS"}
+        />
+        <img
+          className={"icon"}
+          src={nodeJSIcon}
+          title={"NodeJS"}
+          alt={"NodeJS"}
+        />
+        <img
+          className={"icon"}
+          src={mongoDBIcon}
+          title={"MongoDB"}
+          alt={"MongoDB"}
+        />
+        <img
+          className={"icon"}
+          src={postgresIcon}
+          title={"PostgreSQL"}
+          alt={"PostgreSQL"}
+        />
+        <img className={"icon"} src={jestIcon} title={"Jest"} alt={"Jest"} />
+        <img
+          className={"icon"}
+          src={firebaseIcon}
+          title={"Firebase"}
+          alt={"Firebase"}
+        />
+        <img className={"icon"} src={auth0Icon} title={"Auth0"} alt={"Auth0"} />
+        <img className={"icon"} src={viteIcon} title={"Vite"} alt={"Vite"} />
+        <img className={"icon"} src={gitIcon} title={"Git"} alt={"Git"} />
       </div>
 
       <div
@@ -88,7 +140,7 @@ function Skills(props: any) {
         <img
           id="currentlyLearning"
           className={"icon"}
-          src={t3Icon}
+          src={graphQLIcon}
           alt={"GraphQL"}
         />
       </div>
