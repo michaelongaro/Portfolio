@@ -46,7 +46,11 @@ function Sidebar({}: Props) {
 
   return (
     <>
-      <div style={{ height: "5rem" }} className={navClasses.navContainer}></div>
+      <div style={{ height: "5rem" }} className={navClasses.navContainer}>
+        <div className={`${classes.logoContainer} baseFlex`}>
+          <div className={navClasses.logo}>Michael Ongaro</div>
+        </div>
+      </div>
       <div ref={burgerRef} className={classes.burgerIconContainer}>
         <Hamburger
           color={"#e2e2e2"}

@@ -5,6 +5,11 @@
   right: 1rem;
 }
 
+.logoContainer {
+  justify-content: flex-start;
+  height: 100%;
+}
+
 .sidebarBody {
   position: fixed;
   right: 0;
