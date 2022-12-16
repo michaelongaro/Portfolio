@@ -165,4 +165,8 @@ textarea:focus {
   #contact {
     scroll-margin: 5rem;
   }
+
+  .heading {
+    font-size: 2em;
+  }
 }
