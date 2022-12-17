@@ -543,7 +543,6 @@ function Projects(props: any) {
           <img className={"icon"} src={css3Icon} alt={"CSS 3"} />
           <img className={"icon"} src={typeScriptIcon} alt={"TypeScript"} />
           <img className={"icon"} src={viteIcon} alt={"Vite"} />
-          <img className={"icon"} src={nodeJSIcon} alt={"NodeJS"} />
           <img className={"icon"} src={gitIcon} alt={"Git"} />
         </div>
 
