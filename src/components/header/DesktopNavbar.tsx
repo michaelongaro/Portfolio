@@ -22,7 +22,15 @@ function DesktopNavbar(props: any) {
   return (
     <div className={classes.navContainer}>
       <div className={`${classes.navLinks} baseFlex`}>
-        <div className={classes.logo}>Michael Ongaro</div>
+        <div
+          className={classes.logo}
+          onClick={() => {
+            history.pushState(null, "", "/");
+            window.scrollTo(0, 0);
+          }}
+        >
+          Michael Ongaro
+        </div>
         <div
           style={{ gap: "2.5em" }}
           className={`${classes.navButton} baseFlex`}

@@ -48,7 +48,15 @@ function Sidebar({}: Props) {
     <>
       <div style={{ height: "5rem" }} className={navClasses.navContainer}>
         <div className={`${classes.logoContainer} baseFlex`}>
-          <div className={navClasses.logo}>Michael Ongaro</div>
+          <div
+            className={navClasses.logo}
+            onClick={() => {
+              history.pushState(null, "", "/");
+              window.scrollTo(0, 0);
+            }}
+          >
+            Michael Ongaro
+          </div>
         </div>
       </div>
       <div ref={burgerRef} className={classes.burgerIconContainer}>
