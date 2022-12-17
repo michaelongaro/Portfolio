@@ -21,7 +21,7 @@
   height: 35%;
 
   position: absolute;
-  bottom: 24px;
+  bottom: 40px;
   left: 24px;
   margin-bottom: -7px;
   opacity: 0;
@@ -276,7 +276,14 @@
 
   .middleHero {
     font-size: 1.2rem;
-    padding: .75rem;
+    padding: 0.75rem;
+  }
+
+  .waves {
+    width: 40%;
+    height: 29%;
+    bottom: 36px;
+    left: 25px;
   }
 
   .githubLogo {
