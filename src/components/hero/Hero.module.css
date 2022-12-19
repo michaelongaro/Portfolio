@@ -80,6 +80,7 @@
   filter: blur(5px);
   font-size: 4.5rem;
   animation: fadeInRight 1s forwards;
+  animation-delay: 500ms;
 }
 
 .nameUnderline {
@@ -89,7 +90,7 @@
   background-size: 0% 5px;
   background-repeat: no-repeat;
   animation: underline 1s forwards;
-  animation-delay: 500ms;
+  animation-delay: 1100ms;
 }
 
 .nameUnderline:hover {
@@ -112,7 +113,7 @@
 
   opacity: 0;
   animation: fadeInRight 1s forwards;
-  animation-delay: 300ms;
+  animation-delay: 1000ms;
 }
 
 .webDevText {
@@ -122,14 +123,14 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: fadeToBlue 1s forwards;
-  animation-delay: 400ms, 1500ms;
+  animation-delay: 1000ms, 2100ms;
 }
 
 .bottomHero {
   opacity: 0;
   filter: blur(5px);
   animation: fadeInUp 1s forwards;
-  animation-delay: 500ms;
+  animation-delay: 1100ms;
 }
 
 .leftBracket {
@@ -140,7 +141,7 @@
   filter: drop-shadow(2px 2px 1px hsla(35, 84%, 56%, 0.424));
   animation: fadeInUpLeftBracket 0.75s cubic-bezier(0.22, 0.56, 0.8, 1.5) forwards,
     bracketGlow 1.5s ease-in-out infinite alternate;
-  animation-delay: 400ms, 1500ms;
+  animation-delay: 1000ms, 2100ms;
 }
 
 .rightBracket {
@@ -151,7 +152,7 @@
   filter: drop-shadow(2px 2px 1px hsla(35, 84%, 56%, 0.424));
   animation: fadeInUpRightBracket 1s cubic-bezier(0.22, 0.56, 0.8, 1.5) forwards,
     bracketGlow 1.5s ease-in-out infinite alternate;
-  animation-delay: 400ms, 1500ms;
+  animation-delay: 1000ms, 2100ms;
 }
 
 .logoContainer {
