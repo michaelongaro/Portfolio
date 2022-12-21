@@ -24,7 +24,7 @@ function MainNavigation(props: any) {
     };
   }, []);
 
-  return <>{showSidebar ? <Sidebar /> : <DesktopNavbar />}</>;
+  return <nav>{showSidebar ? <Sidebar /> : <DesktopNavbar />}</nav>;
 }
 
 export default MainNavigation;

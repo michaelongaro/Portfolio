@@ -36,7 +36,7 @@ function Contact(props: any) {
     <div id={"contact"} className={`${classes.contactContainer} baseVertFlex`}>
       <ToastContainer />
 
-      <div className={"heading"}>Contact</div>
+      <h2 className={"heading"}>Contact</h2>
 
       <div style={{ textAlign: "center" }}>
         <p className={classes.contactText}>

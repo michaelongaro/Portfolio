@@ -16,7 +16,7 @@ function AboutMe(props: any) {
       style={{ marginTop: "7.25rem", scrollMargin: "8rem" }}
       className={"baseVertFlex"}
     >
-      <div className={"heading"}>About Me</div>
+      <h2 className={"heading"}>About Me</h2>
 
       <div className={`${classes.aboutMeContainer} baseFlex`}>
         <div className={classes.avatarContainer}>

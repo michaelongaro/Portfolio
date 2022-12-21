@@ -97,10 +97,10 @@ function Projects(props: any) {
       }}
       className={"baseVertFlex"}
     >
-      <div className="heading">Projects</div>
+      <h2 className="heading">Projects</h2>
 
       {/* Drawing Dash */}
-      <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
+      <article className={`${classes.projectContainer} hiddenLeft baseFlex`}>
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
@@ -204,10 +204,10 @@ function Projects(props: any) {
         >
           Drawing Dash
         </div>
-      </div>
+      </article>
 
       {/* Stash */}
-      <div
+      <article
         className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
@@ -326,10 +326,10 @@ function Projects(props: any) {
         >
           Stash
         </div>
-      </div>
+      </article>
 
       {/* Lyricize (Spotify API App) */}
-      <div className={`${classes.projectContainer} hiddenLeft baseFlex`}>
+      <article className={`${classes.projectContainer} hiddenLeft baseFlex`}>
         <div className={`${classes.projectDetails} baseVertFlex`}>
           <a
             style={{ display: showVerticalStyling ? "none" : "flex" }}
@@ -443,10 +443,10 @@ function Projects(props: any) {
         >
           Lyricize
         </div>
-      </div>
+      </article>
 
       {/* Weather API */}
-      <div
+      <article
         className={`${classes.reversedProjectContainer} hiddenRight baseFlex`}
       >
         <div className={`${classes.projectDetails} baseVertFlex`}>
@@ -552,7 +552,7 @@ function Projects(props: any) {
         >
           Universal Forecast
         </div>
-      </div>
+      </article>
     </div>
   );
 }

@@ -56,7 +56,7 @@ function Skills(props: any) {
       style={{ marginTop: "8rem", gap: "2rem", scrollMargin: "8rem" }}
       className={"baseVertFlex"}
     >
-      <div className={"heading"}>Skills</div>
+      <h2 className={"heading"}>Skills</h2>
 
       <div
         style={{ gap: "1rem" }}

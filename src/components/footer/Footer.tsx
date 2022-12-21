@@ -2,12 +2,12 @@ type Props = {};
 
 function Footer({}: Props) {
   return (
-    <div
+    <footer
       style={{
         height: "5rem",
         backgroundColor: "#05204a",
       }}
-    ></div>
+    ></footer>
   );
 }
 
