@@ -2,7 +2,8 @@
   position: relative;
   /* roughly height of navbar */
   top: 60px;
-  background: url("../../assets/heroBackgroundPattern.svg") no-repeat center center fixed;
+  background: url("../../assets/heroBackgroundPattern.png") no-repeat center center fixed;
+  background-image: url("../../assets/heroBackgroundPattern.svg");
   height: 100vh;
 }
 
