@@ -2,7 +2,7 @@
   position: relative;
   /* roughly height of navbar */
   top: 60px;
-  background: url("../../assets/heroBackgroundPattern.png") no-repeat center center fixed;
+  background: url("../../assets/heroBackgroundPattern.png") no-repeat center center;
   height: 100vh;
 }
 
@@ -290,5 +290,17 @@
   .githubLogo {
     width: 50px;
     height: 50px;
+  }
+}
+
+@supports (-webkit-touch-callout : none) {
+  .heroBackground {
+    background-attachment: scroll
+  }
+}
+
+@supports not (-webkit-touch-callout : none) {
+  .heroBackground {
+    background-attachment: fixed;
   }
 }
