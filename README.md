@@ -1,2 +1,2 @@
 # Portfolio
-My portfolio website build with React, TypeScript, and Vite.
+My portfolio website built with React, TypeScript, and Vite.
