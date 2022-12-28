@@ -158,7 +158,12 @@
   }
 
   ul {
-    font-size: 0.85em;
+    font-size: 0.85rem;
     padding-inline-start: 25px;
+  }
+
+  .techIcons>img {
+    width: 2.1rem;
+    height: 2.1rem;
   }
 }
