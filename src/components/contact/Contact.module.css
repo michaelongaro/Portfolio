@@ -5,6 +5,12 @@
   scroll-margin: 8rem;
 }
 
+.contactText {
+  max-width: 100ch;
+  word-wrap: break-word;
+  margin: 0 1rem;
+}
+
 .messageInput {
   width: 550px;
 }
@@ -35,11 +41,6 @@
 @media (max-width: 725px) {
   .contactContainer {
     padding-bottom: 5rem;
-  }
-
-  .contactText {
-    max-width: 45ch;
-    word-wrap: break-word;
   }
 
   .nameAndEmail {
