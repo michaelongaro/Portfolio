@@ -40,10 +40,10 @@ function Contact(props: any) {
 
       <div style={{ textAlign: "center" }}>
         <p className={classes.contactText}>
-          I would love to answer any questions, comments, or invitation to work
-          together!
+          I am happy to address any questions, comments, or opportunities for
+          collaboration that you may have. Please feel free to reach out to me,
+          and I will respond as soon as possible.
         </p>
-        <p>Inquiries will be responded to promptly.</p>
       </div>
 
       <form
