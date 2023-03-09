@@ -65,6 +65,7 @@
 }
 
 .hero {
+  gap: 0.25rem;
   transition: all 200ms;
 }
 
@@ -74,7 +75,6 @@
 }
 
 .topHero {
-  color: #02020a;
   text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
   opacity: 0;
   filter: blur(5px);
@@ -99,8 +99,7 @@
 }
 
 .middleHero {
-  color: #02020a;
-  text-shadow: rgb(118 118 118 / 27%) 4px 4px 3px;
+  text-shadow: rgb(118 118 118 / 27%) 3px 3px 3px;
   gap: 0.5rem;
   filter: blur(5px);
   font-size: 2.5rem;
@@ -117,7 +116,7 @@
 }
 
 .webDevText {
-  text-shadow: rgb(5 32 74 / 27%) 3px 3px 3px;
+  text-shadow: rgb(5 32 74 / 27%) 3px 3px 5px;
   background: linear-gradient(180deg, hsl(217, 87%, 15%), hsl(217, 87%, 35%));
   background-clip: text;
   -webkit-background-clip: text;
@@ -244,7 +243,7 @@
   }
 
   100% {
-    filter: drop-shadow(2px 2px 5px hsl(35, 84%, 56%)) brightness(1.1);
+    filter: drop-shadow(2px 2px 3px hsl(35, 84%, 56%)) brightness(1.1);
   }
 }
 
@@ -271,11 +270,16 @@
 }
 
 @media (max-width: 600px) {
+  .hero {
+    gap: 0.25rem;
+  }
+
   .topHero {
     font-size: 2.5rem;
   }
 
   .middleHero {
+    gap: 0.25rem;
     font-size: 1.2rem;
     padding: 0.75rem;
   }
@@ -291,15 +295,30 @@
     width: 50px;
     height: 50px;
   }
-}
 
-@supports (-webkit-touch-callout : none) {
-  .heroBackground {
-    background-attachment: scroll
+  @keyframes fadeInUpLeftBracket {
+    0% {
+      opacity: 0;
+      width: 0%;
+      transform: translateY(75px);
+    }
+
+    100% {
+      opacity: 1;
+      width: 100%;
+      margin-left: 0.4rem;
+      transform: translateY(0px);
+    }
   }
 }
 
-@supports not (-webkit-touch-callout : none) {
+@supports (-webkit-touch-callout: none) {
+  .heroBackground {
+    background-attachment: scroll;
+  }
+}
+
+@supports not (-webkit-touch-callout: none) {
   .heroBackground {
     background-attachment: fixed;
   }
