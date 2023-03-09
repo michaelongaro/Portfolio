@@ -1,0 +1,265 @@
+.projectContainer,
+.reversedProjectContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  width: 70%;
+  border-radius: 0.5rem;
+  padding: 3rem 1rem;
+  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.35);
+  transition: all 500ms;
+}
+
+.projectContainer:hover,
+.reversedProjectContainer:hover {
+  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.55);
+}
+
+.projectContainer:before,
+.reversedProjectContainer:before {
+  border-radius: inherit;
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -100;
+  transition: opacity 0.35s ease-in-out;
+}
+
+.projectContainer:before {
+  background-image: linear-gradient(130deg,
+      hsla(35, 84%, 56%, 0.4) 5%,
+      hsla(35deg, 84%, 56%, 0.1));
+}
+
+.reversedProjectContainer:before {
+  background-image: linear-gradient(240deg,
+      hsla(35, 84%, 56%, 0.4) 5%,
+      hsla(35deg, 84%, 56%, 0.1));
+}
+
+.projectContainer:hover:before,
+.reversedProjectContainer:hover:before {
+  opacity: 1;
+}
+
+.projectContainer {
+  grid-template-areas:
+    "projectTitleContainer projectImageContainer "
+    "projectTitleContainer projectImageContainer "
+    " whatILearned projectImageContainer "
+    " whatILearned projectImageContainer "
+    " whatILearned projectImageContainer "
+    " challenges projectImageContainer "
+    " challenges projectImageContainer "
+    " challenges projectImageContainer ";
+
+  background: linear-gradient(130deg,
+      hsla(35, 84%, 56%, 0.6) 50%,
+      hsla(35, 84%, 56%, 0.42));
+}
+
+.reversedProjectContainer {
+  grid-template-areas:
+    " projectImageContainer projectTitleContainer"
+    " projectImageContainer projectTitleContainer"
+    " projectImageContainer whatILearned"
+    " projectImageContainer whatILearned"
+    " projectImageContainer whatILearned"
+    " projectImageContainer challenges"
+    " projectImageContainer challenges"
+    " projectImageContainer challenges";
+
+  background: linear-gradient(240deg,
+      hsla(35, 84%, 56%, 0.6) 50%,
+      hsla(35, 84%, 56%, 0.42));
+}
+
+.projectTitleContainer {
+  grid-area: projectTitleContainer;
+  background-color: #ffffffb3;
+  border-radius: 1rem;
+  padding: 0.5rem 5.5rem;
+  box-shadow: inset 1px 1px 4px 1px rgb(0 0 0 / 20%);
+}
+
+.projectTitle {
+  font-size: 1.5em;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 1.1px;
+  text-decoration-line: underline;
+}
+
+.techIcons {
+  gap: 0.5em;
+  margin-top: 0.5rem;
+  overflow: visible !important;
+}
+
+.techIcons>img {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 0.5em;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.underlinedHeader {
+  text-decoration-line: underline;
+  text-underline-offset: 5px;
+  padding-top: 1rem;
+  text-shadow: 0px 0px 0px rgb(0 0 0 / 20%);
+  font-size: 1.15rem;
+}
+
+.projectImageContainer {
+  grid-area: projectImageContainer;
+  gap: 1rem;
+  background-color: #05204a;
+  height: auto;
+  padding: 1em 1em 1em 1em;
+  border-radius: 0.5rem;
+  box-shadow: 1px 3px 10px 0px rgb(5 32 74 / 50%);
+  transition: all 250ms;
+}
+
+.githubIcon {
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  transition: all 250ms;
+}
+
+.githubIcon:hover {
+  transform: scale(1.05);
+}
+
+.githubIcon:active {
+  transform: scale(0.95);
+}
+
+.projectImage {
+  cursor: pointer;
+  transition: all 250ms;
+}
+
+.whatILearned {
+  grid-area: whatILearned;
+  width: 100%;
+}
+
+.challenges {
+  grid-area: challenges;
+  width: 100%;
+}
+
+.stacked>img {
+  z-index: -1;
+}
+
+/* warning classes */
+.warningContainer {
+  gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  padding: 1rem 0;
+  color: rgb(241, 241, 241);
+  font-size: 1.5rem;
+}
+
+.warningContainer>img {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* blurred classes */
+.blurred {
+  filter: blur(4px);
+  user-select: none;
+  cursor: auto;
+}
+
+.blurred div {
+  margin-top: 1rem;
+}
+
+.blurred ul {
+  margin-top: 0.5rem;
+}
+
+.stackedContainer {
+  display: grid;
+}
+
+.stackedContainer>* {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+/* #ed9f319c */
+/* #9198e5 */
+
+@media (max-width: 1500px) {
+
+  .projectContainer,
+  .reversedProjectContainer {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1050px) {
+
+  .projectContainer,
+  .reversedProjectContainer {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      " projectTitleContainer "
+      " projectTitleContainer "
+      " projectImageContainer "
+      " whatILearned  "
+      " whatILearned  "
+      " whatILearned  "
+      " challenges  "
+      " challenges  "
+      " challenges  ";
+
+    background: linear-gradient(135deg, hsla(35, 84%, 56%, 0.48) 40%, hsla(35, 84%, 56%, 0.7));
+  }
+
+  .reversedProjectContainer {
+    background: linear-gradient(225deg, hsla(35, 84%, 56%, 0.48) 40%, hsla(35, 84%, 56%, 0.7));
+  }
+
+  .projectImageContain,
+  .projectDetails {
+    width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .projectImageContain,
+  .projectDetails {
+    width: 95%;
+  }
+
+  ul {
+    padding-inline-start: 20px;
+  }
+
+  li {
+    font-size: 0.85rem;
+  }
+
+  .techIcons>img {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+}
