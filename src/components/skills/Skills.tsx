@@ -15,12 +15,13 @@ import nodeJSIcon from "../../assets/nodejs.png";
 import jestIcon from "../../assets/jest.png";
 import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
+import socketIOIcon from "../../assets/socketio.svg";
 import postgresIcon from "../../assets/postgresql.svg";
 import nextIcon from "../../assets/nextjs.svg";
 import trpcIcon from "../../assets/trpc.svg";
 import prismaIcon from "../../assets/prisma.svg";
 import tailwindIcon from "../../assets/tailwind.svg";
-import graphQLIcon from "../../assets/graphql.png";
+import reactTestingLibraryIcon from "../../assets/reactTestingLibrary.png";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -89,7 +90,7 @@ function Skills(props: any) {
           title={"NextJS"}
           alt={"NextJS"}
         />
-        <img className={"icon"} src={trpcIcon} title={"TRPC"} alt={"TRPC"} />
+        <img className={"icon"} src={trpcIcon} title={"tRPC"} alt={"tRPC"} />
         <img
           className={"icon"}
           src={prismaIcon}
@@ -120,6 +121,12 @@ function Skills(props: any) {
           title={"PostgreSQL"}
           alt={"PostgreSQL"}
         />
+        <img
+          className={"icon"}
+          src={socketIOIcon}
+          title={"Socket.IO"}
+          alt={"Socket.IO"}
+        />
         <img className={"icon"} src={jestIcon} title={"Jest"} alt={"Jest"} />
         <img
           className={"icon"}
@@ -140,8 +147,9 @@ function Skills(props: any) {
         <img
           id="currentlyLearning"
           className={"icon"}
-          src={graphQLIcon}
-          alt={"GraphQL"}
+          src={reactTestingLibraryIcon}
+          title={"React Testing Library"}
+          alt={"React Testing Library"}
         />
       </div>
     </div>
