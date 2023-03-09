@@ -43,10 +43,15 @@ body {
 }
 
 body {
+  background-color: rgb(250, 250, 250);
   font-family: "M PLUS 1", sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+body * {
+  color: #05204a;
 }
 
 img,
@@ -81,7 +86,8 @@ ul {
 }
 
 li {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
 }
 
 #root,
@@ -130,9 +136,9 @@ img.icon:hover {
   padding-bottom: 0.75rem;
 }
 
-#projects div {
+/* #projects div {
   overflow-x: hidden;
-}
+} */
 
 .hiddenLeft,
 .hiddenRight {
@@ -155,11 +161,19 @@ img.icon:hover {
   transform: translateX(0%);
 }
 
+input,
+textarea {
+  background-color: rgb(250, 250, 250);
+  outline: 1px solid black;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+}
+
 input:focus,
 textarea:focus {
-  outline: none;
-  border: 2px solid #ed9f31;
-  border-radius: 0.25rem;
+  border: none;
+  outline: 2px solid #ed9f31;
 }
 
 @media (max-width: 500px) {
