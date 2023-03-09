@@ -11,7 +11,7 @@ function Hero(props: any) {
 
   return (
     <h2 className={`${classes.heroBackground} baseVertFlex`}>
-      <div style={{ gap: ".5em" }} className={`${classes.hero} baseVertFlex`}>
+      <div className={`${classes.hero} baseVertFlex`}>
         <div className={classes.topHero}>
           Hi, I'm <span className={classes.nameUnderline}>Michael</span>
         </div>
