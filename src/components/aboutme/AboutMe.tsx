@@ -1,8 +1,4 @@
-import profileIcon from "../../assets/profile.svg";
-import questionMarkIcon from "../../assets/question-mark.svg";
-import codeIcon from "../../assets/window.svg";
-import wrenchIcon from "../../assets/wrench.svg";
-import lightbulbIcon from "../../assets/lamp.svg";
+import myHeadshot from "../../assets/headshot.jpg";
 import externalLink from "../../assets/externalLink.svg";
 import resumePDF from "../../assets/MichaelOngaroResume.pdf";
 
@@ -13,43 +9,43 @@ function AboutMe(props: any) {
   return (
     <div
       id={"aboutme"}
-      style={{ marginTop: "7.25rem", scrollMargin: "8rem" }}
+      style={{ marginTop: "7.25rem", scrollMargin: "8rem", gap: "2rem" }}
       className={"baseVertFlex"}
     >
       <h2 className={"heading"}>About Me</h2>
 
       <div className={`${classes.aboutMeContainer} baseFlex`}>
-        <div className={classes.avatarContainer}>
-          <ul className={classes.iconContainer}>
-            <li>
-              <img src={questionMarkIcon} alt={""} />
-            </li>
-            <li>
-              <img src={lightbulbIcon} alt={""} />
-            </li>
-            <li>
-              <img src={codeIcon} alt={""} />
-            </li>
-            <li>
-              <img src={wrenchIcon} alt={""} />
-            </li>
-          </ul>
-
+        <div className={classes.headshotContainer}>
           <img
-            className={classes.profileIcon}
-            src={profileIcon}
-            alt={"Profile Outline"}
+            className={classes.headshot}
+            src={myHeadshot}
+            // if this stays fine with the static size of image, then just crop directly to that size
+            // (240 x 240)
+            loading={"lazy"}
+            alt={"A close-up of my face."}
           />
         </div>
 
-        <p className={classes.aboutMeText}>
-          My name is Michael Ongaro, and I am a passionate web developer with a
-          focus on creating accessible, enjoyable, and feature-rich web
-          applications. I believe in the power of small, consistent improvements
-          to drive progress and success. Whether working with established
-          technologies or exploring the cutting-edge, I am always eager to learn
-          and innovate.
-        </p>
+        <div className={`${classes.aboutMeTextContainer} baseVertFlex`}>
+          <p className={classes.aboutMeText}>
+            My name is Michael Ongaro, and I am a passionate web developer with
+            a focus on creating accessible, enjoyable, and feature-rich web
+            applications. I believe in the power of small, consistent
+            improvements to drive progress and success. Whether working with
+            established technologies or exploring the cutting-edge, I am always
+            eager to learn and innovate.
+          </p>
+
+          <p className={classes.aboutMeText}>
+            One of the things that sets me apart as a developer is my focus on
+            accessibility. I believe that all web applications should be
+            designed to be inclusive and usable by everyone, regardless of their
+            abilities or disabilities. To achieve this goal, I follow industry
+            best practices and strive to stay up-to-date with the latest
+            accessibility standards and guidelines to ensure that my work is
+            always compliant.
+          </p>
+        </div>
       </div>
 
       <a

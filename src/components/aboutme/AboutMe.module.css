@@ -1,74 +1,51 @@
 .aboutMeContainer {
-  gap: 6.5rem;
-  margin-top: 2rem;
-  height: 300px;
-  width: 70%;
+  gap: 3.5rem;
 }
 
 .avatarContainer {
-  position: relative;
   width: 7rem;
   height: 7rem;
 }
 
-.iconContainer {
-  position: absolute;
-  left: 38px;
-  right: 0;
-  top: 48px;
-  bottom: 0;
-  margin: auto;
-
-  list-style-type: none;
-  padding: 0;
-  display: grid;
-  margin: auto;
+.headshotContainer {
+  position: relative;
+  border: #ed9f31 10px solid;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0px 2px 5px hsl(0deg 0% 0% / 50%);
 }
 
-.iconContainer li {
-  --d: 108px;
-  grid-area: 1/1;
-  transform: rotate(var(--r)) translateX(var(--d)) rotate(calc(-1 * var(--r)));
-}
-
-/* adjust the angle for each icon */
-.iconContainer li:nth-child(1) {
-  --r: -150deg;
-}
-
-.iconContainer li:nth-child(2) {
-  --r: -110deg;
-}
-
-.iconContainer li:nth-child(3) {
-  --r: -70deg;
-}
-
-.iconContainer li:nth-child(4) {
-  --r: -30deg;
-}
-
-.iconContainer li img {
-  width: 38px;
-}
-
-.profileIcon {
+.headshotContainer::after {
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   margin: auto;
+  width: 100%;
+  height: 100%;
+  border: hsl(35, 84%, 76%) 7px solid;
+  border-radius: 50%;
+  z-index: 50;
+}
 
-  width: 10rem;
-  height: 10rem;
+.headshot {
+  position: relative;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 50;
+}
+
+.aboutMeTextContainer {
+  gap: 1rem;
+  width: 35%;
 }
 
 .aboutMeText {
-  font-size: 1.15em;
-  width: 50%;
-  /* width: clamp(45ch, 50%, 75ch); */
-  /* this most likely doesn't work the way you think it does */
+  font-size: 1.15rem;
 }
 
 .resumeButton {
@@ -93,74 +70,38 @@
   transform: translateY(2px);
 }
 
-@media (max-width: 1400px) {
+/* @media (max-width: 1400px) {
   .aboutMeText {
     width: 70%;
   }
-}
+} */
 
 @media (max-width: 950px) {
   .aboutMeContainer {
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin-top: 5rem;
     height: auto;
   }
 
-  .resumeButton {
-    margin-top: 5rem;
+  .headshot {
+    width: 15rem;
+    height: 15rem;
   }
 
-  .avatarContainer {
-    margin-top: 2rem;
-    width: 6rem;
-    height: 6rem;
-  }
-
-  .profileIcon {
-    top: 50px;
-    width: 6rem;
-    height: 6rem;
-  }
-
-  .iconContainer {
-    left: 34px;
-    top: 53px;
-  }
-
-  .iconContainer li {
-    --d: 107px;
-  }
-
-  .iconContainer li img {
-    width: 35px;
-  }
-
-  .iconContainer li:nth-child(1) {
-    --r: -146deg;
-  }
-
-  .iconContainer li:nth-child(2) {
-    --r: -111deg;
-  }
-
-  .iconContainer li:nth-child(3) {
-    --r: -71deg;
-  }
-
-  .iconContainer li:nth-child(4) {
-    --r: -33deg;
+  .aboutMeTextContainer {
+    width: 80%;
   }
 }
 
 @media (max-width: 775px) {
   .aboutMeText {
-    font-size: 1.08em;
+    font-size: 1.08rem;
   }
 }
 
 @media (max-width: 500px) {
   .aboutMeText {
-    font-size: 1em;
+    font-size: 1rem;
     width: 100%;
   }
 }
