@@ -51,9 +51,3 @@
     width: 80vw;
   }
 }
-
-@media (max-width: 500px) {
-  .contactContainer {
-    margin-top: 15rem;
-  }
-}
