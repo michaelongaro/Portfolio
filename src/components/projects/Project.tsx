@@ -119,6 +119,7 @@ function Project({
           className={classes.projectImage}
           src={screenshotLink}
           alt={screenshotAltText}
+          loading={"lazy"}
           onClick={() => {
             openInNewTab(link);
           }}
