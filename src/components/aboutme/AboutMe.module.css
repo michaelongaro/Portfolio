@@ -28,6 +28,7 @@
   border: hsl(35, 84%, 76%) 7px solid;
   border-radius: 50%;
   z-index: 50;
+  box-shadow: 0 2px 3px hsl(0deg 0% 0% / 30%);
 }
 
 .headshot {
