@@ -17,6 +17,7 @@ import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
 import socketIOIcon from "../../assets/socketio.svg";
 import postgresIcon from "../../assets/postgresql.svg";
+import sassIcon from "../../assets/sass.svg";
 import nextIcon from "../../assets/nextjs.svg";
 import trpcIcon from "../../assets/trpc.svg";
 import prismaIcon from "../../assets/prisma.svg";
@@ -38,14 +39,14 @@ function Skills(props: any) {
       anime({
         targets: "#iconGrid .icon",
         opacity: [0, 1],
-        delay: anime.stagger(200, { grid: [6, 2], from: "first" }),
+        delay: anime.stagger(200, { grid: [7, 3], from: "first" }),
       });
 
       anime({
         targets: "#currentlyLearning",
         opacity: [0, 1],
         duration: 1000,
-        delay: 1150,
+        delay: 1350,
       });
     }
   }, [inView]);
@@ -128,6 +129,7 @@ function Skills(props: any) {
           alt={"Socket.IO"}
         />
         <img className={"icon"} src={jestIcon} title={"Jest"} alt={"Jest"} />
+        <img className={"icon"} src={sassIcon} title={"Sass"} alt={"Sass"} />
         <img
           className={"icon"}
           src={firebaseIcon}

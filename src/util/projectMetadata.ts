@@ -12,6 +12,7 @@ import prismaIcon from "../assets/prisma.svg";
 import postgresIcon from "../assets/postgresql.svg";
 import tailwindIcon from "../assets/tailwind.svg";
 import mongoDBIcon from "../assets/mongodb.png";
+import sassIcon from "../assets/sass.svg";
 import socketIOIcon from "../assets/socketio.svg";
 import jestIcon from "../assets/jest.png";
 import viteIcon from "../assets/vite.png";
@@ -185,6 +186,10 @@ export const projectMetadata: IProject[] = [
       {
         imageLocation: jestIcon,
         altText: "Jest",
+      },
+      {
+        imageLocation: sassIcon,
+        altText: "Sass",
       },
       {
         imageLocation: viteIcon,
