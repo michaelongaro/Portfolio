@@ -36,10 +36,16 @@ function Skills(props: any) {
 
   useEffect(() => {
     if (inView) {
+      let gridDimensions = [7, 3];
+
+      if (window.innerWidth < 550) {
+        gridDimensions = [6, 4];
+      }
+
       anime({
         targets: "#iconGrid .icon",
         opacity: [0, 1],
-        delay: anime.stagger(200, { grid: [7, 3], from: "first" }),
+        delay: anime.stagger(200, { grid: gridDimensions, from: "first" }),
       });
 
       anime({
