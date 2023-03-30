@@ -1,10 +1,15 @@
 import { type IProject } from "../components/projects/Project";
 
+import squeakImage from "../assets/promoImages/squeak.png";
+import drawingDashImage from "../assets/promoImages/drawingDash.png";
+import stashImage from "../assets/promoImages/stash.jpg";
+import lyricizeImage from "../assets/promoImages/lyricize.png";
+import universalForecastImage from "../assets/promoImages/universalForecast.png";
+
 import reactIcon from "../assets/react.png";
 import firebaseIcon from "../assets/firebase.png";
 import auth0Icon from "../assets/auth0.png";
 import nodeJSIcon from "../assets/nodejs.png";
-import gitIcon from "../assets/git.png";
 import typeScriptIcon from "../assets/typescript.png";
 import nextIcon from "../assets/nextjs.svg";
 import trpcIcon from "../assets/trpc.svg";
@@ -63,7 +68,7 @@ export const projectMetadata: IProject[] = [
         altText: "Socket.IO",
       },
     ],
-    screenshotLink: "https://i.imgur.com/EpwvpXH.png",
+    screenshotLink: squeakImage,
     screenshotAltText:
       "A screenshot of Squeak, a realtime multiplayer card game that I built with the T3 + Socket.IO stack.",
     githubRepoLink: "https://github.com/michaelongaro/Squeak",
@@ -101,7 +106,7 @@ export const projectMetadata: IProject[] = [
         altText: "NodeJS",
       },
     ],
-    screenshotLink: "https://i.gyazo.com/961e9be0427c8298ca89b5b19a85d239.png",
+    screenshotLink: drawingDashImage,
     screenshotAltText:
       "A screenshot of Drawing Dash, a drawing game that I built with the React + Firebase + Auth0 stack.",
     githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
@@ -147,7 +152,7 @@ export const projectMetadata: IProject[] = [
         altText: "TailwindCSS",
       },
     ],
-    screenshotLink: "https://i.gyazo.com/b82af8a596e46e6688c24a99cdc3b0e0.jpg",
+    screenshotLink: stashImage,
     screenshotAltText:
       "A screenshot of Stash, an image hosting site that I built with the T3 stack.",
     githubRepoLink: "https://github.com/michaelongaro/stash",
@@ -196,7 +201,7 @@ export const projectMetadata: IProject[] = [
         altText: "Vite",
       },
     ],
-    screenshotLink: "https://i.gyazo.com/b48c4d7bf04f4f4e1b61ef574dc6ab42.png",
+    screenshotLink: lyricizeImage,
     screenshotAltText:
       "A screenshot of Lyricize, a Spotify lyric visualizer app that I built with the MERN stack.",
     githubRepoLink: "https://github.com/michaelongaro/Lyricize",
@@ -233,7 +238,7 @@ export const projectMetadata: IProject[] = [
         altText: "Vite",
       },
     ],
-    screenshotLink: "https://i.gyazo.com/0de8e5b002d91c85dd1cad84ac3c25ec.png",
+    screenshotLink: universalForecastImage,
     screenshotAltText:
       "A screenshot of Universal Forecast, a weather app that I built with vanilla TypeScript.",
     githubRepoLink: "https://github.com/michaelongaro/UniversalForecast",
