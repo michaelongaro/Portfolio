@@ -124,7 +124,7 @@
   gap: 1rem;
   background-color: #05204a;
   height: auto;
-  padding: 1em 1em 1em 1em;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 1px 3px 10px 0px rgb(5 32 74 / 50%);
   transition: all 250ms;
@@ -148,6 +148,14 @@
 .projectImage {
   cursor: pointer;
   transition: all 250ms;
+}
+
+.projectImage:hover {
+  transform: scale(1.015);
+}
+
+.projectImage:active {
+  opacity: 0.7;
 }
 
 .whatILearned {

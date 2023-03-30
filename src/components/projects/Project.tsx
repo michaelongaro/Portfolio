@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import openInNewTab from "../../util/openInNewTab";
 
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
@@ -34,28 +32,6 @@ function Project({
   githubRepoLink,
   slideInFromLeft,
 }: IProject) {
-  const [hoveringOnProjectImage, setHoveringOnProjectImage] =
-    useState<boolean>(false);
-  const [mouseDownOnProjectImage, setMouseDownOnProjectImage] =
-    useState<boolean>(false);
-
-  // move to a hook?
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("showing");
-          observer.unobserve(entry.target);
-        }
-      });
-    });
-
-    const leftHiddenElements = document.querySelectorAll(".hiddenLeft");
-    const rightHiddenElements = document.querySelectorAll(".hiddenRight");
-    leftHiddenElements.forEach((el) => observer.observe(el));
-    rightHiddenElements.forEach((el) => observer.observe(el));
-  }, []);
-
   return (
     <article
       className={`${
@@ -104,37 +80,14 @@ function Project({
         </ul>
       </div>
 
-      <div
-        style={{
-          padding: hoveringOnProjectImage
-            ? ".8em .8em 1em .8em"
-            : "1em 1em 1em 1em",
-        }}
-        className={`${classes.projectImageContainer} baseVertFlex`}
-      >
+      <div className={`${classes.projectImageContainer} baseVertFlex`}>
         <img
-          style={{
-            opacity: mouseDownOnProjectImage ? 0.7 : 1,
-          }}
           className={classes.projectImage}
           src={screenshotLink}
           alt={screenshotAltText}
           loading={"lazy"}
           onClick={() => {
             openInNewTab(link);
-          }}
-          onMouseEnter={() => {
-            setHoveringOnProjectImage(true);
-          }}
-          onMouseLeave={() => {
-            setHoveringOnProjectImage(false);
-            setMouseDownOnProjectImage(false);
-          }}
-          onMouseDown={() => {
-            setMouseDownOnProjectImage(true);
-          }}
-          onMouseUp={() => {
-            setMouseDownOnProjectImage(false);
           }}
         />
         <img
