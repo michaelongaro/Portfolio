@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,10 +8,33 @@ import classes from "./Contact.module.css";
 import "../../index.css";
 
 function Contact(props: any) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [reachedMobileViewportWidth, setReachedMobileViewportWidth] =
+    useState(false);
+
   const formRef = useRef<HTMLFormElement>(null);
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 768) {
+        setReachedMobileViewportWidth(true);
+      } else {
+        setReachedMobileViewportWidth(false);
+      }
+    }
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  function sendEmail(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
     emailjs
       .sendForm(
@@ -22,19 +45,40 @@ function Contact(props: any) {
       )
       .then(
         () => {
-          toast.success("Message sent!");
+          toast.success("Message sent!", {
+            position: reachedMobileViewportWidth
+              ? toast.POSITION.BOTTOM_CENTER
+              : toast.POSITION.TOP_RIGHT,
+          });
+          setName("");
+          setEmail("");
+          setMessage("");
         },
         () => {
           toast.error(
-            "An error occurred while sending your message. Please try again later."
+            "An error occurred while sending your message. Please try again later.",
+            {
+              position: reachedMobileViewportWidth
+                ? toast.POSITION.BOTTOM_CENTER
+                : toast.POSITION.TOP_RIGHT,
+            }
           );
         }
       );
-  };
+  }
 
   return (
     <div id={"contact"} className={`${classes.contactContainer} baseVertFlex`}>
-      <ToastContainer />
+      <ToastContainer
+        style={
+          reachedMobileViewportWidth
+            ? undefined
+            : {
+                top: "6rem",
+                right: "1rem",
+              }
+        }
+      />
 
       <h2 className={"heading"}>Contact</h2>
 
@@ -57,9 +101,23 @@ function Contact(props: any) {
           className={`${classes.nameAndEmail} baseFlex`}
         >
           <label htmlFor={"user_name"}>Name</label>
-          <input type="text" name="user_name" id={"user_name"} required />
+          <input
+            type="text"
+            name="user_name"
+            id={"user_name"}
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <label htmlFor={"user_email"}>Email</label>
-          <input type="email" name="user_email" id={"user_email"} required />
+          <input
+            type="email"
+            name="user_email"
+            id={"user_email"}
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div style={{ gap: ".75rem" }} className={"baseVertFlex"}>
           <label htmlFor={"message"}>Message</label>
@@ -69,6 +127,8 @@ function Contact(props: any) {
             id={"message"}
             rows={4}
             required
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
           />
         </div>
         <button className={classes.submitButton} type="submit">
