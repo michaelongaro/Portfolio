@@ -19,10 +19,7 @@ function AboutMe(props: any) {
           <img
             className={classes.headshot}
             src={myHeadshot}
-            // if this stays fine with the static size of image, then just crop directly to that size
-            // (240 x 240)
-            loading={"lazy"}
-            alt={"A close-up of my face."}
+            alt={"A close-up professional image of my face."}
           />
         </div>
 
