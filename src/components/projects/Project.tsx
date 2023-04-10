@@ -218,8 +218,8 @@ function Project({
           onMouseDown={handleInteractionActive}
           onTouchStart={handleInteractionActive}
           onMouseUp={handleInteractionCancel}
-          onTouchEnd={handleInteractionCancel}
-          onTouchCancel={handleInteractionCancel}
+          onTouchEnd={handleInteractionEnd}
+          onTouchCancel={handleInteractionEnd}
           onClick={handleInteractionClick}
           onKeyDown={(e) => {
             if (
