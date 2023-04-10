@@ -23,12 +23,7 @@
 .logo {
   margin-left: 3rem;
   font-size: 2rem;
-  cursor: pointer;
   transition: all 150ms;
-}
-
-.logo:hover:after {
-  height: 4px;
 }
 
 .logo:after {
@@ -41,6 +36,11 @@
   content: "";
   background: #ed9f31;
   transition: all 150ms;
+}
+
+.logo:hover:after,
+.logo:focus:after {
+  height: 4px;
 }
 
 .navButton>a:before,

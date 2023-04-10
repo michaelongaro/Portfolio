@@ -156,6 +156,7 @@
 }
 
 .logoContainer {
+  position: relative;
   padding: 1rem;
   cursor: pointer;
   border-radius: 0.5rem;

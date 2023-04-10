@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import openInNewTab from "../../util/openInNewTab";
 
 import mediumGithubLogo from "../../assets/mediumGithubLogo.png";
@@ -8,6 +8,24 @@ import "../../index.css";
 
 function Hero(props: any) {
   const [hoveringOnGithubLogo, setHoveringOnGithubLogo] = useState(false);
+
+  function handleInteractionStart() {
+    setHoveringOnGithubLogo(true);
+  }
+
+  function handleInteractionEnd() {
+    setHoveringOnGithubLogo(false);
+  }
+
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      openInNewTab("https://github.com/michaelongaro");
+    }
+  }
+
+  function handleClick() {
+    openInNewTab("https://github.com/michaelongaro");
+  }
 
   return (
     <h2 className={`${classes.heroBackground} baseVertFlex`}>
@@ -22,26 +40,16 @@ function Hero(props: any) {
         </div>
 
         <div
-          style={{ position: "relative" }}
           className={classes.logoContainer}
-          onMouseEnter={() => {
-            setHoveringOnGithubLogo(true);
-          }}
-          onMouseLeave={() => {
-            setHoveringOnGithubLogo(false);
-          }}
-          onTouchStart={() => {
-            setHoveringOnGithubLogo(true);
-          }}
-          onTouchEnd={() => {
-            setHoveringOnGithubLogo(false);
-          }}
-          onMouseDown={(e) => {
-            if (e.button === 1) {
-              openInNewTab("https://github.com/michaelongaro");
-            }
-          }}
-          onClick={() => openInNewTab("https://github.com/michaelongaro")}
+          tabIndex={6}
+          onMouseEnter={handleInteractionStart}
+          onMouseLeave={handleInteractionEnd}
+          onTouchStart={handleInteractionStart}
+          onTouchEnd={handleInteractionEnd}
+          onFocus={handleInteractionStart}
+          onBlur={handleInteractionEnd}
+          onKeyDown={handleKeyDown}
+          onClick={handleClick}
         >
           <img
             src={mediumGithubLogo}

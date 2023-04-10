@@ -10,7 +10,8 @@
   border-radius: 0.5rem;
   overflow: clip;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  transition: all 250ms ease-in-out;
+  transition: height 250ms ease-in-out, opacity 500ms ease-in-out,
+    transform 500ms ease-in-out, filter 500ms ease-in-out;
 }
 
 .smoothBoxShadowWrapper::after {

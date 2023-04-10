@@ -46,6 +46,7 @@ function AboutMe(props: any) {
       </div>
 
       <a
+        tabIndex={38}
         className={classes.resumeButton}
         href={resumePDF}
         target="_blank"

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useRef } from "react";
 
 import useNavbarHighlighter from "../../util/useNavbarHighlighter";
 
@@ -11,6 +11,8 @@ import "../../index.css";
 function DesktopNavbar(props: any) {
   let linkStates = useNavbarHighlighter();
 
+  const logoRef = useRef<HTMLAnchorElement>(null);
+
   function updateLinkStates(idx: number) {
     let tempLinkStates: boolean[] = [false, false, false, false];
 
@@ -22,20 +24,26 @@ function DesktopNavbar(props: any) {
   return (
     <div className={classes.navContainer}>
       <div className={`${classes.navLinks} baseFlex`}>
-        <div
+        <a
+          ref={logoRef}
+          tabIndex={1}
           className={classes.logo}
-          onClick={() => {
+          href={"/"}
+          onClick={(event) => {
+            event.preventDefault();
             history.pushState(null, "", "/");
             window.scrollTo(0, 0);
+            logoRef.current?.blur();
           }}
         >
           Michael Ongaro
-        </div>
+        </a>
         <div
           style={{ gap: "2.5em" }}
           className={`${classes.navButton} baseFlex`}
         >
           <a
+            tabIndex={2}
             className={linkStates[0] ? classes.selected : ""}
             onClick={() => {
               updateLinkStates(0);
@@ -45,6 +53,7 @@ function DesktopNavbar(props: any) {
             Skills
           </a>
           <a
+            tabIndex={3}
             className={linkStates[1] ? classes.selected : ""}
             onClick={() => {
               updateLinkStates(1);
@@ -54,6 +63,7 @@ function DesktopNavbar(props: any) {
             Projects
           </a>
           <a
+            tabIndex={4}
             className={linkStates[2] ? classes.selected : ""}
             onClick={() => {
               updateLinkStates(2);
@@ -63,6 +73,7 @@ function DesktopNavbar(props: any) {
             About Me
           </a>
           <a
+            tabIndex={5}
             className={linkStates[3] ? classes.selected : ""}
             onClick={() => {
               updateLinkStates(3);

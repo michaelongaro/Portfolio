@@ -62,7 +62,8 @@
   transition: all 150ms;
 }
 
-.resumeButton:hover {
+.resumeButton:hover,
+.resumeButton:focus {
   background-color: #ed9f31;
 }
 
@@ -70,12 +71,6 @@
   filter: brightness(0.95);
   transform: translateY(2px);
 }
-
-/* @media (max-width: 1400px) {
-  .aboutMeText {
-    width: 70%;
-  }
-} */
 
 @media (max-width: 950px) {
   .aboutMeContainer {

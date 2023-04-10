@@ -22,6 +22,7 @@ export interface IProject {
   setProjectNumberBeingShownCurrently: React.Dispatch<
     React.SetStateAction<number>
   >;
+  tabIndexStart: number;
 }
 
 interface ITechnology {
@@ -43,6 +44,7 @@ function Project({
   projectNumber,
   projectNumberBeingShownCurrently,
   setProjectNumberBeingShownCurrently,
+  tabIndexStart,
 }: IProject) {
   const [showWhatILearned, setShowWhatILearned] = useState(true);
   const [backgroundPositionX, setBackgroundPositionX] = useState("100%");
@@ -61,6 +63,7 @@ function Project({
 
   const projectOuterContainerRef = useRef<HTMLDivElement>(null);
   const projectInnerContainerRef = useRef<HTMLDivElement>(null);
+  const projectHyperlinkRef = useRef<HTMLAnchorElement>(null);
 
   if (
     projectNumber !== projectNumberBeingShownCurrently &&
@@ -105,6 +108,77 @@ function Project({
     };
   }, []);
 
+  function handleInteractionStart() {
+    if (projectNumber === projectNumberBeingShownCurrently) {
+      setBackgroundPositionX("0%");
+    } else {
+      setBackgroundPositionX("50%");
+    }
+
+    setHoveringOverTitleAndTechStack(true);
+  }
+
+  function handleInteractionEnd() {
+    if (projectNumber === projectNumberBeingShownCurrently) {
+      setBackgroundPositionX("50%");
+    } else {
+      setBackgroundPositionX("100%");
+    }
+
+    setHoveringOverTitleAndTechStack(false);
+    setPressingDownOnTitleAndTechStack(false);
+  }
+
+  function handleInteractionActive() {
+    if (projectNumber === projectNumberBeingShownCurrently) {
+      setBackgroundPositionX("0%");
+    } else {
+      setBackgroundPositionX("50%");
+    }
+
+    setPressingDownOnTitleAndTechStack(true);
+  }
+
+  function handleInteractionCancel() {
+    if (projectNumber === projectNumberBeingShownCurrently) {
+      setBackgroundPositionX("50%");
+    } else {
+      setBackgroundPositionX("100%");
+    }
+
+    setPressingDownOnTitleAndTechStack(false);
+  }
+
+  function handleInteractionClick() {
+    const element = document.getElementById(
+      `project${projectNumberBeingShownCurrently}`
+    );
+    if (
+      element &&
+      projectNumberBeingShownCurrently !== -1 &&
+      projectNumberBeingShownCurrently < projectNumber
+    ) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+
+    setTimeout(() => {
+      setProjectNumberBeingShownCurrently(
+        projectNumber !== projectNumberBeingShownCurrently ? projectNumber : -1
+      );
+    }, 75);
+
+    // scroll to top of one that is being opened
+    if (projectNumber !== projectNumberBeingShownCurrently) {
+      setTimeout(() => {
+        projectOuterContainerRef.current?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 500);
+    }
+  }
+
   return (
     <article
       id={`project${projectNumber}`}
@@ -124,6 +198,7 @@ function Project({
       >
         {/* Title and tech stack */}
         <div
+          tabIndex={tabIndexStart}
           style={{
             cursor: "pointer",
             boxShadow:
@@ -136,76 +211,28 @@ function Project({
               : "none",
           }}
           className={classes.titleAndTechStackContainer}
-          onMouseEnter={() => {
-            if (projectNumber === projectNumberBeingShownCurrently) {
-              setBackgroundPositionX("0%");
-            } else {
-              setBackgroundPositionX("50%");
-            }
-
-            setHoveringOverTitleAndTechStack(true);
-          }}
-          onMouseLeave={() => {
-            if (projectNumber === projectNumberBeingShownCurrently) {
-              setBackgroundPositionX("50%");
-            } else {
-              setBackgroundPositionX("100%");
-            }
-
-            setHoveringOverTitleAndTechStack(false);
-            setPressingDownOnTitleAndTechStack(false);
-          }}
-          onMouseDown={() => {
-            if (projectNumber === projectNumberBeingShownCurrently) {
-              setBackgroundPositionX("0%");
-            } else {
-              setBackgroundPositionX("50%");
-            }
-
-            setPressingDownOnTitleAndTechStack(true);
-          }}
-          onMouseUp={() => {
-            if (projectNumber === projectNumberBeingShownCurrently) {
-              setBackgroundPositionX("50%");
-            } else {
-              setBackgroundPositionX("100%");
-            }
-
-            setPressingDownOnTitleAndTechStack(false);
-          }}
-          onClick={() => {
-            const element = document.getElementById(
-              `project${projectNumberBeingShownCurrently}`
-            );
+          onMouseEnter={handleInteractionStart}
+          onFocus={handleInteractionStart}
+          onMouseLeave={handleInteractionEnd}
+          onBlur={handleInteractionEnd}
+          onMouseDown={handleInteractionActive}
+          onTouchStart={handleInteractionActive}
+          onMouseUp={handleInteractionCancel}
+          onTouchCancel={handleInteractionCancel}
+          onClick={handleInteractionClick}
+          onKeyDown={(e) => {
             if (
-              element &&
-              projectNumberBeingShownCurrently !== -1 &&
-              projectNumberBeingShownCurrently < projectNumber
+              document.activeElement !== projectHyperlinkRef.current &&
+              (e.key === "Enter" || e.key === " ")
             ) {
-              element.scrollIntoView({
-                behavior: "smooth",
-              });
-            }
-
-            setTimeout(() => {
-              setProjectNumberBeingShownCurrently(
-                projectNumber !== projectNumberBeingShownCurrently
-                  ? projectNumber
-                  : -1
-              );
-            }, 75);
-
-            // scroll to top of one that is being opened
-            if (projectNumber !== projectNumberBeingShownCurrently) {
-              setTimeout(() => {
-                projectOuterContainerRef.current?.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }, 500);
+              e.preventDefault();
+              handleInteractionClick();
             }
           }}
         >
           <a
+            ref={projectHyperlinkRef}
+            tabIndex={tabIndexStart + 1}
             className={classes.projectTitle}
             href={link}
             target="_blank"
@@ -256,6 +283,11 @@ function Project({
                 className={classes.toggleIndicator}
               ></div>
               <div
+                tabIndex={
+                  projectNumber === projectNumberBeingShownCurrently
+                    ? tabIndexStart + 2
+                    : -1
+                }
                 style={{
                   cursor: showWhatILearned ? "default" : "pointer",
                   color: showWhatILearned ? "hsl(0 0% 95%)" : "inherit",
@@ -265,10 +297,20 @@ function Project({
                 }}
                 className={classes.toggleText}
                 onClick={() => setShowWhatILearned(true)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    setShowWhatILearned(true);
+                  }
+                }}
               >
                 What I learned
               </div>
               <div
+                tabIndex={
+                  projectNumber === projectNumberBeingShownCurrently
+                    ? tabIndexStart + 3
+                    : -1
+                }
                 style={{
                   cursor: !showWhatILearned ? "default" : "pointer",
                   color: !showWhatILearned ? "hsl(0 0% 95%)" : "inherit",
@@ -278,6 +320,11 @@ function Project({
                 }}
                 className={classes.toggleText}
                 onClick={() => setShowWhatILearned(false)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    setShowWhatILearned(false);
+                  }
+                }}
               >
                 Challenges
               </div>
@@ -322,19 +369,39 @@ function Project({
 
           <div className={`${classes.projectImageContainer} baseVertFlex`}>
             <img
+              tabIndex={
+                projectNumber === projectNumberBeingShownCurrently
+                  ? tabIndexStart + 4
+                  : -1
+              }
               className={classes.projectImage}
               src={screenshotLink}
               alt={screenshotAltText}
               onClick={() => {
                 openInNewTab(link);
               }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  openInNewTab(link);
+                }
+              }}
             />
             <img
+              tabIndex={
+                projectNumber === projectNumberBeingShownCurrently
+                  ? tabIndexStart + 5
+                  : -1
+              }
               className={classes.githubIcon}
               src={smallLightGithubIcon}
               alt={"Github"}
               onClick={() => {
                 openInNewTab(githubRepoLink);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  openInNewTab(githubRepoLink);
+                }
               }}
             />
           </div>

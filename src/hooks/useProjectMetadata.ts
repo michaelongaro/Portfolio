@@ -85,6 +85,7 @@ function useProjectMetadata() {
       projectNumber: 0,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
+      tabIndexStart: 7,
     },
     {
       title: "Drawing Dash",
@@ -128,6 +129,7 @@ function useProjectMetadata() {
       projectNumber: 1,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
+      tabIndexStart: 13,
     },
     {
       title: "Stash",
@@ -179,6 +181,7 @@ function useProjectMetadata() {
       projectNumber: 2,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
+      tabIndexStart: 19,
     },
     {
       title: "Lyricize",
@@ -233,6 +236,7 @@ function useProjectMetadata() {
       projectNumber: 3,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
+      tabIndexStart: 26,
     },
     {
       title: "Universal Forecast",
@@ -274,6 +278,7 @@ function useProjectMetadata() {
       projectNumber: 4,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
+      tabIndexStart: 32,
     },
   ];
 
