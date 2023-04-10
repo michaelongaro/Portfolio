@@ -63,7 +63,7 @@
 .techStackContainer {
   background-color: #ffffffb3;
   border-radius: 1rem;
-  padding: 0.5rem 2.5rem;
+  padding: 0.5rem 1.25rem;
   cursor: default;
   box-shadow: inset 1px 1px 4px 1px rgb(0 0 0 / 20%);
 }
@@ -142,8 +142,8 @@
 .description {
   grid-area: description;
   width: 100%;
-  padding: 0.5rem;
-  font-size: 1.18rem;
+  padding: 0 0.5rem;
+  font-size: 1.1rem;
   line-height: 1.5rem;
 }
 
@@ -341,7 +341,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 0.5rem;
-    height: 7.5rem;
+    height: 8.125rem;
   }
 
   .projectContainer,
@@ -361,6 +361,10 @@
 }
 
 @media (max-width: 500px) {
+  .titleAndTechStackContainer {
+    height: 7.5rem;
+  }
+
   .description {
     font-size: 0.95rem;
     line-height: inherit;
