@@ -118,7 +118,7 @@ li {
   content: "";
   height: 3px;
   background-color: #ed9f31;
-  bottom: 0.25rem;
+  bottom: -0.1rem;
   right: 0;
   left: 0;
   z-index: -1;
@@ -136,15 +136,10 @@ img.icon:hover {
   padding-bottom: 0.75rem;
 }
 
-/* #projects div {
-  overflow-x: hidden;
-} */
-
 .hiddenLeft,
 .hiddenRight {
   opacity: 0;
   filter: blur(10px);
-  transition: all 750ms;
 }
 
 .hiddenLeft {
