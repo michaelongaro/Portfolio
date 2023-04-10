@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import openInNewTab from "../../util/openInNewTab";
 
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
@@ -78,14 +78,17 @@ function Project({
 
   useLayoutEffect(() => {
     function resizeHandler() {
-      if (window.innerWidth < 900) {
+      if (window.innerWidth < 500) {
         setHeightOfTitleAndTechStackContainer(120);
+      } else if (window.innerWidth > 500 && window.innerWidth < 900) {
+        setHeightOfTitleAndTechStackContainer(130);
       } else {
         setHeightOfTitleAndTechStackContainer(80);
       }
 
       setHeightOfInnerBodyContainer(
-        projectInnerContainerRef.current?.getBoundingClientRect().height ?? 80
+        projectInnerContainerRef.current?.getBoundingClientRect().height ??
+          heightOfTitleAndTechStackContainer
       );
     }
 
@@ -174,7 +177,11 @@ function Project({
             const element = document.getElementById(
               `project${projectNumberBeingShownCurrently}`
             );
-            if (element && projectNumberBeingShownCurrently < projectNumber) {
+            if (
+              element &&
+              projectNumberBeingShownCurrently !== -1 &&
+              projectNumberBeingShownCurrently < projectNumber
+            ) {
               element.scrollIntoView({
                 behavior: "smooth",
               });
@@ -186,14 +193,16 @@ function Project({
                   ? projectNumber
                   : -1
               );
-            }, 250);
+            }, 75);
 
             // scroll to top of one that is being opened
-            setTimeout(() => {
-              projectOuterContainerRef.current?.scrollIntoView({
-                behavior: "smooth",
-              });
-            }, 500);
+            if (projectNumber !== projectNumberBeingShownCurrently) {
+              setTimeout(() => {
+                projectOuterContainerRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }, 500);
+            }
           }}
         >
           <a
