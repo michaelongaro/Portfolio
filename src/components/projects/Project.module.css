@@ -1,106 +1,88 @@
-.projectContainer,
-.reversedProjectContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  place-items: center;
-  justify-content: center;
-  gap: 1rem;
-
+.smoothBoxShadowWrapper {
+  position: relative;
   width: 70%;
-  border-radius: 0.5rem;
-  padding: 3rem 1rem;
-  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.35);
-  transition: all 500ms;
+  scroll-margin-top: 6rem;
 }
 
-.projectContainer:hover,
-.reversedProjectContainer:hover {
-  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.55);
-}
-
-.projectContainer:before,
-.reversedProjectContainer:before {
-  border-radius: inherit;
-  content: "";
-  display: block;
-  height: 100%;
+.parentRelativeContainer {
+  position: relative;
   width: 100%;
+  border-radius: 0.5rem;
+  overflow: clip;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  transition: all 250ms ease-in-out;
+}
+
+.smoothBoxShadowWrapper::after {
+  content: "";
+  border-radius: 0.5rem;
   position: absolute;
+  z-index: -1;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
   opacity: 0;
-  z-index: -100;
-  transition: opacity 0.35s ease-in-out;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
 }
 
-.projectContainer:before {
-  background-image: linear-gradient(130deg,
-      hsla(35, 84%, 56%, 0.4) 5%,
-      hsla(35deg, 84%, 56%, 0.1));
-}
-
-.reversedProjectContainer:before {
-  background-image: linear-gradient(240deg,
-      hsla(35, 84%, 56%, 0.4) 5%,
-      hsla(35deg, 84%, 56%, 0.1));
-}
-
-.projectContainer:hover:before,
-.reversedProjectContainer:hover:before {
+.smoothBoxShadowWrapper:hover::after {
   opacity: 1;
 }
 
-.projectContainer {
-  grid-template-areas:
-    "projectTitleContainer projectImageContainer "
-    "projectTitleContainer projectImageContainer "
-    " whatILearned projectImageContainer "
-    " whatILearned projectImageContainer "
-    " whatILearned projectImageContainer "
-    " challenges projectImageContainer "
-    " challenges projectImageContainer "
-    " challenges projectImageContainer ";
-
-  background: linear-gradient(130deg,
-      hsla(35, 84%, 56%, 0.6) 50%,
-      hsla(35, 84%, 56%, 0.42));
+.smoothBoxShadowWrapper:active::after {
+  opacity: 0;
 }
 
-.reversedProjectContainer {
-  grid-template-areas:
-    " projectImageContainer projectTitleContainer"
-    " projectImageContainer projectTitleContainer"
-    " projectImageContainer whatILearned"
-    " projectImageContainer whatILearned"
-    " projectImageContainer whatILearned"
-    " projectImageContainer challenges"
-    " projectImageContainer challenges"
-    " projectImageContainer challenges";
+.titleAndTechStackContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  border-radius: 0.5rem;
 
-  background: linear-gradient(240deg,
-      hsla(35, 84%, 56%, 0.6) 50%,
-      hsla(35, 84%, 56%, 0.42));
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+
+  z-index: 50;
+  background-image: linear-gradient(130deg,
+      hsl(35, 84%, 50%) 5%,
+      hsl(35deg, 84%, 90%));
+  background-size: 200% 100%;
+
+  box-shadow: rgb(0 0 0 / 30%) 0px 1px 1px 0px;
+
+  transition: all 150ms ease-in-out;
 }
 
-.projectTitleContainer {
-  grid-area: projectTitleContainer;
+.techStackContainer {
   background-color: #ffffffb3;
   border-radius: 1rem;
-  padding: 0.5rem 5.5rem;
+  padding: 0.5rem 2.5rem;
+  cursor: default;
   box-shadow: inset 1px 1px 4px 1px rgb(0 0 0 / 20%);
 }
 
 .projectTitle {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.55rem;
   font-size: 1.5em;
   font-weight: 600;
   text-align: center;
-  letter-spacing: 1.1px;
+  letter-spacing: 0.75px;
   text-decoration-line: underline;
 }
 
 .techIcons {
   gap: 0.5em;
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; not sure what this was for (maybe a mobile styling thing?*/
   overflow: visible !important;
 }
 
@@ -111,6 +93,60 @@
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
 }
 
+.projectContainer,
+.reversedProjectContainer {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  justify-content: center;
+  gap: 3rem;
+
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 6.5rem 1rem 2rem 1rem;
+  z-index: 1;
+  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.35);
+  transition: all 150ms ease-in-out;
+}
+
+/* .projectContainer:hover,
+.reversedProjectContainer:hover {
+  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.55);
+} */
+
+.projectContainer {
+  grid-template-areas:
+    " description projectImageContainer "
+    " description projectImageContainer "
+    " whatILearnedAndChallenges projectImageContainer "
+    " whatILearnedAndChallenges projectImageContainer ";
+
+  background: linear-gradient(130deg,
+      hsla(35, 84%, 56%, 0.6) 50%,
+      hsla(35, 84%, 56%, 0.42));
+}
+
+.reversedProjectContainer {
+  grid-template-areas:
+    " projectImageContainer description"
+    " projectImageContainer description"
+    " projectImageContainer whatILearnedAndChallenges"
+    " projectImageContainer whatILearnedAndChallenges";
+
+  background: linear-gradient(240deg,
+      hsla(35, 84%, 56%, 0.6) 50%,
+      hsla(35, 84%, 56%, 0.42));
+}
+
+.description {
+  grid-area: description;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.18rem;
+  line-height: 1.5rem;
+}
+
 .underlinedHeader {
   text-decoration-line: underline;
   text-underline-offset: 5px;
@@ -118,6 +154,61 @@
   text-shadow: 0px 0px 0px rgb(0 0 0 / 20%);
   font-size: 1.15rem;
 }
+
+/* Toggle classes */
+
+.toggleContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 1rem; */
+  width: 100%;
+  height: 100%;
+
+  background-color: #ffffffb3;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: inset 1px 1px 4px 1px rgb(0 0 0 / 20%);
+}
+
+.toggleIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 1;
+  background: linear-gradient(0deg,
+      hsla(35, 84%, 56%, 0.9) 50%,
+      hsla(35, 84%, 56%, 0.6));
+  box-shadow: inset 1px 2px 5px 1px #0000003b;
+
+  border-radius: 1rem;
+  transition: all 150ms ease-in-out;
+}
+
+.toggleText {
+  z-index: 100;
+  width: 100%;
+  text-align: center;
+  transition: all 150ms ease-in-out;
+}
+
+.relativeWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggleContent {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  transition: all 150ms ease-in-out;
+}
+
+/* Project image classes */
 
 .projectImageContainer {
   grid-area: projectImageContainer;
@@ -127,6 +218,7 @@
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 1px 3px 10px 0px rgb(5 32 74 / 50%);
+  z-index: 50;
   transition: all 250ms;
 }
 
@@ -158,14 +250,12 @@
   opacity: 0.7;
 }
 
-.whatILearned {
-  grid-area: whatILearned;
+.whatILearnedAndChallenges {
+  grid-area: whatILearnedAndChallenges;
   width: 100%;
-}
-
-.challenges {
-  grid-area: challenges;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .stacked>img {
@@ -214,35 +304,29 @@
 /* #ed9f319c */
 /* #9198e5 */
 
-@media (max-width: 1500px) {
-
-  .projectContainer,
-  .reversedProjectContainer {
-    width: 90%;
-  }
-}
-
-@media (max-width: 1050px) {
+@media (max-width: 1400px) {
 
   .projectContainer,
   .reversedProjectContainer {
     grid-template-columns: 1fr;
     grid-template-areas:
-      " projectTitleContainer "
-      " projectTitleContainer "
       " projectImageContainer "
-      " whatILearned  "
-      " whatILearned  "
-      " whatILearned  "
-      " challenges  "
-      " challenges  "
-      " challenges  ";
+      " description  "
+      " description  "
+      " description  "
+      " whatILearnedAndChallenges  "
+      " whatILearnedAndChallenges  "
+      " whatILearnedAndChallenges  ";
 
-    background: linear-gradient(135deg, hsla(35, 84%, 56%, 0.48) 40%, hsla(35, 84%, 56%, 0.7));
+    background: linear-gradient(135deg,
+        hsla(35, 84%, 56%, 0.48) 40%,
+        hsla(35, 84%, 56%, 0.7));
   }
 
   .reversedProjectContainer {
-    background: linear-gradient(225deg, hsla(35, 84%, 56%, 0.48) 40%, hsla(35, 84%, 56%, 0.7));
+    background: linear-gradient(225deg,
+        hsla(35, 84%, 56%, 0.48) 40%,
+        hsla(35, 84%, 56%, 0.7));
   }
 
   .projectImageContain,
@@ -251,17 +335,46 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 900px) {
+  .titleAndTechStackContainer {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.5rem;
+    height: 7.5rem;
+  }
 
-  .projectImageContain,
-  .projectDetails {
-    width: 95%;
+  .projectContainer,
+  .reversedProjectContainer {
+    padding: 10.5rem 1rem 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 675px) {
+  .smoothBoxShadowWrapper {
+    width: 90%;
+  }
+
+  .titleAndTechStackContainer {
+    padding: 1rem 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .description {
+    font-size: 0.95rem;
+    line-height: inherit;
   }
 
   ul {
     padding-inline-start: 20px;
   }
 
+  .projectTitle {
+    font-size: 1.1rem;
+  }
+
+  .toggleText,
   li {
     font-size: 0.85rem;
   }
