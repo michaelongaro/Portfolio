@@ -2,13 +2,10 @@ import { useRef } from "react";
 
 import useNavbarHighlighter from "../../util/useNavbarHighlighter";
 
-// export interface IAppProps {
-// }
-
 import classes from "./DesktopNavbar.module.css";
 import "../../index.css";
 
-function DesktopNavbar(props: any) {
+function DesktopNavbar() {
   let linkStates = useNavbarHighlighter();
 
   const logoRef = useRef<HTMLAnchorElement>(null);

@@ -5,7 +5,7 @@ import upArrowIcon from "../../assets/upArrow.svg";
 import classes from "./ScrollToTop.module.css";
 import "../../index.css";
 
-function ScrollToTop(props: any) {
+function ScrollToTop() {
   const [scrollThresholdReached, setScrollThresholdReached] =
     useState<boolean>(false);
 

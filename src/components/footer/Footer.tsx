@@ -1,6 +1,4 @@
-type Props = {};
-
-function Footer({}: Props) {
+function Footer() {
   return (
     <footer
       style={{

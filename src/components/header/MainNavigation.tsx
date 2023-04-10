@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import DesktopNavbar from "./DesktopNavbar";
 import Sidebar from "./Sidebar";
 
-function MainNavigation(props: any) {
+function MainNavigation() {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
   useEffect(() => {

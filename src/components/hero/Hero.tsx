@@ -6,7 +6,7 @@ import mediumGithubLogo from "../../assets/mediumGithubLogo.png";
 import classes from "./Hero.module.css";
 import "../../index.css";
 
-function Hero(props: any) {
+function Hero() {
   const [hoveringOnGithubLogo, setHoveringOnGithubLogo] = useState(false);
 
   function handleInteractionStart() {

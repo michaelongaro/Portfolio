@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useInView } from "react-intersection-observer";
 import anime from "animejs";
@@ -27,7 +27,7 @@ import reactTestingLibraryIcon from "../../assets/reactTestingLibrary.png";
 import classes from "./Skills.module.css";
 import "../../index.css";
 
-function Skills(props: any) {
+function Skills() {
   const { ref, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,

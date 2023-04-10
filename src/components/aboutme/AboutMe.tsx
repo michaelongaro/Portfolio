@@ -5,7 +5,7 @@ import resumePDF from "../../assets/MichaelOngaroResume.pdf";
 import classes from "./AboutMe.module.css";
 import "../../index.css";
 
-function AboutMe(props: any) {
+function AboutMe() {
   return (
     <div
       id={"aboutme"}

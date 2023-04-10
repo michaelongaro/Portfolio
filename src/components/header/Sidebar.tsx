@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Hamburger from "hamburger-react";
 import useNavbarHighlighter from "../../util/useNavbarHighlighter";
@@ -7,9 +7,7 @@ import classes from "./Sidebar.module.css";
 import navClasses from "./DesktopNavbar.module.css";
 import "../../index.css";
 
-type Props = {};
-
-function Sidebar({}: Props) {
+function Sidebar() {
   let linkStates = useNavbarHighlighter();
 
   const burgerRef = useRef<HTMLDivElement>(null);
