@@ -63,7 +63,7 @@
 .navButton>a:after,
 .selected:after {
   right: 0px;
-  bottom: 0px;
+  bottom: -2px;
 }
 
 .navButton>a:hover:before,
