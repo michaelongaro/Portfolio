@@ -1,11 +1,12 @@
 import Project from "./Project";
-import { projectMetadata } from "../../util/projectMetadata";
+import useProjectMetadata from "../../hooks/useProjectMetadata";
 import useSlideInProjects from "../../hooks/useSlideInProjects";
 
 import "../../index.css";
 
 function Projects() {
   useSlideInProjects();
+  const projectMetadata = useProjectMetadata();
 
   return (
     <div
