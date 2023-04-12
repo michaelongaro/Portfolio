@@ -89,6 +89,7 @@
   background-position: 100% 100%;
   background-size: 0% 5px;
   background-repeat: no-repeat;
+  font-weight: 600;
   animation: underline 1s forwards;
   animation-delay: 1100ms;
 }

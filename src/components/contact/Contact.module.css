@@ -7,6 +7,7 @@
 
 .contactText {
   max-width: 100ch;
+  font-size: 1.1rem;
   word-wrap: break-word;
   margin: 0 1rem;
 }
@@ -20,6 +21,7 @@
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   cursor: pointer;
+  font-weight: 600;
   background-color: #ed9f31;
   transition: all 250ms;
 }

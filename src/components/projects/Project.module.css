@@ -144,7 +144,8 @@
   grid-area: description;
   width: 100%;
   padding: 0 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.08rem;
+  font-weight: 600;
   line-height: 1.5rem;
 }
 
