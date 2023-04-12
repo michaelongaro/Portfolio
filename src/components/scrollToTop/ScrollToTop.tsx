@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import upArrowIcon from "../../assets/upArrow.svg";
 
@@ -8,6 +8,8 @@ import "../../index.css";
 function ScrollToTop() {
   const [scrollThresholdReached, setScrollThresholdReached] =
     useState<boolean>(false);
+
+  const upArrowRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     function handleScroll() {
@@ -25,6 +27,7 @@ function ScrollToTop() {
   return (
     <button
       tabIndex={43}
+      ref={upArrowRef}
       style={{
         opacity: scrollThresholdReached ? 1 : 0,
         pointerEvents: scrollThresholdReached ? "auto" : "none",
@@ -33,6 +36,7 @@ function ScrollToTop() {
       onClick={() => {
         history.pushState(null, "", "/");
         window.scrollTo(0, 0);
+        upArrowRef.current?.blur();
       }}
     >
       <img src={upArrowIcon} alt={"Scroll to top"} />
