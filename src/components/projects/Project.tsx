@@ -271,7 +271,7 @@ function Project({
               : classes.reversedProjectContainer
           }`}
         >
-          <div className={classes.description}>{description}</div>
+          <p className={classes.description}>{description}</p>
 
           <div className={classes.whatILearnedAndChallenges}>
             <div className={classes.toggleContainer}>
