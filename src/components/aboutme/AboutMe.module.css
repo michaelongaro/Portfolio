@@ -1,5 +1,11 @@
 .aboutMeContainer {
+  margin-top: 7.25rem;
+  scroll-margin: 8rem;
+}
+
+.bodyContainer {
   gap: 3.5rem;
+  margin: 2rem 0;
 }
 
 .avatarContainer {
@@ -74,9 +80,9 @@
 }
 
 @media (max-width: 950px) {
-  .aboutMeContainer {
+  .bodyContainer {
     flex-direction: column;
-    margin-top: 5rem;
+    margin-top: 3rem;
     height: auto;
   }
 

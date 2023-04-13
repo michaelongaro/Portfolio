@@ -7,14 +7,10 @@ import "../../index.css";
 
 function AboutMe() {
   return (
-    <div
-      id={"aboutme"}
-      style={{ marginTop: "7.25rem", scrollMargin: "8rem", gap: "2rem" }}
-      className={"baseVertFlex"}
-    >
+    <div id={"aboutme"} className={`baseVertFlex ${classes.aboutMeContainer}`}>
       <h2 className={"heading"}>About Me</h2>
 
-      <div className={`${classes.aboutMeContainer} baseFlex`}>
+      <div className={`${classes.bodyContainer} baseFlex`}>
         <div className={classes.headshotContainer}>
           <img
             className={classes.headshot}
