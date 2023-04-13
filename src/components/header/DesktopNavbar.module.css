@@ -67,7 +67,9 @@
 }
 
 .navButton>a:hover:before,
-.navButton>a:hover:after {
+.navButton>a:focus:before,
+.navButton>a:hover:after,
+.navButton>a:focus:after {
   opacity: 1;
   width: 100%;
 }
