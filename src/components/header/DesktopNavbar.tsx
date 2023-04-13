@@ -30,15 +30,12 @@ function DesktopNavbar() {
             event.preventDefault();
             history.pushState(null, "", "/");
             window.scrollTo(0, 0);
-            setTimeout(() => logoRef.current?.blur(), 100);
+            setTimeout(() => logoRef.current?.blur(), 250);
           }}
         >
           Michael Ongaro
         </a>
-        <div
-          style={{ gap: "2.5em" }}
-          className={`${classes.navButton} baseFlex`}
-        >
+        <div className={`${classes.navButtons} baseFlex`}>
           <a
             tabIndex={2}
             className={linkStates[0] ? classes.selected : ""}
