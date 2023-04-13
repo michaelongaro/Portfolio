@@ -87,7 +87,7 @@ function Sidebar() {
           <div className={`${classes.sidebarNavLinks} baseVertFlex`}>
             <div
               style={{ gap: "2.5em" }}
-              className={`${navClasses.navButton} baseVertFlex`}
+              className={`${navClasses.navButtons} baseVertFlex`}
             >
               <a
                 className={linkStates[0] ? navClasses.selected : ""}
