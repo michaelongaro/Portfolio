@@ -161,22 +161,40 @@ function Project({
       element.scrollIntoView({
         behavior: "smooth",
       });
-    }
 
-    setTimeout(() => {
-      setProjectNumberBeingShownCurrently(
-        projectNumber !== projectNumberBeingShownCurrently ? projectNumber : -1
-      );
-    }, 75);
+      setTimeout(() => {
+        setProjectNumberBeingShownCurrently(-1);
+      }, 400);
+    }
 
     // scroll to top of one that is being opened
     if (projectNumber !== projectNumberBeingShownCurrently) {
-      setTimeout(() => {
-        projectOuterContainerRef.current?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }, 500);
+      setTimeout(
+        () => {
+          projectOuterContainerRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
+        },
+        projectNumberBeingShownCurrently !== -1 &&
+          projectNumberBeingShownCurrently < projectNumber
+          ? 800
+          : 0
+      );
     }
+
+    setTimeout(
+      () => {
+        setProjectNumberBeingShownCurrently(
+          projectNumber !== projectNumberBeingShownCurrently
+            ? projectNumber
+            : -1
+        );
+      },
+      projectNumberBeingShownCurrently !== -1 &&
+        projectNumberBeingShownCurrently < projectNumber
+        ? 900
+        : 0
+    );
   }
 
   return (
