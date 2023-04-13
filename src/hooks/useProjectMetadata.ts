@@ -91,7 +91,7 @@ function useProjectMetadata() {
       title: "Drawing Dash",
       link: "https://drawingdash.com/",
       description:
-        "Drawing Dash is a drawing app designed for artists to challenge their creativity with daily randomized prompts. There is full search functionality for both drawings and artist profiles. Registered artists can pin their favorite drawings to their profile, update their status and customize their profile picture. The most liked drawings from the previous day are featured on the homepage.",
+        "Drawing Dash is a timed drawing app designed for artists to challenge their creativity with daily randomized prompts. There is full search functionality for both drawings and artist profiles. Registered artists can pin their favorite drawings to their profile, update their status and customize their profile picture. The most liked drawings from the previous day are featured on the homepage.",
       whatILearned: [
         "React + Firebase + Auth0 stack. How to design a full-stack application that is both secure and feature rich.",
         "React's built-in context management system along with canvas manipulation techniques.",
