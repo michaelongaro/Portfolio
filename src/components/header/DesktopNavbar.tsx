@@ -30,7 +30,7 @@ function DesktopNavbar() {
             event.preventDefault();
             history.pushState(null, "", "/");
             window.scrollTo(0, 0);
-            logoRef.current?.blur();
+            setTimeout(() => logoRef.current?.blur(), 100);
           }}
         >
           Michael Ongaro
