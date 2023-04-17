@@ -111,11 +111,6 @@
   transition: all 150ms ease-in-out;
 }
 
-/* .projectContainer:hover,
-.reversedProjectContainer:hover {
-  box-shadow: 4px 3px 9px 0px hsla(0, 0%, 0%, 0.55);
-} */
-
 .projectContainer {
   grid-template-areas:
     " description projectImageContainer "
@@ -164,7 +159,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* gap: 1rem; */
   width: 100%;
   height: 100%;
 
