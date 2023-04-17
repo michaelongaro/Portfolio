@@ -28,8 +28,7 @@ import classes from "./Skills.module.css";
 import "../../index.css";
 
 function Skills() {
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
+  const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
   });
