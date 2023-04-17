@@ -24,6 +24,10 @@ function ScrollToTop() {
     };
   }, []);
 
+  function blur() {
+    upArrowRef.current?.blur();
+  }
+
   return (
     <button
       tabIndex={43}
@@ -33,10 +37,12 @@ function ScrollToTop() {
         pointerEvents: scrollThresholdReached ? "auto" : "none",
       }}
       className={`${classes.scrollToTopContainer} baseFlex`}
+      onMouseLeave={blur}
+      onTouchCancel={blur}
       onClick={() => {
         history.pushState(null, "", "/");
         window.scrollTo(0, 0);
-        upArrowRef.current?.blur();
+        blur();
       }}
     >
       <img src={upArrowIcon} alt={"Scroll to top"} />
