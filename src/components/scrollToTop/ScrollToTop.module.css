@@ -17,11 +17,33 @@
 .scrollToTopContainer>img {
   width: 1.5rem;
   height: 1.5rem;
+  user-select: none;
+  pointer-events: none;
 }
 
-.scrollToTopContainer:active {
-  filter: brightness(0.95);
-  bottom: calc(1rem - 3px);
+@media (hover: hover) and (pointer: fine) {
+  .scrollToTopContainer:hover {
+    background-color: #ed9f31;
+    filter: brightness(1.1);
+  }
+
+  .scrollToTopContainer:active {
+    filter: brightness(0.85);
+    bottom: calc(1rem - 3px);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .scrollToTopContainer:active {
+    background-color: #ed9f31;
+    filter: brightness(0.85);
+    bottom: calc(1rem - 3px);
+  }
+}
+
+.scrollToTopContainer:focus-visible {
+  background-color: #ed9f31;
+  filter: brightness(1.1);
 }
 
 @media (max-width: 600px) {
