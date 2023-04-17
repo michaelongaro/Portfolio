@@ -65,16 +65,20 @@ function Project({
   const projectInnerContainerRef = useRef<HTMLDivElement>(null);
   const projectHyperlinkRef = useRef<HTMLAnchorElement>(null);
 
+  // handling backgroundPositionX when projectNumberBeingShownCurrently
+  // changes (i.e. when a project is opened or closed)
   if (
     projectNumber !== projectNumberBeingShownCurrently &&
     backgroundPositionX !== "100%" &&
-    !hoveringOverTitleAndTechStack
+    !hoveringOverTitleAndTechStack &&
+    !pressingDownOnTitleAndTechStack
   ) {
     setBackgroundPositionX("100%");
   } else if (
     projectNumber === projectNumberBeingShownCurrently &&
     backgroundPositionX !== "50%" &&
-    !hoveringOverTitleAndTechStack
+    !hoveringOverTitleAndTechStack &&
+    !pressingDownOnTitleAndTechStack
   ) {
     setBackgroundPositionX("50%");
   }
@@ -139,16 +143,6 @@ function Project({
     setPressingDownOnTitleAndTechStack(true);
   }
 
-  function handleInteractionCancel() {
-    if (projectNumber === projectNumberBeingShownCurrently) {
-      setBackgroundPositionX("50%");
-    } else {
-      setBackgroundPositionX("100%");
-    }
-
-    setPressingDownOnTitleAndTechStack(false);
-  }
-
   function handleInteractionClick() {
     const element = document.getElementById(
       `project${projectNumberBeingShownCurrently}`
@@ -195,6 +189,9 @@ function Project({
         ? 900
         : 0
     );
+
+    setHoveringOverTitleAndTechStack(false);
+    setPressingDownOnTitleAndTechStack(false);
   }
 
   return (
@@ -235,7 +232,6 @@ function Project({
           onBlur={handleInteractionEnd}
           onMouseDown={handleInteractionActive}
           onTouchStart={handleInteractionActive}
-          onMouseUp={handleInteractionCancel}
           onTouchEnd={handleInteractionEnd}
           onTouchCancel={handleInteractionEnd}
           onClick={handleInteractionClick}
