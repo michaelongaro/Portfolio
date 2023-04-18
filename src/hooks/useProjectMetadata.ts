@@ -115,7 +115,6 @@ function useProjectMetadata() {
           imageLocation: auth0Icon,
           altText: "Auth0",
         },
-
         {
           imageLocation: nodeJSIcon,
           altText: "NodeJS",
@@ -243,7 +242,7 @@ function useProjectMetadata() {
       link: "https://michaelongaro.github.io/UniversalForecast/",
       description: `Universal Forecast is a weather app that allows users to search for the weather in any city in the world. The background dynamically changes to the average temperature of the location entered. The autofill search results are fully keyboard navitgatable, and there is the option to use the user's current location.`,
       whatILearned: [
-        "Vanilla TypeScript and the value of splitting code up into small, reusable functions.",
+        "TypeScript fundamentals and the value of splitting code up into small, reusable functions.",
         "The Fetch API and how to properly retrieve data from an API.",
         "How to handle custom keyboard navigation through a dropdown list.",
       ],
