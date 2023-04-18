@@ -98,7 +98,7 @@ function useProjectMetadata() {
         "UI/UX + Responsive design fundamentals.",
       ],
       challenges: [
-        "React's learning curve was quite a struggle coming from vanilla JS.",
+        "React's learning curve was quite a struggle coming from vanilla JavaScript.",
         "Logic and rendering of suspense states + structuring Firebase schema + fine-tuning animations.",
         "Implementing the paintbucket tool, touch support, and allowing the user to keep drawing if their mouse left the canvas.",
       ],
@@ -114,10 +114,6 @@ function useProjectMetadata() {
         {
           imageLocation: auth0Icon,
           altText: "Auth0",
-        },
-        {
-          imageLocation: nodeJSIcon,
-          altText: "NodeJS",
         },
       ],
       screenshotLink: drawingDashImage,
