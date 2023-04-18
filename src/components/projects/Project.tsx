@@ -353,6 +353,7 @@ function Project({
                     ? "translateX(0)"
                     : "translateX(-15%)",
                   opacity: showWhatILearned ? 1 : 0,
+                  zIndex: showWhatILearned ? "auto" : "-1",
                 }}
                 className={classes.toggleContent}
               >
@@ -366,10 +367,11 @@ function Project({
               <div
                 style={{
                   position: "absolute",
-                  transform: showWhatILearned
-                    ? "translateX(15%)"
-                    : "translateX(0)",
+                  transform: !showWhatILearned
+                    ? "translateX(0)"
+                    : "translateX(15%)",
                   opacity: !showWhatILearned ? 1 : 0,
+                  zIndex: !showWhatILearned ? "auto" : "-1",
                 }}
                 className={classes.toggleContent}
               >
