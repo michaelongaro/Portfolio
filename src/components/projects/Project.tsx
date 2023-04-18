@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import openInNewTab from "../../util/openInNewTab";
 
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
@@ -83,9 +83,9 @@ function Project({
     setBackgroundPositionX("50%");
   }
 
-  useLayoutEffect(() => {
-    function resizeHandler() {
-      if (window.innerWidth < 500) {
+  useEffect(() => {
+    const resizeHandler = () => {
+      if (window.innerWidth <= 500) {
         setHeightOfTitleAndTechStackContainer(120);
       } else if (window.innerWidth > 500 && window.innerWidth < 900) {
         setHeightOfTitleAndTechStackContainer(130);
@@ -97,18 +97,18 @@ function Project({
         projectInnerContainerRef.current?.getBoundingClientRect().height ??
           heightOfTitleAndTechStackContainer
       );
+    };
+
+    const resizeObserver = new ResizeObserver(resizeHandler);
+
+    if (projectOuterContainerRef.current) {
+      resizeObserver.observe(projectOuterContainerRef.current);
     }
 
-    // delay to allow for the project to load fully before getting the height of
-    // the inner body container
-    setTimeout(() => {
-      resizeHandler();
-    }, 1000);
-
-    window.addEventListener("resize", resizeHandler);
+    resizeHandler();
 
     return () => {
-      window.removeEventListener("resize", resizeHandler);
+      resizeObserver.disconnect();
     };
   }, []);
 
