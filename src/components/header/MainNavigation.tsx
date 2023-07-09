@@ -24,6 +24,20 @@ function MainNavigation() {
     };
   }, []);
 
+  useEffect(() => {
+    const baseURL =
+      window.location.host + window.location.pathname + window.location.hash;
+    const path = baseURL.split("/");
+
+    if (path.length === 2) {
+      // by default, the first char in the pathname is a "#" which isn't
+      // part of the actual id of the element
+      const element = document.getElementById(path[1].substring(1));
+
+      element?.scrollIntoView({ behavior: "instant" }); // TODO: global css overrides this currently
+    }
+  }, []);
+
   return <nav>{showSidebar ? <Sidebar /> : <DesktopNavbar />}</nav>;
 }
 
