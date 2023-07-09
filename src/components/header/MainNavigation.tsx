@@ -34,7 +34,7 @@ function MainNavigation() {
       // part of the actual id of the element
       const element = document.getElementById(path[1].substring(1));
 
-      element?.scrollIntoView({ behavior: "instant" }); // TODO: global css overrides this currently
+      element?.scrollIntoView(); // TODO: global css overrides this currently
     }
   }, []);
 
