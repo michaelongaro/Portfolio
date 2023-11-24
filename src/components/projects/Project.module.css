@@ -1,4 +1,4 @@
-.smoothBoxShadowWrapper {
+.mainProjectWrapper {
   position: relative;
   width: 70%;
   scroll-margin-top: 6rem;
@@ -9,32 +9,9 @@
   width: 100%;
   border-radius: 0.5rem;
   overflow: clip;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: height 250ms ease-in-out, opacity 500ms ease-in-out,
     transform 500ms ease-in-out, filter 500ms ease-in-out;
-}
-
-.smoothBoxShadowWrapper::after {
-  content: "";
-  border-radius: 0.5rem;
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  -webkit-transition: all 250ms ease-in-out;
-  transition: all 250ms ease-in-out;
-}
-
-.smoothBoxShadowWrapper:hover::after {
-  opacity: 1;
-}
-
-.smoothBoxShadowWrapper:active::after {
-  opacity: 0;
 }
 
 .titleAndTechStackContainer {
@@ -347,7 +324,7 @@
 }
 
 @media (max-width: 675px) {
-  .smoothBoxShadowWrapper {
+  .mainProjectWrapper {
     width: 90%;
   }
 

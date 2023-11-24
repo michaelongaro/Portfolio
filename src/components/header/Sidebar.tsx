@@ -59,6 +59,7 @@ function Sidebar() {
       </div>
       <div ref={burgerRef} className={classes.burgerIconContainer}>
         <Hamburger
+          size={24}
           color={"#e2e2e2"}
           onToggle={(toggled) => {
             if (toggled) {

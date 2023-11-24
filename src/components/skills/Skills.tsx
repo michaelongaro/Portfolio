@@ -23,6 +23,7 @@ import trpcIcon from "../../assets/trpc.svg";
 import prismaIcon from "../../assets/prisma.svg";
 import tailwindIcon from "../../assets/tailwind.svg";
 import reactTestingLibraryIcon from "../../assets/reactTestingLibrary.png";
+import threeJSIcon from "../../assets/threejs.svg";
 
 import classes from "./Skills.module.css";
 import "../../index.css";
@@ -144,6 +145,12 @@ function Skills() {
         <img className={"icon"} src={auth0Icon} title={"Auth0"} alt={"Auth0"} />
         <img className={"icon"} src={viteIcon} title={"Vite"} alt={"Vite"} />
         <img className={"icon"} src={gitIcon} title={"Git"} alt={"Git"} />
+        <img
+          className={"icon"}
+          src={threeJSIcon}
+          title={"ThreeJS"}
+          alt={"ThreeJS"}
+        />
       </div>
 
       <div

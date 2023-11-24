@@ -102,7 +102,7 @@ function Contact() {
         >
           <label htmlFor={"user_name"}>Name</label>
           <input
-            tabIndex={39}
+            tabIndex={48}
             type="text"
             name="user_name"
             id={"user_name"}
@@ -112,7 +112,7 @@ function Contact() {
           />
           <label htmlFor={"user_email"}>Email</label>
           <input
-            tabIndex={40}
+            tabIndex={49}
             type="email"
             name="user_email"
             id={"user_email"}
@@ -124,7 +124,7 @@ function Contact() {
         <div style={{ gap: ".75rem" }} className={"baseVertFlex"}>
           <label htmlFor={"message"}>Message</label>
           <textarea
-            tabIndex={41}
+            tabIndex={50}
             className={classes.messageInput}
             name="message"
             id={"message"}
@@ -134,7 +134,7 @@ function Contact() {
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-        <button tabIndex={42} className={classes.submitButton} type="submit">
+        <button tabIndex={51} className={classes.submitButton} type="submit">
           Send
         </button>
       </form>

@@ -198,7 +198,7 @@ function Project({
     <article
       id={`project${projectNumber}`}
       ref={projectOuterContainerRef}
-      className={classes.smoothBoxShadowWrapper}
+      className={classes.mainProjectWrapper}
     >
       <div
         style={{
@@ -207,9 +207,8 @@ function Project({
               ? `${heightOfInnerBodyContainer}px`
               : heightOfTitleAndTechStackContainer + "px",
         }}
-        className={`${classes.parentRelativeContainer} ${
-          slideInFromLeft ? "hiddenLeft" : "hiddenRight"
-        }`}
+        className={`${classes.parentRelativeContainer} 
+         ${slideInFromLeft ? "hiddenLeft" : "hiddenRight"}`}
       >
         {/* Title and tech stack */}
         <div
@@ -218,7 +217,7 @@ function Project({
             cursor: "pointer",
             boxShadow:
               projectNumber === projectNumberBeingShownCurrently
-                ? "0 5px 5px rgba(0, 0, 0, 0.3)"
+                ? "0 2px 5px rgba(0, 0, 0, 0.3)"
                 : "0 1px 1px rgba(0, 0, 0, 0.3)",
             backgroundPositionX: backgroundPositionX,
             filter: pressingDownOnTitleAndTechStack
@@ -245,21 +244,25 @@ function Project({
             }
           }}
         >
-          <a
-            ref={projectHyperlinkRef}
-            tabIndex={tabIndexStart + 1}
-            className={classes.projectTitle}
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {title}
-            <img
-              style={{ width: "1rem", height: "1rem" }}
-              src={externalLink}
-              alt={"external link icon"}
-            ></img>
-          </a>
+          {link === "deadLink" ? (
+            <div className={classes.projectTitle}>{title}</div>
+          ) : (
+            <a
+              ref={projectHyperlinkRef}
+              tabIndex={tabIndexStart + 1}
+              className={classes.projectTitle}
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {title}
+              <img
+                style={{ width: "1rem", height: "1rem" }}
+                src={externalLink}
+                alt={"external link icon"}
+              ></img>
+            </a>
+          )}
 
           <div className={classes.techStackContainer}>
             <div className={`${classes.techIcons} baseFlex`}>

@@ -42,7 +42,7 @@ function AboutMe() {
       </div>
 
       <a
-        tabIndex={38}
+        tabIndex={47}
         className={classes.resumeButton}
         href={resumePDF}
         target="_blank"

@@ -21,12 +21,11 @@ function Projects() {
       className={"baseVertFlex"}
     >
       <h2 className="heading">Projects</h2>
-
-      <Project {...projectMetadata[0]} />
-      <Project {...projectMetadata[1]} />
-      <Project {...projectMetadata[2]} />
-      <Project {...projectMetadata[3]} />
-      <Project {...projectMetadata[4]} />
+      {projectMetadata.map((project, index) => {
+        return (
+          <Project key={project.projectNumber} {...projectMetadata[index]} />
+        );
+      })}
     </div>
   );
 }

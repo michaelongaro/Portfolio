@@ -2,7 +2,7 @@
   position: fixed;
   z-index: 999;
   top: 1rem;
-  right: 1rem;
+  right: 0.5rem;
 }
 
 .logoContainer {

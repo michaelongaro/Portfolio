@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { type IProject } from "../components/projects/Project";
 
+import autostrumImage from "../assets/promoImages/autostrum.png";
 import squeakImage from "../assets/promoImages/squeak.png";
 import drawingDashImage from "../assets/promoImages/drawingDash.png";
 import stashImage from "../assets/promoImages/stash.jpg";
@@ -24,6 +25,7 @@ import jestIcon from "../assets/jest.png";
 import viteIcon from "../assets/vite.png";
 import html5Icon from "../assets/html5.png";
 import css3Icon from "../assets/css3.png";
+import threeJSIcon from "../assets/threejs.svg";
 
 function useProjectMetadata() {
   const [
@@ -32,6 +34,61 @@ function useProjectMetadata() {
   ] = useState(0);
 
   const projectMetadata: IProject[] = [
+    {
+      title: "Autostrum",
+      link: "https://autostrum.com/",
+      description:
+        "Autostrum is a platform for guitar players to create, share, and practice guitar tabs. It comes with a highly interactive editor equipped with keyboard shortcuts to reduce repetitive actions. Every tab is able to be programmatically played back using real guitar audio samples. Playback speed and the looping range can be modified for easier practice. Alternatively artists can directly record their playthrough of the tab.",
+      whatILearned: [
+        "How to create a 'compiler' for the generated audio, as well as extensive usage of the Web Audio API.",
+        "How to properly GET and POST files to an AWS S3 bucket using pre-signed URLs for increased security.",
+        "How to use a component UI library (shadcn/ui) to build a cohesive, seamless, and responsive design.",
+      ],
+      challenges: [
+        "Manipulating the raw guitar audio samples to emulate different effects (e.g. slides, hammer-ons, pull-offs, etc.)",
+        "How to utilize the devtools profiler to pinpoint performance bottlenecks, and how to correctly memoize components in React.",
+        "Refactoring a significant portion of the codebase in response to the scope/capabilities of the project expanding.",
+      ],
+      technologies: [
+        {
+          imageLocation: typeScriptIcon,
+          altText: "TypeScript",
+        },
+        {
+          imageLocation: nextIcon,
+          altText: "NextJS",
+        },
+        {
+          imageLocation: trpcIcon,
+          altText: "tRPC",
+        },
+        {
+          imageLocation: prismaIcon,
+          altText: "Prisma",
+        },
+        {
+          imageLocation: postgresIcon,
+          altText: "PostgreSQL",
+        },
+        {
+          imageLocation: tailwindIcon,
+          altText: "TailwindCSS",
+        },
+        {
+          imageLocation: threeJSIcon,
+          altText: "Three.JS",
+        },
+      ],
+      screenshotLink: autostrumImage,
+      screenshotAltText:
+        "A screenshot of Autostrum, a guitar tab creator that I built with the T3 stack.",
+      githubRepoLink: "https://github.com/michaelongaro/Autostrum",
+      slideInFromLeft: true,
+      projectNumber: 0,
+      projectNumberBeingShownCurrently,
+      setProjectNumberBeingShownCurrently,
+      tabIndexStart: 7,
+    },
     {
       title: "Squeak",
       link: "https://playsqueak.com/",
@@ -81,11 +138,11 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Squeak, a realtime multiplayer card game that I built with the T3 + Socket.IO stack.",
       githubRepoLink: "https://github.com/michaelongaro/Squeak",
-      slideInFromLeft: true,
-      projectNumber: 0,
+      slideInFromLeft: false,
+      projectNumber: 1,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
-      tabIndexStart: 7,
+      tabIndexStart: 13,
     },
     {
       title: "Drawing Dash",
@@ -120,11 +177,11 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Drawing Dash, a drawing game that I built with the React + Firebase + Auth0 stack.",
       githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
-      slideInFromLeft: false,
-      projectNumber: 1,
+      slideInFromLeft: true,
+      projectNumber: 2,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
-      tabIndexStart: 13,
+      tabIndexStart: 19,
     },
     {
       title: "Stash",
@@ -172,15 +229,15 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Stash, an image hosting site that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/stash",
-      slideInFromLeft: true,
-      projectNumber: 2,
+      slideInFromLeft: false,
+      projectNumber: 3,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
-      tabIndexStart: 19,
+      tabIndexStart: 26,
     },
     {
       title: "Lyricize",
-      link: "https://lyricize-app.herokuapp.com/",
+      link: "deadLink",
       description:
         "Lyricize is lyric occurance visualizer tailored for your liked songs on Spotify. Lyrics can be viewed either with an interactive bubble map or a user-friendly list format, and offers the flexibility to filter results based on word length. Users can share their profile page and compare their lyrical insights with the collective data of fellow Lyricize users.",
       whatILearned: [
@@ -227,11 +284,11 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Lyricize, a Spotify lyric visualizer app that I built with the MERN stack.",
       githubRepoLink: "https://github.com/michaelongaro/Lyricize",
-      slideInFromLeft: false,
-      projectNumber: 3,
+      slideInFromLeft: true,
+      projectNumber: 4,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
-      tabIndexStart: 26,
+      tabIndexStart: 34,
     },
     {
       title: "Universal Forecast",
@@ -269,11 +326,11 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Universal Forecast, a weather app that I built with vanilla TypeScript.",
       githubRepoLink: "https://github.com/michaelongaro/UniversalForecast",
-      slideInFromLeft: true,
-      projectNumber: 4,
+      slideInFromLeft: false,
+      projectNumber: 5,
       projectNumberBeingShownCurrently,
       setProjectNumberBeingShownCurrently,
-      tabIndexStart: 32,
+      tabIndexStart: 41,
     },
   ];
 

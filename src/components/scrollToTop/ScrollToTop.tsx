@@ -24,7 +24,7 @@ function ScrollToTop() {
 
   return (
     <button
-      tabIndex={43}
+      tabIndex={52}
       style={{
         opacity: scrollThresholdReached ? 1 : 0,
         pointerEvents: scrollThresholdReached ? "auto" : "none",
