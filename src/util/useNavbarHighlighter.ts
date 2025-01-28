@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { debounce } from "debounce";
+import debounce from "debounce";
 
 function useNavbarHighlighter() {
   const [linkStates, setLinkStates] = useState<boolean[]>([

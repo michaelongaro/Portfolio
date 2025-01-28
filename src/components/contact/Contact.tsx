@@ -38,17 +38,19 @@ function Contact() {
 
     emailjs
       .sendForm(
-        "service_dhu4wg4",
-        "template_u5w960t",
+        "service_cpdvlui", // service id
+        "template_o1kbtsc", // template id
         formRef.current!,
-        "iYPC-ZOsD3bdvV7lu"
+        {
+          publicKey: "vnlt9eOGz7CExZao6",
+        }
       )
       .then(
         () => {
           toast.success("Message sent!", {
             position: reachedMobileViewportWidth
-              ? toast.POSITION.BOTTOM_CENTER
-              : toast.POSITION.TOP_RIGHT,
+              ? "bottom-center"
+              : "top-right",
           });
           setName("");
           setEmail("");
@@ -59,8 +61,8 @@ function Contact() {
             "An error occurred while sending your message. Please try again later.",
             {
               position: reachedMobileViewportWidth
-                ? toast.POSITION.BOTTOM_CENTER
-                : toast.POSITION.TOP_RIGHT,
+                ? "bottom-center"
+                : "top-right",
             }
           );
         }

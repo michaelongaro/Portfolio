@@ -146,7 +146,7 @@ function useProjectMetadata() {
     },
     {
       title: "Drawing Dash",
-      link: "https://drawingdash.com/",
+      link: "deadLink",
       description:
         "Drawing Dash is a timed drawing app designed for artists to challenge their creativity with daily randomized prompts. There is full search functionality for both drawings and artist profiles. Registered artists can pin their favorite drawings to their profile, update their status and customize their profile picture. The most liked drawings from the previous day are featured on the homepage.",
       whatILearned: [

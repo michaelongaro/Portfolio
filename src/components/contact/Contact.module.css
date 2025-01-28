@@ -6,8 +6,9 @@
 }
 
 .contactText {
-  max-width: 100ch;
-  margin: 0 1rem;
+  max-width: 75ch;
+  margin: 0 1.25rem;
+  text-wrap: balance;
 }
 
 .messageInput {
