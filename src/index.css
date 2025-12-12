@@ -8,7 +8,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-sans text-text-light bg-background-light dark:text-text-dark dark:bg-background-dark transition-colors duration-300;
     font-family: "M PLUS 1", sans-serif;

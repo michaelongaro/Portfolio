@@ -34,14 +34,22 @@ function Project({
   githubRepoLink,
   slideInFromLeft,
 }: IProject) {
-  const [activeTab, setActiveTab] = useState<'learned' | 'challenges'>('learned');
+  const [activeTab, setActiveTab] = useState<"learned" | "challenges">(
+    "learned"
+  );
 
   return (
-    <article className={`flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl ${slideInFromLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
-      
+    <article
+      className={`flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl ${
+        slideInFromLeft ? "lg:flex-row" : "lg:flex-row-reverse"
+      }`}
+    >
       {/* Image Section */}
       <div className="w-full lg:w-1/2 space-y-4">
-        <div className="relative group overflow-hidden rounded-xl shadow-md cursor-pointer" onClick={() => link !== "deadLink" && openInNewTab(link)}>
+        <div
+          className="relative group overflow-hidden rounded-xl shadow-md cursor-pointer"
+          onClick={() => link !== "deadLink" && openInNewTab(link)}
+        >
           <img
             src={screenshotLink}
             alt={screenshotAltText}
@@ -49,7 +57,7 @@ function Project({
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
         </div>
-        
+
         <div className="flex justify-center gap-4">
           {link !== "deadLink" && (
             <button
@@ -57,7 +65,11 @@ function Project({
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
             >
               <span>Live Demo</span>
-              <img src={externalLink} alt="External Link" className="w-4 h-4 invert" />
+              <img
+                src={externalLink}
+                alt="External Link"
+                className="w-4 h-4 invert"
+              />
             </button>
           )}
           <button
@@ -78,7 +90,11 @@ function Project({
           </h3>
           <div className="flex flex-wrap gap-2 mb-4">
             {technologies.map((tech) => (
-              <div key={tech.altText} className="relative group" title={tech.altText}>
+              <div
+                key={tech.altText}
+                className="relative group"
+                title={tech.altText}
+              >
                 <img
                   src={tech.imageLocation}
                   alt={tech.altText}
@@ -96,28 +112,28 @@ function Project({
         <div className="bg-gray-50 dark:bg-slate-700/50 rounded-xl p-4">
           <div className="flex gap-4 border-b border-gray-200 dark:border-gray-600 mb-4">
             <button
-              onClick={() => setActiveTab('learned')}
+              onClick={() => setActiveTab("learned")}
               className={`pb-2 px-1 text-sm font-medium transition-colors relative ${
-                activeTab === 'learned'
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                activeTab === "learned"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
               What I Learned
-              {activeTab === 'learned' && (
+              {activeTab === "learned" && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
               )}
             </button>
             <button
-              onClick={() => setActiveTab('challenges')}
+              onClick={() => setActiveTab("challenges")}
               className={`pb-2 px-1 text-sm font-medium transition-colors relative ${
-                activeTab === 'challenges'
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                activeTab === "challenges"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
               Challenges
-              {activeTab === 'challenges' && (
+              {activeTab === "challenges" && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
               )}
             </button>
@@ -125,9 +141,11 @@ function Project({
 
           <div className="min-h-[100px]">
             <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300 text-sm">
-              {(activeTab === 'learned' ? whatILearned : challenges).map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
+              {(activeTab === "learned" ? whatILearned : challenges).map(
+                (item, idx) => (
+                  <li key={idx}>{item}</li>
+                )
+              )}
             </ul>
           </div>
         </div>

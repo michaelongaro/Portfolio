@@ -67,11 +67,7 @@ function Skills() {
   }, [inView]);
 
   return (
-    <section
-      ref={ref}
-      id="skills"
-      className="py-20 scroll-mt-20"
-    >
+    <section ref={ref} id="skills" className="py-20 scroll-mt-20">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-blue-500 after:mt-2 after:rounded-full">
           Skills
@@ -98,9 +94,12 @@ function Skills() {
           </div>
         ))}
       </div>
-      
+
       <div className="text-center mt-12 text-gray-600 dark:text-gray-400">
-        <p>Currently learning: <span className="font-semibold text-blue-500">Rust</span></p>
+        <p>
+          Currently learning:{" "}
+          <span className="font-semibold text-blue-500">Rust</span>
+        </p>
       </div>
     </section>
   );

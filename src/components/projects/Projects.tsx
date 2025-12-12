@@ -11,7 +11,7 @@ function Projects() {
           Projects
         </h2>
       </div>
-      
+
       <div className="space-y-20">
         {projectMetadata.map((project, index) => (
           <Project key={project.projectNumber} {...project} />

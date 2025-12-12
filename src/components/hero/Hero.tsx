@@ -27,14 +27,21 @@ function Hero() {
     <section className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center text-center py-20">
       <div className="space-y-6 animate-fade-in-up">
         <h1 className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white">
-          Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">Michael</span>
+          Hi, I'm{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">
+            Michael
+          </span>
         </h1>
-        
+
         <div className="text-xl md:text-3xl flex items-center justify-center gap-2 text-gray-600 dark:text-gray-300">
           <span>I'm a</span>
-          <span className="font-mono text-blue-600 dark:text-blue-400">&lt;</span>
+          <span className="font-mono text-blue-600 dark:text-blue-400">
+            &lt;
+          </span>
           <span className="font-semibold">full stack web developer</span>
-          <span className="font-mono text-blue-600 dark:text-blue-400">/&gt;</span>
+          <span className="font-mono text-blue-600 dark:text-blue-400">
+            /&gt;
+          </span>
         </div>
 
         <div
@@ -49,7 +56,11 @@ function Hero() {
           onKeyDown={handleKeyDown}
           onClick={handleClick}
         >
-          <div className={`absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300 ${hoveringOnGithubLogo ? 'opacity-40' : ''}`}></div>
+          <div
+            className={`absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300 ${
+              hoveringOnGithubLogo ? "opacity-40" : ""
+            }`}
+          ></div>
           <img
             src={mediumGithubLogo}
             alt="Github Logo"

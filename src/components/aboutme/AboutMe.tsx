@@ -50,7 +50,11 @@ function AboutMe() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1"
             >
               <span>View Resume</span>
-              <img src={externalLink} alt="External Link" className="w-4 h-4 invert" />
+              <img
+                src={externalLink}
+                alt="External Link"
+                className="w-4 h-4 invert"
+              />
             </a>
           </div>
         </div>

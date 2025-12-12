@@ -74,7 +74,10 @@ function Contact() {
           className="bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-8 space-y-6"
         >
           <div className="space-y-2">
-            <label htmlFor="user_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="user_name"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Name
             </label>
             <input
@@ -90,7 +93,10 @@ function Contact() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="user_email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="user_email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Email
             </label>
             <input
@@ -106,7 +112,10 @@ function Contact() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Message
             </label>
             <textarea
