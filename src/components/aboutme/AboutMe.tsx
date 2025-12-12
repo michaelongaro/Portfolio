@@ -2,25 +2,28 @@ import myHeadshot from "../../assets/headshot.jpg";
 import externalLink from "../../assets/externalLink.svg";
 import resumePDF from "../../assets/MichaelOngaroResume.pdf";
 
-import classes from "./AboutMe.module.css";
-import "../../index.css";
-
 function AboutMe() {
   return (
-    <div id={"aboutme"} className={`baseVertFlex ${classes.aboutMeContainer}`}>
-      <h2 className={"heading"}>About Me</h2>
+    <section id="aboutme" className="py-20 scroll-mt-20">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-blue-500 after:mt-2 after:rounded-full">
+          About Me
+        </h2>
+      </div>
 
-      <div className={`${classes.bodyContainer} baseFlex`}>
-        <div className={classes.headshotContainer}>
-          <img
-            className={classes.headshot}
-            src={myHeadshot}
-            alt={"A close-up professional image of my face."}
-          />
+      <div className="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
+        <div className="w-full md:w-1/3 flex justify-center">
+          <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-slate-700 shadow-2xl">
+            <img
+              src={myHeadshot}
+              alt="A close-up professional image of my face."
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
-        <div className={`${classes.aboutMeTextContainer} baseVertFlex`}>
-          <p className={classes.aboutMeText}>
+        <div className="w-full md:w-2/3 space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-center md:text-left">
+          <p>
             My name is Michael Ongaro, and I am a passionate web developer with
             a focus on creating accessible, enjoyable, and feature-rich web
             applications. I believe in the power of small, consistent
@@ -29,7 +32,7 @@ function AboutMe() {
             eager to learn and innovate.
           </p>
 
-          <p className={classes.aboutMeText}>
+          <p>
             One of the things that sets me apart as a developer is my focus on
             accessibility. I believe that all web applications should be
             designed to be inclusive and usable by everyone, regardless of their
@@ -38,24 +41,21 @@ function AboutMe() {
             accessibility standards and guidelines to ensure that my work is
             always compliant.
           </p>
+
+          <div className="pt-4 flex justify-center md:justify-start">
+            <a
+              href={resumePDF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1"
+            >
+              <span>View Resume</span>
+              <img src={externalLink} alt="External Link" className="w-4 h-4 invert" />
+            </a>
+          </div>
         </div>
       </div>
-
-      <a
-        tabIndex={47}
-        className={classes.resumeButton}
-        href={resumePDF}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Open resume
-        <img
-          style={{ width: "1rem", height: "1rem" }}
-          src={externalLink}
-          alt={"external link icon"}
-        ></img>
-      </a>
-    </div>
+    </section>
   );
 }
 

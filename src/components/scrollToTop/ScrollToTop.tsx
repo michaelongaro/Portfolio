@@ -1,41 +1,39 @@
 import { useState, useEffect } from "react";
-
 import upArrowIcon from "../../assets/upArrow.svg";
 
-import classes from "./ScrollToTop.module.css";
-import "../../index.css";
-
 function ScrollToTop() {
-  const [scrollThresholdReached, setScrollThresholdReached] =
-    useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    function handleScroll() {
-      setScrollThresholdReached(
-        window.scrollY > Math.floor(0.25 * window.innerHeight)
-      );
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
     };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    history.pushState(null, "", "/");
+  };
 
   return (
     <button
-      tabIndex={52}
-      style={{
-        opacity: scrollThresholdReached ? 1 : 0,
-        pointerEvents: scrollThresholdReached ? "auto" : "none",
-      }}
-      className={`${classes.scrollToTopContainer} baseFlex`}
-      onClick={() => {
-        history.pushState(null, "", "/");
-        window.scrollTo(0, 0);
-      }}
+      onClick={scrollToTop}
+      className={`fixed bottom-8 right-8 p-3 rounded-full bg-blue-600 text-white shadow-lg transition-all duration-300 hover:bg-blue-700 hover:shadow-xl z-40 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+      }`}
+      aria-label="Scroll to top"
     >
-      <img src={upArrowIcon} alt={"Scroll to top"} />
+      <img src={upArrowIcon} alt="Scroll to top" className="w-6 h-6 invert" />
     </button>
   );
 }

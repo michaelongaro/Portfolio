@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-
 import { useInView } from "react-intersection-observer";
 import anime from "animejs";
 
@@ -25,148 +24,85 @@ import tailwindIcon from "../../assets/tailwind.svg";
 import reactTestingLibraryIcon from "../../assets/reactTestingLibrary.png";
 import threeJSIcon from "../../assets/threejs.svg";
 
-import classes from "./Skills.module.css";
-import "../../index.css";
+const skills = [
+  { src: html5Icon, title: "HTML 5" },
+  { src: css3Icon, title: "CSS 3" },
+  { src: javaScriptIcon, title: "JavaScript" },
+  { src: typeScriptIcon, title: "TypeScript" },
+  { src: reactIcon, title: "React" },
+  { src: nextIcon, title: "NextJS" },
+  { src: trpcIcon, title: "tRPC" },
+  { src: nodeJSIcon, title: "NodeJS" },
+  { src: prismaIcon, title: "Prisma" },
+  { src: postgresIcon, title: "PostgreSQL" },
+  { src: mongoDBIcon, title: "MongoDB" },
+  { src: firebaseIcon, title: "Firebase" },
+  { src: auth0Icon, title: "Auth0" },
+  { src: tailwindIcon, title: "Tailwind CSS" },
+  { src: sassIcon, title: "Sass" },
+  { src: threeJSIcon, title: "ThreeJS" },
+  { src: socketIOIcon, title: "Socket.io" },
+  { src: viteIcon, title: "Vite" },
+  { src: jestIcon, title: "Jest" },
+  { src: reactTestingLibraryIcon, title: "RTL" },
+  { src: gitIcon, title: "Git" },
+];
 
 function Skills() {
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.1,
     triggerOnce: true,
   });
 
   useEffect(() => {
     if (inView) {
-      let gridDimensions = [7, 3];
-
-      if (window.innerWidth < 550) {
-        gridDimensions = [6, 4];
-      }
-
       anime({
-        targets: "#iconGrid .icon",
+        targets: ".skill-icon",
         opacity: [0, 1],
-        delay: anime.stagger(200, { grid: gridDimensions, from: "first" }),
-      });
-
-      anime({
-        targets: "#currentlyLearning",
-        opacity: [0, 1],
-        duration: 1000,
-        delay: 1350,
+        translateY: [20, 0],
+        delay: anime.stagger(100),
+        easing: "easeOutQuad",
       });
     }
   }, [inView]);
 
   return (
-    <div
+    <section
       ref={ref}
-      id={"skills"}
-      style={{ marginTop: "8rem", gap: "2rem", scrollMargin: "8rem" }}
-      className={"baseVertFlex"}
+      id="skills"
+      className="py-20 scroll-mt-20"
     >
-      <h2 className={"heading"}>Skills</h2>
-
-      <div
-        style={{ gap: "1rem" }}
-        id={"iconGrid"}
-        className={classes.skillsContainer}
-      >
-        <img
-          className={"icon"}
-          src={html5Icon}
-          title={"HTML 5"}
-          alt={"HTML 5"}
-        />
-        <img className={"icon"} src={css3Icon} title={"CSS 3"} alt={"CSS 3"} />
-        <img
-          className={"icon"}
-          src={javaScriptIcon}
-          title={"JavaScipt"}
-          alt={"JavaScript"}
-        />
-        <img
-          className={"icon"}
-          src={typeScriptIcon}
-          title={"TypeScipt"}
-          alt={"TypeScript"}
-        />
-        <img className={"icon"} src={reactIcon} title={"React"} alt={"React"} />
-        <img
-          className={"icon"}
-          src={nextIcon}
-          title={"NextJS"}
-          alt={"NextJS"}
-        />
-        <img className={"icon"} src={trpcIcon} title={"tRPC"} alt={"tRPC"} />
-        <img
-          className={"icon"}
-          src={prismaIcon}
-          title={"Prisma"}
-          alt={"Prisma"}
-        />
-        <img
-          className={"icon"}
-          src={tailwindIcon}
-          title={"TailwindCSS"}
-          alt={"TailwindCSS"}
-        />
-        <img
-          className={"icon"}
-          src={nodeJSIcon}
-          title={"NodeJS"}
-          alt={"NodeJS"}
-        />
-        <img
-          className={"icon"}
-          src={mongoDBIcon}
-          title={"MongoDB"}
-          alt={"MongoDB"}
-        />
-        <img
-          className={"icon"}
-          src={postgresIcon}
-          title={"PostgreSQL"}
-          alt={"PostgreSQL"}
-        />
-        <img
-          className={"icon"}
-          src={socketIOIcon}
-          title={"Socket.IO"}
-          alt={"Socket.IO"}
-        />
-        <img className={"icon"} src={jestIcon} title={"Jest"} alt={"Jest"} />
-        <img className={"icon"} src={sassIcon} title={"Sass"} alt={"Sass"} />
-        <img
-          className={"icon"}
-          src={firebaseIcon}
-          title={"Firebase"}
-          alt={"Firebase"}
-        />
-        <img className={"icon"} src={auth0Icon} title={"Auth0"} alt={"Auth0"} />
-        <img className={"icon"} src={viteIcon} title={"Vite"} alt={"Vite"} />
-        <img className={"icon"} src={gitIcon} title={"Git"} alt={"Git"} />
-        <img
-          className={"icon"}
-          src={threeJSIcon}
-          title={"ThreeJS"}
-          alt={"ThreeJS"}
-        />
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-blue-500 after:mt-2 after:rounded-full">
+          Skills
+        </h2>
       </div>
 
-      <div
-        style={{ gap: "1rem" }}
-        className={`${classes.currentlyLearning} baseFlex`}
-      >
-        Currently learning:
-        <img
-          id="currentlyLearning"
-          className={"icon"}
-          src={reactTestingLibraryIcon}
-          title={"React Testing Library"}
-          alt={"React Testing Library"}
-        />
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-8 justify-items-center">
+        {skills.map((skill, index) => (
+          <div
+            key={index}
+            className="skill-icon opacity-0 flex flex-col items-center gap-2 group"
+          >
+            <div className="w-16 h-16 md:w-20 md:h-20 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
+              <img
+                src={skill.src}
+                alt={skill.title}
+                title={skill.title}
+                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+              />
+            </div>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute -bottom-6 whitespace-nowrap">
+              {skill.title}
+            </span>
+          </div>
+        ))}
       </div>
-    </div>
+      
+      <div className="text-center mt-12 text-gray-600 dark:text-gray-400">
+        <p>Currently learning: <span className="font-semibold text-blue-500">Rust</span></p>
+      </div>
+    </section>
   );
 }
 

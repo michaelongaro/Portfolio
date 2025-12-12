@@ -1,10 +1,6 @@
 import { useState, type KeyboardEvent } from "react";
 import openInNewTab from "../../util/openInNewTab";
-
 import mediumGithubLogo from "../../assets/mediumGithubLogo.png";
-
-import classes from "./Hero.module.css";
-import "../../index.css";
 
 function Hero() {
   const [hoveringOnGithubLogo, setHoveringOnGithubLogo] = useState(false);
@@ -28,20 +24,22 @@ function Hero() {
   }
 
   return (
-    <h2 className={`${classes.heroBackground} baseVertFlex`}>
-      <div className={`${classes.hero} baseVertFlex`}>
-        <div className={classes.topHero}>
-          Hi, I'm <span className={classes.nameUnderline}>Michael</span>
-        </div>
-        <div className={`${classes.middleHero} baseFlex`}>
-          I'm a<div className={classes.leftBracket}>&lt;</div>
-          <div className={classes.webDevText}>full stack web developer</div>
-          <div className={classes.rightBracket}>/&gt;</div>
+    <section className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center text-center py-20">
+      <div className="space-y-6 animate-fade-in-up">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white">
+          Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">Michael</span>
+        </h1>
+        
+        <div className="text-xl md:text-3xl flex items-center justify-center gap-2 text-gray-600 dark:text-gray-300">
+          <span>I'm a</span>
+          <span className="font-mono text-blue-600 dark:text-blue-400">&lt;</span>
+          <span className="font-semibold">full stack web developer</span>
+          <span className="font-mono text-blue-600 dark:text-blue-400">/&gt;</span>
         </div>
 
         <div
-          className={classes.logoContainer}
-          tabIndex={6}
+          className="relative mt-12 cursor-pointer group inline-block"
+          tabIndex={0}
           onMouseEnter={handleInteractionStart}
           onMouseLeave={handleInteractionEnd}
           onTouchStart={handleInteractionStart}
@@ -51,57 +49,15 @@ function Hero() {
           onKeyDown={handleKeyDown}
           onClick={handleClick}
         >
+          <div className={`absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300 ${hoveringOnGithubLogo ? 'opacity-40' : ''}`}></div>
           <img
             src={mediumGithubLogo}
-            alt={"Github Logo"}
-            className={`${classes.githubLogo} ${classes.bottomHero}`}
+            alt="Github Logo"
+            className="relative w-24 h-24 md:w-32 md:h-32 transition-transform duration-300 transform group-hover:scale-110"
           />
-
-          <svg
-            style={{ opacity: hoveringOnGithubLogo ? 0.85 : 0 }}
-            className={classes.waves}
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            viewBox="0 24 150 28"
-            preserveAspectRatio="none"
-            shapeRendering="auto"
-          >
-            <defs>
-              <path
-                id="gentle-wave"
-                d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-              />
-            </defs>
-            <g className={classes.parallax}>
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="0"
-                fill="rgba(5,32,74,0.5)"
-              />
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="3"
-                fill="rgba(5,32,74,0.5)"
-              />
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="5"
-                fill="rgba(5,32,74,0.3)"
-              />
-              <use
-                xlinkHref="#gentle-wave"
-                x="48"
-                y="7"
-                fill="rgba(5,32,74, 0.1)"
-              />
-            </g>
-          </svg>
         </div>
       </div>
-    </h2>
+    </section>
   );
 }
 
