@@ -7,13 +7,25 @@ import {
   Environment,
   Float,
   RoundedBox,
+  useTexture,
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
 import * as THREE from "three";
 import { useMemo, useRef } from "react";
+import headshot from "../../assets/headshot.jpg";
 
 // --- Components ---
+
+function MonitorImage({ url }: { url: string }) {
+  const texture = useTexture(url);
+  return (
+    <mesh position={[0, 0.2, 0]}>
+      <circleGeometry args={[0.12, 64]} />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
+  );
+}
 
 function Monitor({
   position,
@@ -22,6 +34,7 @@ function Monitor({
   subtext,
   isDark,
   screenColor = "#1a1a2e",
+  image,
 }: any) {
   const emissiveIntensity = isDark ? 1.5 : 0.3;
 
@@ -56,7 +69,7 @@ function Monitor({
         <planeGeometry args={[1.5, 0.85]} />
         <meshStandardMaterial
           color={screenColor}
-          emissive={isDark ? "#4a90d9" : "#ffffff"}
+          emissive={isDark ? "#0f172b" : "#ffffff"}
           emissiveIntensity={emissiveIntensity}
           roughness={0.1}
           metalness={0.1}
@@ -79,12 +92,13 @@ function Monitor({
       {/* Text Content */}
       {text && (
         <group position={[0, 0, 0.232]}>
+          {image && <MonitorImage url={image} />}
           <Text
             fontSize={0.12}
             color={isDark ? "#ffffff" : "#1a1a1a"}
             anchorX="center"
             anchorY="middle"
-            position={[0, 0.08, 0]}
+            position={[0, image ? -0.05 : 0.08, 0]}
             maxWidth={1.4}
             textAlign="center"
             font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
@@ -97,7 +111,7 @@ function Monitor({
               color={isDark ? "#8ab4f8" : "#4a5568"}
               anchorX="center"
               anchorY="middle"
-              position={[0, -0.08, 0]}
+              position={[0, image ? -0.2 : -0.08, 0]}
               font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
             >
               {subtext}
@@ -1028,10 +1042,11 @@ export default function Scene() {
           {/* Main Monitor - centered on desk */}
           <Monitor
             position={[0.3, -1.3, -0.7]}
-            text="Hi, I'm Michael"
+            text="Michael Ongaro"
             subtext="Full Stack Developer"
             isDark={isDark}
             screenColor={isDark ? "#0a0a15" : "#f8f9fa"}
+            image={headshot}
           />
 
           {/* Side Monitor - angled */}
