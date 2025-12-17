@@ -64,20 +64,16 @@ function Project({
               onClick={() => openInNewTab(link)}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
             >
-              <span>Live Demo</span>
-              <img
-                src={externalLink}
-                alt="External Link"
-                className="w-4 h-4 invert"
-              />
+              <span>Visit</span>
+              <img src={externalLink} alt="External Link" className="w-4 h-4" />
             </button>
           )}
           <button
             onClick={() => openInNewTab(githubRepoLink)}
             className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
           >
-            <span>Source Code</span>
             <img src={smallLightGithubIcon} alt="GitHub" className="w-5 h-5" />
+            <span>Repository</span>
           </button>
         </div>
       </div>
