@@ -341,10 +341,10 @@ function Keyboard({ position, rotation, isDark }: any) {
     <group position={position} rotation={rotation}>
       {/* Keyboard Base - Wider for TKL */}
       <RoundedBox
-        args={[1.7, 0.015, 1.2]}
+        args={[1.7, 0.015, 0.65]}
         radius={0.01}
         smoothness={4}
-        position={[-0.125, 0, -0.33]}
+        position={[-0.125, 0, -0.05]}
         receiveShadow
         castShadow
       >
@@ -846,10 +846,10 @@ export default function Scene() {
             screenColor={isDark ? "#0a0512" : "#f8f9fa"}
           />
 
-          {/* Keyboard - moved forward so it's fully visible */}
+          {/* Keyboard */}
           <Keyboard
             position={[0.2, -2, 0.6]}
-            rotation={[-0.08, 0, 0]}
+            rotation={[0, 0, 0]}
             isDark={isDark}
           />
 
