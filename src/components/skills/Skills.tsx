@@ -78,7 +78,7 @@ function Skills() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-8 justify-items-center">
+      <div className="grid mx-8 sm:mx-0 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-8 justify-items-center">
         {skills.map((skill, index) => (
           <div
             key={index}
