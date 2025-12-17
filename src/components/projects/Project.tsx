@@ -13,7 +13,6 @@ export interface IProject {
   screenshotLink: string;
   screenshotAltText: string;
   githubRepoLink: string;
-  slideInFromLeft: boolean;
   projectNumber: number;
 }
 
@@ -32,18 +31,13 @@ function Project({
   screenshotLink,
   screenshotAltText,
   githubRepoLink,
-  slideInFromLeft,
 }: IProject) {
   const [activeTab, setActiveTab] = useState<"learned" | "challenges">(
     "learned"
   );
 
   return (
-    <article
-      className={`flex flex-col lg:flex-row gap-8 items-start  border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl ${
-        slideInFromLeft ? "lg:flex-row" : "lg:flex-row-reverse"
-      }`}
-    >
+    <article className="flex flex-col lg:flex-row gap-8 items-start  border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
       {/* Image Section */}
       <div className="w-full lg:w-1/2 space-y-4">
         <div

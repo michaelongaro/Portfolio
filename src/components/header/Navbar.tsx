@@ -52,7 +52,7 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
                     linkStates[idx]
                       ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-slate-800"
                       : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-slate-800"
@@ -65,7 +65,7 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
@@ -81,7 +81,7 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleTheme}
-              className="p-2 mr-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+              className="p-2 mr-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
             >
               {theme === "light" ? (
                 <LuSun className="size-4 text-yellow-500" />

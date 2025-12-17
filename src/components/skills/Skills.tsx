@@ -6,7 +6,6 @@ import html5Icon from "../../assets/html5.png";
 import css3Icon from "../../assets/css3.png";
 import javaScriptIcon from "../../assets/javascript.png";
 import typeScriptIcon from "../../assets/typescript.png";
-import auth0Icon from "../../assets/auth0.png";
 import reactIcon from "../../assets/react.png";
 import mongoDBIcon from "../../assets/mongodb.png";
 import firebaseIcon from "../../assets/firebase.png";

@@ -78,7 +78,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Autostrum, a guitar tab creator that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/Autostrum",
-      slideInFromLeft: true,
       projectNumber: 0,
     },
     {
@@ -130,7 +129,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Squeak, a multiplayer card game that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/Squeak",
-      slideInFromLeft: false,
       projectNumber: 1,
     },
     {
@@ -166,10 +164,6 @@ function useProjectMetadata() {
           altText: "Auth0",
         },
         {
-          imageLocation: jestIcon,
-          altText: "Jest",
-        },
-        {
           imageLocation: viteIcon,
           altText: "Vite",
         },
@@ -178,7 +172,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Drawing Dash, a drawing game that I built with React and Firebase.",
       githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
-      slideInFromLeft: true,
       projectNumber: 2,
     },
     {
@@ -210,12 +203,8 @@ function useProjectMetadata() {
           altText: "NodeJS",
         },
         {
-          imageLocation: mongoDBIcon,
-          altText: "MongoDB",
-        },
-        {
-          imageLocation: sassIcon,
-          altText: "Sass",
+          imageLocation: postgresIcon,
+          altText: "PostgreSQL",
         },
         {
           imageLocation: awsIcon,
@@ -226,7 +215,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Stash, a digital asset management platform that I built with the MERN stack.",
       githubRepoLink: "https://github.com/michaelongaro/Stash",
-      slideInFromLeft: false,
       projectNumber: 3,
     },
     {
@@ -254,15 +242,22 @@ function useProjectMetadata() {
           altText: "React",
         },
         {
-          imageLocation: tailwindIcon,
-          altText: "TailwindCSS",
+          imageLocation: mongoDBIcon,
+          altText: "MongoDB",
+        },
+        {
+          imageLocation: sassIcon,
+          altText: "Sass",
+        },
+        {
+          imageLocation: jestIcon,
+          altText: "Jest",
         },
       ],
       screenshotLink: lyricizeImage,
       screenshotAltText:
         "A screenshot of Lyricize, a lyrics search application that I built with React and Auth0.",
       githubRepoLink: "https://github.com/michaelongaro/Lyricize",
-      slideInFromLeft: true,
       projectNumber: 4,
     },
     {
@@ -298,7 +293,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Universal Forecast, a weather application that I built with HTML, CSS, and JavaScript.",
       githubRepoLink: "https://github.com/michaelongaro/UniversalForecast",
-      slideInFromLeft: false,
       projectNumber: 5,
     },
   ];
