@@ -110,27 +110,50 @@ function Monitor({
 }
 
 function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
+
+  useFrame((state) => {
+    if (materialRef.current) {
+      const time = state.clock.getElapsedTime();
+      // RGB Wave effect
+      // Position based offset for wave
+      const xOffset = position[0] * 2;
+      const yOffset = position[2] * 2;
+      const hue = (time * 0.2 + xOffset + yOffset) % 1;
+      const color = new THREE.Color().setHSL(hue, 1, 0.6);
+
+      materialRef.current.emissive = color;
+      materialRef.current.emissiveIntensity = 0.8;
+      materialRef.current.color = new THREE.Color(0.1, 0.1, 0.1); // Dark base
+    }
+  });
+
+  // Font size adjustment
+  const isSmall = label && (label.length > 1 || !/^[a-zA-Z0-9]$/.test(label));
+  const fontSize = isSmall ? 0.022 : 0.035;
+
   return (
     <group position={position}>
       {/* Key cap */}
       <RoundedBox
         args={[width, 0.025, depth]}
-        radius={0.008}
+        radius={0.005}
         smoothness={2}
         castShadow
         receiveShadow
       >
         <meshStandardMaterial
-          color={isDark ? "#2d2d2d" : "#e8e8e8"}
-          roughness={0.4}
+          ref={materialRef}
+          color={isDark ? "#1a1a1a" : "#f0f0f0"}
+          roughness={0.7}
           metalness={0.1}
         />
       </RoundedBox>
       {/* Key label */}
       {label && (
         <Text
-          fontSize={0.035}
-          color={isDark ? "#888888" : "#444444"}
+          fontSize={fontSize}
+          color={isDark ? "#ffffff" : "#000000"}
           anchorX="center"
           anchorY="middle"
           position={[0, 0.014, 0]}
@@ -145,72 +168,183 @@ function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
 }
 
 function Keyboard({ position, rotation, isDark }: any) {
-  const keyboardLayout = useMemo(() => {
-    const keySize = 0.09;
-    const keyGap = 0.095;
+  const keys = useMemo(() => {
+    const keySize = 0.08;
+    const keyGap = 0.01;
+    const keyUnit = keySize + keyGap;
+
+    // Helper to create key data
+    const k = (label: string, widthUnits = 1) => ({
+      label,
+      width: widthUnits * keySize + (widthUnits - 1) * keyGap,
+    });
+
+    // TKL Layout Definition
     const rows = [
-      ["~", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "⌫"],
-      ["⇥", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\"],
-      ["⇪", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "↵"],
-      ["⇧", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "⇧"],
-      ["Ctrl", "⌘", "Alt", "                    ", "Alt", "Fn", "Ctrl"],
+      // Row 0: F-keys
+      [
+        k("Esc"),
+        k("", 1), // Gap
+        k("F1"),
+        k("F2"),
+        k("F3"),
+        k("F4"),
+        k("", 0.5), // Gap
+        k("F5"),
+        k("F6"),
+        k("F7"),
+        k("F8"),
+        k("", 0.5), // Gap
+        k("F9"),
+        k("F10"),
+        k("F11"),
+        k("F12"),
+        k("", 0.5), // Gap
+        k("PrtSc"),
+        k("ScrLk"),
+        k("Pause"),
+      ],
+      // Row 1: Numbers
+      [
+        k("~"),
+        k("1"),
+        k("2"),
+        k("3"),
+        k("4"),
+        k("5"),
+        k("6"),
+        k("7"),
+        k("8"),
+        k("9"),
+        k("0"),
+        k("-"),
+        k("="),
+        k("⌫", 2),
+        k("", 0.5), // Gap
+        k("Ins"),
+        k("Home"),
+        k("PgUp"),
+      ],
+      // Row 2: QWERTY
+      [
+        k("Tab", 1.5),
+        k("Q"),
+        k("W"),
+        k("E"),
+        k("R"),
+        k("T"),
+        k("Y"),
+        k("U"),
+        k("I"),
+        k("O"),
+        k("P"),
+        k("["),
+        k("]"),
+        k("\\", 1.5),
+        k("", 0.5), // Gap
+        k("Del"),
+        k("End"),
+        k("PgDn"),
+      ],
+      // Row 3: ASDF
+      [
+        k("Caps", 1.75),
+        k("A"),
+        k("S"),
+        k("D"),
+        k("F"),
+        k("G"),
+        k("H"),
+        k("J"),
+        k("K"),
+        k("L"),
+        k(";"),
+        k("'"),
+        k("Enter", 2.25),
+        k("", 0.5), // Gap
+        k("", 3), // Empty space above arrows
+      ],
+      // Row 4: ZXCV
+      [
+        k("Shift", 2.25),
+        k("Z"),
+        k("X"),
+        k("C"),
+        k("V"),
+        k("B"),
+        k("N"),
+        k("M"),
+        k(","),
+        k("."),
+        k("/", 1),
+        k("Shift", 2.75),
+        k("", 0.5), // Gap
+        k("", 1),
+        k("↑"),
+        k("", 1),
+      ],
+      // Row 5: Bottom
+      [
+        k("Ctrl", 1.25),
+        k("Win", 1.25),
+        k("Alt", 1.25),
+        k("Space", 6.25),
+        k("Alt", 1.25),
+        k("Win", 1.25),
+        k("Menu", 1.25),
+        k("Ctrl", 1.25),
+        k("", 0.5), // Gap
+        k("←"),
+        k("↓"),
+        k("→"),
+      ],
     ];
 
-    const keys: React.ReactNode[] = [];
-    let keyIndex = 0;
+    const generatedKeys: React.ReactNode[] = [];
+
+    // Calculate total width of main block to center it
+    const startX = -0.95; // Adjusted to center the wider TKL layout
+    const startZ = -0.3;
 
     rows.forEach((row, rowIndex) => {
-      let xOffset = -0.65;
-      const zPos = -0.2 + rowIndex * keyGap;
+      let currentX = startX;
+      // Add extra gap for F-row
+      const zPos = startZ + rowIndex * keyUnit + (rowIndex > 0 ? 0.05 : 0);
 
-      // Row offsets for staggered layout
-      if (rowIndex === 1) xOffset = -0.62;
-      if (rowIndex === 2) xOffset = -0.58;
-      if (rowIndex === 3) xOffset = -0.54;
-      if (rowIndex === 4) xOffset = -0.65;
+      row.forEach((keyConfig, i) => {
+        const label = keyConfig.label === "Space" ? "" : keyConfig.label;
 
-      row.forEach((keyLabel) => {
-        let width = keySize;
+        if (keyConfig.label === "") {
+          // Just a gap
+          currentX += keyConfig.width + keyGap;
+          return;
+        }
 
-        // Special key widths
-        if (keyLabel === "⌫") width = 0.18;
-        else if (keyLabel === "⇥") width = 0.13;
-        else if (keyLabel === "⇪") width = 0.16;
-        else if (keyLabel === "↵") width = 0.19;
-        else if (keyLabel === "⇧" && rowIndex === 3) {
-          width = xOffset < -0.5 ? 0.21 : 0.27;
-        } else if (keyLabel === "                    ") width = 0.5; // Spacebar
-        else if (["Ctrl", "Alt", "Fn", "⌘"].includes(keyLabel)) width = 0.11;
-
-        const displayLabel =
-          keyLabel === "                    " ? "" : keyLabel;
-
-        keys.push(
+        generatedKeys.push(
           <Key
-            key={keyIndex++}
-            position={[xOffset + width / 2, 0, zPos]}
-            width={width}
+            key={`${rowIndex}-${i}`}
+            position={[currentX + keyConfig.width / 2, 0, zPos]}
+            width={keyConfig.width}
             depth={keySize}
-            label={displayLabel}
+            label={label}
             isDark={isDark}
           />
         );
-
-        xOffset += width + 0.005;
+        currentX += keyConfig.width + keyGap;
       });
     });
 
-    return keys;
+    return generatedKeys;
   }, [isDark]);
 
   return (
     <group position={position} rotation={rotation}>
-      {/* Keyboard Base - Aluminum style */}
+      {/* Keyboard Base - Wider for TKL */}
       <RoundedBox
-        args={[1.65, 0.015, 0.5]}
+        args={[1.7, 0.015, 1.2]}
         radius={0.01}
         smoothness={4}
-        position={[0.05, -0.01, 0]}
+        position={[-0.125, 0, -0.33]}
         receiveShadow
         castShadow
       >
@@ -221,7 +355,7 @@ function Keyboard({ position, rotation, isDark }: any) {
         />
       </RoundedBox>
       {/* Keys */}
-      <group position={[-0.1, 0.005, 0]}>{keyboardLayout}</group>
+      <group position={[0, 0.02, 0]}>{keys}</group>
     </group>
   );
 }
@@ -580,7 +714,7 @@ function CoffeeMug({ position, isDark }: any) {
         />
       </mesh>
       {/* Handle */}
-      <mesh position={[0.11, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[0.07, 0, 0]} rotation={[0, 0, Math.PI * 1.48]}>
         <torusGeometry args={[0.045, 0.015, 16, 32, Math.PI]} />
         <meshStandardMaterial
           color={isDark ? "#4a4a4a" : "#f8f8f8"}
@@ -720,7 +854,7 @@ export default function Scene() {
           />
 
           {/* Mouse - to the right of keyboard */}
-          <Mouse position={[1.1, -1.93, 0.55]} isDark={isDark} />
+          <Mouse position={[1.5, -1.93, 0.55]} isDark={isDark} />
 
           {/* Desk accessories */}
           <DeskLamp
