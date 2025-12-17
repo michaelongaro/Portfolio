@@ -47,15 +47,14 @@ function Project({
       {/* Image Section */}
       <div className="w-full lg:w-1/2 space-y-4">
         <div
-          className="relative group overflow-hidden rounded-xl shadow-md cursor-pointer"
+          className="relative group overflow-hidden rounded-xl shadow-md"
           onClick={() => link !== "deadLink" && openInNewTab(link)}
         >
           <img
             src={screenshotLink}
             alt={screenshotAltText}
-            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-auto object-cover"
           />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
         </div>
 
         <div className="flex justify-center gap-4">
