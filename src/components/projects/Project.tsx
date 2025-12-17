@@ -1,5 +1,4 @@
 import { useState } from "react";
-import openInNewTab from "../../util/openInNewTab";
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
@@ -39,10 +38,7 @@ function Project({
     <article className="flex flex-col lg:flex-row gap-8 items-start  border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
       {/* Image Section */}
       <div className="w-full lg:w-1/2 space-y-4">
-        <div
-          className="relative group overflow-hidden rounded-xl shadow-md"
-          onClick={() => link !== "deadLink" && openInNewTab(link)}
-        >
+        <div className="relative group overflow-hidden rounded-xl shadow-md">
           <img
             src={screenshotLink}
             alt={screenshotAltText}
@@ -52,21 +48,23 @@ function Project({
 
         <div className="flex justify-center gap-4">
           {link !== "deadLink" && (
-            <button
-              onClick={() => openInNewTab(link)}
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
             >
               <span>Visit</span>
               <HiOutlineExternalLink className="size-5" />
-            </button>
+            </a>
           )}
-          <button
-            onClick={() => openInNewTab(githubRepoLink)}
+          <a
+            href={githubRepoLink}
             className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
           >
             <img src={smallLightGithubIcon} alt="GitHub" className="w-5 h-5" />
             <span>Repository</span>
-          </button>
+          </a>
         </div>
       </div>
 
