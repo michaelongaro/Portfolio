@@ -117,14 +117,14 @@ function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
       const time = state.clock.getElapsedTime();
       // RGB Wave effect
       // Position based offset for wave
-      const xOffset = position[0] * 2;
-      const yOffset = position[2] * 2;
-      const hue = (time * 0.2 + xOffset + yOffset) % 1;
-      const color = new THREE.Color().setHSL(hue, 1, 0.5);
+      const xOffset = position[0];
+      const yOffset = position[2];
+      const hue = (time * 0.1 + (xOffset + yOffset) * 0.1) % 1;
+      const color = new THREE.Color().setHSL(hue, 0.95, 0.5);
 
       glowRef.current.color = color;
       glowRef.current.emissive = color;
-      glowRef.current.emissiveIntensity = 2;
+      glowRef.current.emissiveIntensity = 4;
     }
   });
 
