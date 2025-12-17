@@ -360,40 +360,66 @@ function Keyboard({ position, rotation, isDark }: any) {
   );
 }
 
-function Mouse({ position, isDark }: any) {
+function Mouse({ position = [0, 0, 0], isDark = true }: any) {
+  // Color scheme
+  const bodyColor = isDark ? "#111111" : "#222222";
+  const buttonColor = isDark ? "#1a1a1a" : "#2a2a2a";
+  const accentColor = isDark ? "#080808" : "#151515";
+
   return (
-    <group position={position} rotation={[-Math.PI / 2, 0, 0]}>
-      {/* Mouse body - ergonomic shape */}
-      <mesh castShadow receiveShadow>
-        <capsuleGeometry args={[0.055, 0.08, 8, 16]} />
+    <group position={position}>
+      {/* Mouse body: an ellipsoid sphere */}
+      <mesh
+        position={[0, 0.04, 0]}
+        castShadow
+        receiveShadow
+        scale={[0.7, 0.26, 1.15]}
+      >
+        <sphereGeometry args={[0.11, 32, 32]} />
         <meshStandardMaterial
-          color={isDark ? "#2a2a2a" : "#e8e8e8"}
+          color={bodyColor}
           roughness={0.3}
-          metalness={0.2}
+          metalness={0.25}
         />
       </mesh>
-      {/* Left click */}
-      <mesh position={[-0.025, 0.055, -0.03]} castShadow>
-        <boxGeometry args={[0.04, 0.01, 0.06]} />
+
+      {/* Skirt/chassis for definition */}
+      <mesh position={[0, 0.01, 0]} scale={[0.74, 0.045, 1.18]}>
+        <sphereGeometry args={[0.105, 24, 24]} />
         <meshStandardMaterial
-          color={isDark ? "#333333" : "#d8d8d8"}
-          roughness={0.4}
+          color={accentColor}
+          roughness={0.5}
+          metalness={0.05}
+        />
+      </mesh>
+
+      {/* Left button */}
+      <mesh position={[-0.038, 0.062, 0.07]} scale={[0.33, 0.09, 0.43]}>
+        <sphereGeometry args={[0.13, 16, 16, 0, Math.PI]} />
+        <meshStandardMaterial
+          color={buttonColor}
+          roughness={0.2}
           metalness={0.1}
         />
       </mesh>
-      {/* Right click */}
-      <mesh position={[0.025, 0.055, -0.03]} castShadow>
-        <boxGeometry args={[0.04, 0.01, 0.06]} />
+      {/* Right button */}
+      <mesh position={[0.038, 0.062, 0.07]} scale={[0.33, 0.09, 0.43]}>
+        <sphereGeometry args={[0.13, 16, 16, 0, Math.PI]} />
         <meshStandardMaterial
-          color={isDark ? "#333333" : "#d8d8d8"}
-          roughness={0.4}
+          color={buttonColor}
+          roughness={0.2}
           metalness={0.1}
         />
       </mesh>
+
       {/* Scroll wheel */}
-      <mesh position={[0, 0.058, -0.02]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.012, 0.012, 0.025, 16]} />
-        <meshStandardMaterial color="#444444" roughness={0.6} />
+      <mesh
+        position={[0, 0.082, 0.09]}
+        rotation={[Math.PI / 2, 0, 0]}
+        castShadow
+      >
+        <cylinderGeometry args={[0.012, 0.012, 0.019, 24]} />
+        <meshStandardMaterial color="#111" roughness={0.5} metalness={0.1} />
       </mesh>
     </group>
   );
@@ -401,33 +427,41 @@ function Mouse({ position, isDark }: any) {
 
 // Wood grain shader material
 function WoodMaterial({ isDark }: { isDark: boolean }) {
-  const woodColor = isDark ? "#5a4012" : "#a67c3d";
-  const grainColor = isDark ? "#3d2a0a" : "#8b6914";
+  const woodColor = isDark ? "#3d2810" : "#8b6331";
+  const grainColor = isDark ? "#1a0f05" : "#4a3215";
+  const darkGrainColor = isDark ? "#0d0804" : "#2a1a08";
 
   return (
     <meshStandardMaterial
       color={woodColor}
-      roughness={0.75}
+      roughness={0.82}
       metalness={0.0}
       onBeforeCompile={(shader) => {
         shader.uniforms.grainColor = { value: new THREE.Color(grainColor) };
+        shader.uniforms.darkGrainColor = {
+          value: new THREE.Color(darkGrainColor),
+        };
         shader.vertexShader = shader.vertexShader.replace(
           "#include <common>",
           `#include <common>
           varying vec2 vUv2;
+          varying vec3 vWorldPos;
           `
         );
         shader.vertexShader = shader.vertexShader.replace(
           "#include <uv_vertex>",
           `#include <uv_vertex>
           vUv2 = uv;
+          vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
           `
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <common>",
           `#include <common>
           uniform vec3 grainColor;
+          uniform vec3 darkGrainColor;
           varying vec2 vUv2;
+          varying vec3 vWorldPos;
           
           float hash(vec2 p) {
             return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -443,16 +477,64 @@ function WoodMaterial({ isDark }: { isDark: boolean }) {
               f.y
             );
           }
+          
+          float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            float frequency = 1.0;
+            for (int i = 0; i < 5; i++) {
+              value += amplitude * noise(p * frequency);
+              amplitude *= 0.5;
+              frequency *= 2.0;
+            }
+            return value;
+          }
+          
+          float woodRings(vec2 p) {
+            float distortion = fbm(p * 3.0) * 0.3;
+            float rings = sin((p.y + distortion) * 60.0) * 0.5 + 0.5;
+            rings = pow(rings, 0.8);
+            return rings;
+          }
           `
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "vec4 diffuseColor = vec4( diffuse, opacity );",
           `
-          float grain = noise(vUv2 * vec2(2.0, 40.0)) * 0.5 + 
-                        noise(vUv2 * vec2(4.0, 80.0)) * 0.3 +
-                        noise(vUv2 * vec2(1.0, 20.0)) * 0.2;
-          grain = smoothstep(0.3, 0.7, grain);
-          vec3 woodCol = mix(diffuse, grainColor, grain * 0.4);
+          // Fine grain lines
+          float fineGrain = noise(vUv2 * vec2(3.0, 120.0)) * 0.4 + 
+                           noise(vUv2 * vec2(6.0, 200.0)) * 0.3 +
+                           noise(vUv2 * vec2(2.0, 80.0)) * 0.3;
+          fineGrain = smoothstep(0.25, 0.75, fineGrain);
+          
+          // Medium grain pattern
+          float mediumGrain = fbm(vUv2 * vec2(4.0, 50.0));
+          mediumGrain = smoothstep(0.3, 0.6, mediumGrain);
+          
+          // Wood ring pattern
+          float rings = woodRings(vUv2 * vec2(1.5, 8.0));
+          
+          // Knot simulation
+          float knot1 = 1.0 - smoothstep(0.0, 0.08, length(vUv2 - vec2(0.3, 0.6)));
+          float knot2 = 1.0 - smoothstep(0.0, 0.05, length(vUv2 - vec2(0.7, 0.3)));
+          float knots = max(knot1, knot2) * 0.6;
+          
+          // Combine all grain patterns
+          float combinedGrain = fineGrain * 0.5 + mediumGrain * 0.3 + rings * 0.2;
+          combinedGrain = clamp(combinedGrain + knots, 0.0, 1.0);
+          
+          // Create color variation with darker streaks
+          vec3 woodCol = mix(diffuse, grainColor, combinedGrain * 0.65);
+          
+          // Add extra dark grain lines
+          float darkLines = noise(vUv2 * vec2(2.0, 150.0));
+          darkLines = smoothstep(0.55, 0.65, darkLines);
+          woodCol = mix(woodCol, darkGrainColor, darkLines * 0.7);
+          
+          // Add subtle color variation
+          float colorVar = fbm(vUv2 * 5.0) * 0.15;
+          woodCol *= (0.9 + colorVar);
+          
           vec4 diffuseColor = vec4(woodCol, opacity);
           `
         );
@@ -854,7 +936,7 @@ export default function Scene() {
           />
 
           {/* Mouse - to the right of keyboard */}
-          <Mouse position={[1.5, -1.93, 0.55]} isDark={isDark} />
+          <Mouse position={[1.5, -2.01, 0.55]} isDark={isDark} />
 
           {/* Desk accessories */}
           <DeskLamp
