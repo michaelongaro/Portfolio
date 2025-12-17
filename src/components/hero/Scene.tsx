@@ -14,8 +14,6 @@ import * as THREE from "three";
 import { useMemo, useRef } from "react";
 import headshot from "/assets/headshot.jpg";
 
-// --- Components ---
-
 function MonitorImage({ url }: { url: string }) {
   const texture = useTexture(url);
   return (
@@ -615,37 +613,84 @@ function usePlasterTexture() {
 function Wall({ isDark }: { isDark: boolean }) {
   const texture = usePlasterTexture();
 
+  const wallMaterialProps = {
+    map: texture,
+    color: isDark ? "#2a2a2a" : "#f0ebe3",
+    roughness: 0.8,
+    metalness: 0.05,
+    bumpMap: texture,
+    bumpScale: 0.02,
+  };
+
+  const baseboardMaterialProps = {
+    color: isDark ? "#111111" : "#e8e0d5",
+    roughness: 0.7,
+    metalness: 0,
+  };
+
   return (
     <group>
-      {/* Main wall */}
-      <mesh position={[0, 0, -2.5]} receiveShadow>
-        <planeGeometry args={[12, 8]} />
-        <meshStandardMaterial
-          map={texture}
-          color={isDark ? "#2a2a2a" : "#f0ebe3"}
-          roughness={0.8}
-          metalness={0.05}
-          bumpMap={texture}
-          bumpScale={0.02}
-        />
-      </mesh>
-      {/* Subtle baseboard */}
-      <mesh position={[0, -3.8, -2.45]} receiveShadow>
-        <boxGeometry args={[12, 0.15, 0.08]} />
-        <meshStandardMaterial
-          color={isDark ? "#111111" : "#e8e0d5"}
-          roughness={0.7}
-          metalness={0}
-        />
-      </mesh>
+      {/* Back wall */}
+      <group position={[0, -0.23, -2.5]}>
+        <mesh receiveShadow>
+          <planeGeometry args={[15, 8]} />
+          <meshStandardMaterial {...wallMaterialProps} />
+        </mesh>
+        <mesh position={[0, -3.8, 0.05]} receiveShadow>
+          <boxGeometry args={[15, 0.15, 0.08]} />
+          <meshStandardMaterial {...baseboardMaterialProps} />
+        </mesh>
+      </group>
+
+      {/* Left wall */}
+      <group position={[-7.5, -0.23, 2.5]} rotation={[0, Math.PI / 2, 0]}>
+        <mesh receiveShadow>
+          <planeGeometry args={[10, 8]} />
+          <meshStandardMaterial {...wallMaterialProps} />
+        </mesh>
+        <mesh position={[0, -3.8, 0.05]} receiveShadow>
+          <boxGeometry args={[10, 0.15, 0.08]} />
+          <meshStandardMaterial {...baseboardMaterialProps} />
+        </mesh>
+      </group>
+
+      {/* Right wall */}
+      <group position={[7.5, -0.23, 2.5]} rotation={[0, -Math.PI / 2, 0]}>
+        <mesh receiveShadow>
+          <planeGeometry args={[10, 8]} />
+          <meshStandardMaterial {...wallMaterialProps} />
+        </mesh>
+        <mesh position={[0, -3.8, 0.05]} receiveShadow>
+          <boxGeometry args={[10, 0.15, 0.08]} />
+          <meshStandardMaterial {...baseboardMaterialProps} />
+        </mesh>
+      </group>
     </group>
+  );
+}
+
+function Ceiling({ isDark }: { isDark: boolean }) {
+  const texture = usePlasterTexture();
+
+  return (
+    <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 3.75, 0]} receiveShadow>
+      <planeGeometry args={[15.8, 15]} />
+      <meshStandardMaterial
+        map={texture}
+        color={isDark ? "#2a2a2a" : "#f0ebe3"}
+        roughness={0.8}
+        metalness={0.05}
+        bumpMap={texture}
+        bumpScale={0.02}
+      />
+    </mesh>
   );
 }
 
 function Floor({ isDark }: { isDark: boolean }) {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -4.1, 0]} receiveShadow>
-      <planeGeometry args={[15, 15]} />
+      <planeGeometry args={[15.8, 15]} />
       <WoodMaterial isDark={isDark} />
     </mesh>
   );
@@ -1031,6 +1076,9 @@ export default function Scene() {
 
           {/* Wall */}
           <Wall isDark={isDark} />
+
+          {/* Ceiling */}
+          <Ceiling isDark={isDark} />
 
           {/* Floor */}
           <Floor isDark={isDark} />
