@@ -582,35 +582,52 @@ function WoodenDesk({ isDark }: { isDark: boolean }) {
   );
 }
 
+function usePlasterTexture() {
+  return useMemo(() => {
+    const width = 512;
+    const height = 512;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+
+    if (ctx) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+
+      // Add subtle noise
+      for (let i = 0; i < 80000; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const alpha = Math.random() * 0.05 + 0.01;
+        ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
+        ctx.fillRect(x, y, 2, 2);
+      }
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(4, 4);
+    return texture;
+  }, []);
+}
+
 function Wall({ isDark }: { isDark: boolean }) {
+  const texture = usePlasterTexture();
+
   return (
     <group>
       {/* Main wall */}
       <mesh position={[0, 0, -2.5]} receiveShadow>
         <planeGeometry args={[12, 8]} />
         <meshStandardMaterial
-          color={isDark ? "#1a1a1a" : "#f0ebe3"}
-          roughness={0.95}
-          metalness={0}
-          onBeforeCompile={(shader) => {
-            shader.fragmentShader = shader.fragmentShader.replace(
-              "#include <common>",
-              `#include <common>
-              float hash(vec2 p) {
-                return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-              }
-              `
-            );
-            shader.fragmentShader = shader.fragmentShader.replace(
-              "vec4 diffuseColor = vec4( diffuse, opacity );",
-              `
-              vec2 uv = gl_FragCoord.xy / 200.0;
-              float noise = hash(floor(uv * 50.0)) * 0.03;
-              vec3 wallCol = diffuse + noise - 0.015;
-              vec4 diffuseColor = vec4(wallCol, opacity);
-              `
-            );
-          }}
+          map={texture}
+          color={isDark ? "#2a2a2a" : "#f0ebe3"}
+          roughness={0.8}
+          metalness={0.05}
+          bumpMap={texture}
+          bumpScale={0.02}
         />
       </mesh>
       {/* Subtle baseboard */}
@@ -635,12 +652,12 @@ function Floor({ isDark }: { isDark: boolean }) {
   );
 }
 
-function DeskLamp({ position, rotation = [0, 0, 0], isDark }: any) {
+function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
   return (
-    <group position={position} rotation={rotation}>
-      {/* Lamp base - heavy weighted base */}
+    <group position={position} rotation={rotation} scale={scale}>
+      {/* Lamp base */}
       <mesh position={[0, 0.025, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.18, 0.2, 0.05, 32]} />
+        <cylinderGeometry args={[0.18, 0.2, 0.03, 32]} />
         <meshStandardMaterial
           color="#1a1a1a"
           metalness={0.85}
@@ -1053,7 +1070,8 @@ export default function Scene() {
           {/* Desk accessories */}
           <DeskLamp
             position={[1.9, -2, -0.5]}
-            rotation={[0, -2, 0]}
+            rotation={[0, -1.2, 0]}
+            scale={1.8}
             isDark={isDark}
           />
           <CoffeeMug position={[-1.6, -1.92, 0.5]} isDark={isDark} />

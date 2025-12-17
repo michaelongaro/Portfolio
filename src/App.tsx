@@ -12,8 +12,8 @@ function App() {
     <ThemeProvider>
       <div className="App min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
         <Navbar />
+        <Hero />
         <main className="container relative mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-16">
-          <Hero />
           <Skills />
           <Projects />
           <AboutMe />
