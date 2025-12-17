@@ -110,21 +110,21 @@ function Monitor({
 }
 
 function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
+  const glowRef = useRef<THREE.MeshStandardMaterial>(null);
 
   useFrame((state) => {
-    if (materialRef.current) {
+    if (glowRef.current) {
       const time = state.clock.getElapsedTime();
       // RGB Wave effect
       // Position based offset for wave
       const xOffset = position[0] * 2;
       const yOffset = position[2] * 2;
       const hue = (time * 0.2 + xOffset + yOffset) % 1;
-      const color = new THREE.Color().setHSL(hue, 1, 0.6);
+      const color = new THREE.Color().setHSL(hue, 1, 0.5);
 
-      materialRef.current.emissive = color;
-      materialRef.current.emissiveIntensity = 0.8;
-      materialRef.current.color = new THREE.Color(0.1, 0.1, 0.1); // Dark base
+      glowRef.current.color = color;
+      glowRef.current.emissive = color;
+      glowRef.current.emissiveIntensity = 2;
     }
   });
 
@@ -134,16 +134,22 @@ function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
 
   return (
     <group position={position}>
+      {/* Switch / Underglow */}
+      <mesh position={[0, -0.005, 0]}>
+        <boxGeometry args={[width * 0.9, 0.015, depth * 0.9]} />
+        <meshStandardMaterial ref={glowRef} toneMapped={false} />
+      </mesh>
+
       {/* Key cap */}
       <RoundedBox
         args={[width, 0.025, depth]}
         radius={0.005}
         smoothness={2}
+        position={[0, 0.015, 0]}
         castShadow
         receiveShadow
       >
         <meshStandardMaterial
-          ref={materialRef}
           color={isDark ? "#1a1a1a" : "#f0f0f0"}
           roughness={0.7}
           metalness={0.1}
@@ -156,7 +162,7 @@ function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
           color={isDark ? "#ffffff" : "#000000"}
           anchorX="center"
           anchorY="middle"
-          position={[0, 0.014, 0]}
+          position={[0, 0.029, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
           font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
         >
@@ -561,19 +567,19 @@ function WoodenDesk({ isDark }: { isDark: boolean }) {
       {/* Left leg */}
       <mesh position={[-2.3, -3.1, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.12, 2, 2.3]} />
-        <WoodMaterial isDark={isDark} />
+        <meshStandardMaterial color="#111111" roughness={0.2} metalness={0.8} />
       </mesh>
 
       {/* Right leg */}
       <mesh position={[2.3, -3.1, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.12, 2, 2.3]} />
-        <WoodMaterial isDark={isDark} />
+        <meshStandardMaterial color="#111111" roughness={0.2} metalness={0.8} />
       </mesh>
 
       {/* Back support beam */}
       <mesh position={[0, -2.8, -1.1]} castShadow receiveShadow>
         <boxGeometry args={[4.5, 0.1, 0.08]} />
-        <WoodMaterial isDark={isDark} />
+        <meshStandardMaterial color="#111111" roughness={0.2} metalness={0.8} />
       </mesh>
     </group>
   );
@@ -627,11 +633,7 @@ function Floor({ isDark }: { isDark: boolean }) {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -4.1, 0]} receiveShadow>
       <planeGeometry args={[15, 15]} />
-      <meshStandardMaterial
-        color={isDark ? "#0a0a0a" : "#e0d5c5"}
-        roughness={0.8}
-        metalness={0}
-      />
+      <WoodMaterial isDark={isDark} />
     </mesh>
   );
 }
@@ -920,7 +922,12 @@ export default function Scene() {
 
   return (
     <div className="absolute inset-0 z-10">
-      <Canvas shadows dpr={[1, 2]} gl={{ antialias: true }}>
+      <Canvas
+        shadows
+        dpr={[1, 2]}
+        gl={{ antialias: true }}
+        style={{ touchAction: "pan-y" }}
+      >
         <PerspectiveCamera makeDefault position={[0, 0.5, 3.5]} fov={40} />
 
         {/* Environment for reflections */}
@@ -1082,6 +1089,10 @@ export default function Scene() {
           target={[0, -1.3, -0.3]}
           enableZoom={true}
           enablePan={true}
+          touches={{
+            ONE: null as any,
+            TWO: THREE.TOUCH.DOLLY_ROTATE,
+          }}
         />
       </Canvas>
     </div>
