@@ -447,15 +447,16 @@ function Mouse({ position = [0, 0, 0], isDark = true }: any) {
 
 // Wood grain shader material
 function WoodMaterial({ isDark }: { isDark: boolean }) {
-  const woodColor = isDark ? "#3d2810" : "#8b6331";
-  const grainColor = isDark ? "#1a0f05" : "#4a3215";
-  const darkGrainColor = isDark ? "#0d0804" : "#2a1a08";
+  // Darker, richer wood tones (Walnut/Mahogany style)
+  const woodColor = isDark ? "#2a1d15" : "#5c4033";
+  const grainColor = isDark ? "#150e0a" : "#3e2b22";
+  const darkGrainColor = isDark ? "#080503" : "#261a15";
 
   return (
     <meshStandardMaterial
       color={woodColor}
-      roughness={0.82}
-      metalness={0.0}
+      roughness={0.6}
+      metalness={0.1}
       onBeforeCompile={(shader) => {
         shader.uniforms.grainColor = { value: new THREE.Color(grainColor) };
         shader.uniforms.darkGrainColor = {
@@ -483,79 +484,61 @@ function WoodMaterial({ isDark }: { isDark: boolean }) {
           varying vec2 vUv2;
           varying vec3 vWorldPos;
           
-          float hash(vec2 p) {
-            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+          // Gradient Noise 2D
+          vec2 hash2(vec2 p) {
+              p = vec2(dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)));
+              return -1.0 + 2.0*fract(sin(p)*43758.5453123);
           }
           
-          float noise(vec2 p) {
-            vec2 i = floor(p);
-            vec2 f = fract(p);
-            f = f * f * (3.0 - 2.0 * f);
-            return mix(
-              mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-              mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
-              f.y
-            );
+          float gnoise(vec2 p) {
+              vec2 i = floor(p);
+              vec2 f = fract(p);
+              vec2 u = f*f*(3.0-2.0*f);
+              return mix( mix( dot( hash2(i + vec2(0.0,0.0) ), f - vec2(0.0,0.0) ), 
+                               dot( hash2(i + vec2(1.0,0.0) ), f - vec2(1.0,0.0) ), u.x),
+                          mix( dot( hash2(i + vec2(0.0,1.0) ), f - vec2(0.0,1.0) ), 
+                               dot( hash2(i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ), u.x), u.y);
           }
           
           float fbm(vec2 p) {
-            float value = 0.0;
-            float amplitude = 0.5;
-            float frequency = 1.0;
-            for (int i = 0; i < 5; i++) {
-              value += amplitude * noise(p * frequency);
-              amplitude *= 0.5;
-              frequency *= 2.0;
-            }
-            return value;
-          }
-          
-          float woodRings(vec2 p) {
-            float distortion = fbm(p * 3.0) * 0.3;
-            float rings = sin((p.y + distortion) * 60.0) * 0.5 + 0.5;
-            rings = pow(rings, 0.8);
-            return rings;
+              float f = 0.0;
+              mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+              f  = 0.5000*gnoise( p ); p = m*p;
+              f += 0.2500*gnoise( p ); p = m*p;
+              f += 0.1250*gnoise( p ); p = m*p;
+              f += 0.0625*gnoise( p ); p = m*p;
+              return f;
           }
           `
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "vec4 diffuseColor = vec4( diffuse, opacity );",
           `
-          // Fine grain lines
-          float fineGrain = noise(vUv2 * vec2(3.0, 120.0)) * 0.4 + 
-                           noise(vUv2 * vec2(6.0, 200.0)) * 0.3 +
-                           noise(vUv2 * vec2(2.0, 80.0)) * 0.3;
-          fineGrain = smoothstep(0.25, 0.75, fineGrain);
+          // Scale UVs for wood grain density - Higher scale for sharper details
+          vec2 uv = vUv2 * vec2(15.0, 80.0); 
           
-          // Medium grain pattern
-          float mediumGrain = fbm(vUv2 * vec2(4.0, 50.0));
-          mediumGrain = smoothstep(0.3, 0.6, mediumGrain);
+          // Domain warping
+          float n = fbm(uv);
+          vec2 q = vec2(fbm(uv + vec2(0.0,0.0)), fbm(uv + vec2(5.2,1.3)));
+          vec2 r = vec2(fbm(uv + 4.0*q + vec2(1.7,9.2)), fbm(uv + 4.0*q + vec2(8.3,2.8)));
           
-          // Wood ring pattern
-          float rings = woodRings(vUv2 * vec2(1.5, 8.0));
+          float f = fbm(uv + 4.0*r);
           
-          // Knot simulation
-          float knot1 = 1.0 - smoothstep(0.0, 0.08, length(vUv2 - vec2(0.3, 0.6)));
-          float knot2 = 1.0 - smoothstep(0.0, 0.05, length(vUv2 - vec2(0.7, 0.3)));
-          float knots = max(knot1, knot2) * 0.6;
+          // Wood grain pattern mixing - Sharper contrast
+          float grain = smoothstep(0.2, 0.8, f * 0.5 + 0.5);
           
-          // Combine all grain patterns
-          float combinedGrain = fineGrain * 0.5 + mediumGrain * 0.3 + rings * 0.2;
-          combinedGrain = clamp(combinedGrain + knots, 0.0, 1.0);
+          // Add rings/streaks - Sharper transitions
+          float streaks = smoothstep(0.4, 0.5, sin(uv.y * 2.0 + n * 5.0));
           
-          // Create color variation with darker streaks
-          vec3 woodCol = mix(diffuse, grainColor, combinedGrain * 0.65);
+          // Combine with higher contrast
+          vec3 col = mix(diffuse, grainColor, grain * 0.8);
+          col = mix(col, darkGrainColor, streaks * 0.5 * grain);
           
-          // Add extra dark grain lines
-          float darkLines = noise(vUv2 * vec2(2.0, 150.0));
-          darkLines = smoothstep(0.55, 0.65, darkLines);
-          woodCol = mix(woodCol, darkGrainColor, darkLines * 0.7);
-          
-          // Add subtle color variation
-          float colorVar = fbm(vUv2 * 5.0) * 0.15;
-          woodCol *= (0.9 + colorVar);
-          
-          vec4 diffuseColor = vec4(woodCol, opacity);
+          // Add fine high frequency noise for wood pores/texture
+          float noise = gnoise(vUv2 * 800.0);
+          col -= noise * 0.04; // Subtract noise for pores
+
+          vec4 diffuseColor = vec4(col, opacity);
           `
         );
       }}
@@ -987,7 +970,7 @@ export default function Scene() {
 
             {/* Main sunlight source - Warm and bright */}
             <directionalLight
-              position={[-10, 5, 2]} // Low angle from left
+              position={[1.25, 5, -5]} // Angled from back-left (window)
               intensity={5}
               color="#ffaa55" // Warm golden hour color
               castShadow
@@ -1023,10 +1006,10 @@ export default function Scene() {
 
         {/* Scene Content */}
         <group position={[0, 0, 0]}>
-          {/* Window on left wall */}
+          {/* Window on back wall */}
           <Window
-            position={[-7, 1, 1]}
-            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 1, -2.4]}
+            rotation={[0, 0, 0]}
             isDark={isDark}
           />
 
