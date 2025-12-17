@@ -15,7 +15,7 @@ import gitIcon from "../../assets/git.png";
 import viteIcon from "../../assets/vite.png";
 import socketIOIcon from "../../assets/socketio.svg";
 import postgresIcon from "../../assets/postgresql.svg";
-import sassIcon from "../../assets/sass.svg";
+import playwrightIcon from "../../assets/playwright.svg";
 import nextIcon from "../../assets/nextjs.svg";
 import trpcIcon from "../../assets/trpc.svg";
 import prismaIcon from "../../assets/prisma.svg";
@@ -39,10 +39,10 @@ const skills = [
   { src: firebaseIcon, title: "Firebase" },
   { src: awsIcon, title: "AWS S3" },
   { src: tailwindIcon, title: "Tailwind CSS" },
-  { src: sassIcon, title: "Sass" },
   { src: threeJSIcon, title: "ThreeJS" },
   { src: socketIOIcon, title: "Socket.io" },
   { src: viteIcon, title: "Vite" },
+  { src: playwrightIcon, title: "Playwright" },
   { src: jestIcon, title: "Jest" },
   { src: reactTestingLibraryIcon, title: "RTL" },
   { src: gitIcon, title: "Git" },

@@ -19,6 +19,7 @@ import postgresIcon from "../assets/postgresql.svg";
 import tailwindIcon from "../assets/tailwind.svg";
 import mongoDBIcon from "../assets/mongodb.png";
 import sassIcon from "../assets/sass.svg";
+import playwrightIcon from "../assets/playwright.svg";
 import socketIOIcon from "../assets/socketio.svg";
 import jestIcon from "../assets/jest.png";
 import viteIcon from "../assets/vite.png";
@@ -73,12 +74,15 @@ function useProjectMetadata() {
           imageLocation: awsIcon,
           altText: "AWS S3",
         },
+        {
+          imageLocation: playwrightIcon,
+          altText: "Playwright",
+        },
       ],
       screenshotLink: autostrumImage,
       screenshotAltText:
         "A screenshot of Autostrum, a guitar tab creator that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/Autostrum",
-      projectNumber: 0,
     },
     {
       title: "Squeak",
@@ -129,50 +133,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Squeak, a multiplayer card game that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/Squeak",
-      projectNumber: 1,
-    },
-    {
-      title: "Drawing Dash",
-      link: "deadLink",
-      description:
-        "Drawing Dash is a drawing game where players are given a prompt and must draw it within a time limit. Players can then vote on their favorite drawings. The game features a custom drawing canvas with various tools and colors. Players can also create their own custom prompts to play with friends.",
-      whatILearned: [
-        "How to use the HTML5 Canvas API to create a drawing interface.",
-        "How to use Firebase for realtime data synchronization and authentication.",
-        "How to use React Router for client-side routing.",
-      ],
-      challenges: [
-        "Optimizing the drawing canvas to ensure smooth performance on mobile devices.",
-        "Handling the realtime synchronization of drawing data across multiple clients.",
-        "Designing a user interface that is intuitive and easy to use for players of all ages.",
-      ],
-      technologies: [
-        {
-          imageLocation: typeScriptIcon,
-          altText: "TypeScript",
-        },
-        {
-          imageLocation: reactIcon,
-          altText: "React",
-        },
-        {
-          imageLocation: firebaseIcon,
-          altText: "Firebase",
-        },
-        {
-          imageLocation: auth0Icon,
-          altText: "Auth0",
-        },
-        {
-          imageLocation: viteIcon,
-          altText: "Vite",
-        },
-      ],
-      screenshotLink: drawingDashImage,
-      screenshotAltText:
-        "A screenshot of Drawing Dash, a drawing game that I built with React and Firebase.",
-      githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
-      projectNumber: 2,
     },
     {
       title: "Stash",
@@ -191,8 +151,8 @@ function useProjectMetadata() {
       ],
       technologies: [
         {
-          imageLocation: javaScriptIcon,
-          altText: "JavaScript",
+          imageLocation: typeScriptIcon,
+          altText: "TypeScript",
         },
         {
           imageLocation: reactIcon,
@@ -215,7 +175,6 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Stash, a digital asset management platform that I built with the MERN stack.",
       githubRepoLink: "https://github.com/michaelongaro/Stash",
-      projectNumber: 3,
     },
     {
       title: "Lyricize",
@@ -258,7 +217,44 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Lyricize, a lyrics search application that I built with React and Auth0.",
       githubRepoLink: "https://github.com/michaelongaro/Lyricize",
-      projectNumber: 4,
+    },
+    {
+      title: "Drawing Dash",
+      link: "deadLink",
+      description:
+        "Drawing Dash is a drawing game where players are given a prompt and must draw it within a time limit. Players can then vote on their favorite drawings. The game features a custom drawing canvas with various tools and colors. Players can also create their own custom prompts to play with friends.",
+      whatILearned: [
+        "How to use the HTML5 Canvas API to create a drawing interface.",
+        "How to use Firebase for realtime data synchronization and authentication.",
+        "How to use React Router for client-side routing.",
+      ],
+      challenges: [
+        "Optimizing the drawing canvas to ensure smooth performance on mobile devices.",
+        "Handling the realtime synchronization of drawing data across multiple clients.",
+        "Designing a user interface that is intuitive and easy to use for players of all ages.",
+      ],
+      technologies: [
+        {
+          imageLocation: javaScriptIcon,
+          altText: "JavaScript",
+        },
+        {
+          imageLocation: reactIcon,
+          altText: "React",
+        },
+        {
+          imageLocation: firebaseIcon,
+          altText: "Firebase",
+        },
+        {
+          imageLocation: auth0Icon,
+          altText: "Auth0",
+        },
+      ],
+      screenshotLink: drawingDashImage,
+      screenshotAltText:
+        "A screenshot of Drawing Dash, a drawing game that I built with React and Firebase.",
+      githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
     },
     {
       title: "Universal Forecast",
@@ -285,15 +281,18 @@ function useProjectMetadata() {
           altText: "CSS3",
         },
         {
-          imageLocation: javaScriptIcon,
-          altText: "JavaScript",
+          imageLocation: typeScriptIcon,
+          altText: "TypeScript",
+        },
+        {
+          imageLocation: viteIcon,
+          altText: "Vite",
         },
       ],
       screenshotLink: universalForecastImage,
       screenshotAltText:
         "A screenshot of Universal Forecast, a weather application that I built with HTML, CSS, and JavaScript.",
       githubRepoLink: "https://github.com/michaelongaro/UniversalForecast",
-      projectNumber: 5,
     },
   ];
 

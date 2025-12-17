@@ -13,7 +13,6 @@ export interface IProject {
   screenshotLink: string;
   screenshotAltText: string;
   githubRepoLink: string;
-  projectNumber: number;
 }
 
 interface ITechnology {
