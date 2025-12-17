@@ -25,7 +25,7 @@ import viteIcon from "../assets/vite.png";
 import html5Icon from "../assets/html5.png";
 import css3Icon from "../assets/css3.png";
 import javaScriptIcon from "../assets/javascript.png";
-import threeJSIcon from "../assets/threejs.svg";
+import awsIcon from "../assets/awsS3.svg";
 
 function useProjectMetadata() {
   const projectMetadata: IProject[] = [
@@ -70,8 +70,8 @@ function useProjectMetadata() {
           altText: "TailwindCSS",
         },
         {
-          imageLocation: threeJSIcon,
-          altText: "Three.JS",
+          imageLocation: awsIcon,
+          altText: "AWS S3",
         },
       ],
       screenshotLink: autostrumImage,
@@ -162,8 +162,12 @@ function useProjectMetadata() {
           altText: "Firebase",
         },
         {
-          imageLocation: tailwindIcon,
-          altText: "TailwindCSS",
+          imageLocation: auth0Icon,
+          altText: "Auth0",
+        },
+        {
+          imageLocation: jestIcon,
+          altText: "Jest",
         },
         {
           imageLocation: viteIcon,
@@ -213,6 +217,10 @@ function useProjectMetadata() {
           imageLocation: sassIcon,
           altText: "Sass",
         },
+        {
+          imageLocation: awsIcon,
+          altText: "AWS S3",
+        },
       ],
       screenshotLink: stashImage,
       screenshotAltText:
@@ -244,14 +252,6 @@ function useProjectMetadata() {
         {
           imageLocation: reactIcon,
           altText: "React",
-        },
-        {
-          imageLocation: auth0Icon,
-          altText: "Auth0",
-        },
-        {
-          imageLocation: jestIcon,
-          altText: "Jest",
         },
         {
           imageLocation: tailwindIcon,

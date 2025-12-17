@@ -40,7 +40,7 @@ function Project({
 
   return (
     <article
-      className={`flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl hover:shadow-2xl ${
+      className={`flex flex-col lg:flex-row gap-8 items-start  border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl ${
         slideInFromLeft ? "lg:flex-row" : "lg:flex-row-reverse"
       }`}
     >

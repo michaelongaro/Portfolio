@@ -23,6 +23,7 @@ import prismaIcon from "../../assets/prisma.svg";
 import tailwindIcon from "../../assets/tailwind.svg";
 import reactTestingLibraryIcon from "../../assets/reactTestingLibrary.png";
 import threeJSIcon from "../../assets/threejs.svg";
+import awsIcon from "../../assets/awsS3.svg";
 
 const skills = [
   { src: html5Icon, title: "HTML 5" },
@@ -37,7 +38,7 @@ const skills = [
   { src: postgresIcon, title: "PostgreSQL" },
   { src: mongoDBIcon, title: "MongoDB" },
   { src: firebaseIcon, title: "Firebase" },
-  { src: auth0Icon, title: "Auth0" },
+  { src: awsIcon, title: "AWS S3" },
   { src: tailwindIcon, title: "Tailwind CSS" },
   { src: sassIcon, title: "Sass" },
   { src: threeJSIcon, title: "ThreeJS" },
@@ -84,7 +85,7 @@ function Skills() {
             key={index}
             className="skill-icon opacity-0 flex flex-col items-center gap-2 group"
           >
-            <div className="w-16 h-16 md:w-20 md:h-20 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
+            <div className="w-16 h-16 md:w-20 md:h-20 p-3 bg-white border dark:border-slate-700 dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
               <img
                 src={skill.src}
                 alt={skill.title}
