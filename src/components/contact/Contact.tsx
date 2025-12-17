@@ -133,7 +133,7 @@ function Contact() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-3 px-6 text-white font-semibold rounded-lg shadow-md transform hover:-translate-y-1 ${
+            className={`w-full py-3 px-6 text-white font-semibold rounded-lg shadow-md ${
               isSubmitting
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"
