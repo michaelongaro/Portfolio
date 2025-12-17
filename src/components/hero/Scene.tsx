@@ -817,6 +817,103 @@ function CoffeeMug({ position, isDark }: any) {
   );
 }
 
+function Window({ position, rotation, isDark }: any) {
+  const width = 4;
+  const height = 3;
+  const frameThickness = 0.15;
+  const frameDepth = 0.2;
+
+  // Vertical Blinds
+  const slats: any[] = [];
+  const count = 20;
+  const slatWidth = 0.25;
+  const gap = width / count;
+
+  for (let i = 0; i < count; i++) {
+    slats.push(
+      <mesh
+        key={i}
+        position={[(i - (count - 1) / 2) * gap, 0, 0]}
+        rotation={[0, -Math.PI / 2, 0]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[slatWidth, height - 0.1, 0.02]} />
+        <meshStandardMaterial
+          color={isDark ? "#2a2a2a" : "#f0f0f0"}
+          roughness={0.5}
+        />
+      </mesh>
+    );
+  }
+
+  return (
+    <group position={position} rotation={rotation}>
+      {/* Window Frame Group */}
+      <group>
+        {/* Top */}
+        <mesh
+          position={[0, height / 2 + frameThickness / 2, 0]}
+          castShadow
+          receiveShadow
+        >
+          <boxGeometry
+            args={[width + frameThickness * 2, frameThickness, frameDepth]}
+          />
+          <WoodMaterial isDark={isDark} />
+        </mesh>
+        {/* Bottom */}
+        <mesh
+          position={[0, -(height / 2 + frameThickness / 2), 0]}
+          castShadow
+          receiveShadow
+        >
+          <boxGeometry
+            args={[width + frameThickness * 2, frameThickness, frameDepth]}
+          />
+          <WoodMaterial isDark={isDark} />
+        </mesh>
+        {/* Left */}
+        <mesh
+          position={[-(width / 2 + frameThickness / 2), 0, 0]}
+          castShadow
+          receiveShadow
+        >
+          <boxGeometry args={[frameThickness, height, frameDepth]} />
+          <WoodMaterial isDark={isDark} />
+        </mesh>
+        {/* Right */}
+        <mesh
+          position={[width / 2 + frameThickness / 2, 0, 0]}
+          castShadow
+          receiveShadow
+        >
+          <boxGeometry args={[frameThickness, height, frameDepth]} />
+          <WoodMaterial isDark={isDark} />
+        </mesh>
+      </group>
+
+      {/* Glass Pane */}
+      <mesh position={[0, 0, 0]}>
+        <planeGeometry args={[width, height]} />
+        <meshPhysicalMaterial
+          transparent
+          opacity={0.15}
+          roughness={0}
+          metalness={0.9}
+          clearcoat={1}
+          clearcoatRoughness={0}
+          color="#aaddff"
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* Blinds */}
+      <group position={[0, 0, 0.05]}>{slats}</group>
+    </group>
+  );
+}
+
 export default function Scene() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -864,37 +961,40 @@ export default function Scene() {
           </>
         ) : (
           <>
-            {/* Light mode - warm natural sunlight from left */}
-            <ambientLight intensity={0.3} color="#fff8f0" />
+            {/* Light mode - warm sunlight through blinds */}
+            <ambientLight intensity={0.2} color="#fff0e0" />
 
-            {/* Main sunlight from left window */}
+            {/* Main sunlight source - Warm and bright */}
             <directionalLight
-              position={[-8, 6, 2]}
-              intensity={3}
-              color="#fff4e6"
+              position={[-10, 5, 2]} // Low angle from left
+              intensity={5}
+              color="#ffaa55" // Warm golden hour color
               castShadow
               shadow-mapSize={[2048, 2048]}
-              shadow-camera-far={20}
-              shadow-camera-left={-8}
-              shadow-camera-right={8}
-              shadow-camera-top={8}
-              shadow-camera-bottom={-8}
-              shadow-bias={-0.0001}
+              shadow-camera-far={30}
+              shadow-camera-left={-10}
+              shadow-camera-right={10}
+              shadow-camera-top={10}
+              shadow-camera-bottom={-10}
+              shadow-bias={-0.0005}
+              shadow-radius={2} // Soften edges slightly
             />
 
-            {/* Secondary fill light from right */}
-            <directionalLight
-              position={[5, 3, 3]}
-              intensity={0.5}
-              color="#e6f0ff"
-            />
-
-            {/* Soft top fill */}
+            {/* Cool fill light from opposite side (shadows are not pitch black) */}
             <pointLight
-              position={[0, 3, 1]}
-              intensity={0.3}
-              color="#ffffff"
+              position={[5, 2, 2]}
+              intensity={0.4}
+              color="#d0e0ff"
               distance={10}
+              decay={2}
+            />
+
+            {/* Bounce light from floor/desk */}
+            <pointLight
+              position={[0, -1, 1]}
+              intensity={0.2}
+              color="#ffaa55"
+              distance={5}
               decay={2}
             />
           </>
@@ -902,6 +1002,13 @@ export default function Scene() {
 
         {/* Scene Content */}
         <group position={[0, 0, 0]}>
+          {/* Window on left wall */}
+          <Window
+            position={[-7, 1, 1]}
+            rotation={[0, Math.PI / 2, 0]}
+            isDark={isDark}
+          />
+
           {/* Wall */}
           <Wall isDark={isDark} />
 
