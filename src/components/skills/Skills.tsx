@@ -2,27 +2,27 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import anime from "animejs";
 
-import html5Icon from "../../assets/html5.png";
-import css3Icon from "../../assets/css3.png";
-import javaScriptIcon from "../../assets/javascript.png";
-import typeScriptIcon from "../../assets/typescript.png";
-import reactIcon from "../../assets/react.png";
-import mongoDBIcon from "../../assets/mongodb.png";
-import firebaseIcon from "../../assets/firebase.png";
-import nodeJSIcon from "../../assets/nodejs.png";
-import jestIcon from "../../assets/jest.png";
-import gitIcon from "../../assets/git.png";
-import viteIcon from "../../assets/vite.png";
-import socketIOIcon from "../../assets/socketio.svg";
-import postgresIcon from "../../assets/postgresql.svg";
-import playwrightIcon from "../../assets/playwright.svg";
-import nextIcon from "../../assets/nextjs.svg";
-import trpcIcon from "../../assets/trpc.svg";
-import prismaIcon from "../../assets/prisma.svg";
-import tailwindIcon from "../../assets/tailwind.svg";
-import reactTestingLibraryIcon from "../../assets/reactTestingLibrary.png";
-import threeJSIcon from "../../assets/threejs.svg";
-import awsIcon from "../../assets/awsS3.svg";
+import html5Icon from "/assets/html5.png";
+import css3Icon from "/assets/css3.png";
+import javaScriptIcon from "/assets/javascript.png";
+import typeScriptIcon from "/assets/typescript.png";
+import reactIcon from "/assets/react.png";
+import mongoDBIcon from "/assets/mongodb.png";
+import firebaseIcon from "/assets/firebase.png";
+import nodeJSIcon from "/assets/nodejs.png";
+import jestIcon from "/assets/jest.png";
+import gitIcon from "/assets/git.png";
+import viteIcon from "/assets/vite.svg";
+import socketIOIcon from "/assets/socketio.svg";
+import postgresIcon from "/assets/postgresql.svg";
+import playwrightIcon from "/assets/playwright.svg";
+import nextIcon from "/assets/nextjs.svg";
+import trpcIcon from "/assets/trpc.svg";
+import prismaIcon from "/assets/prisma.svg";
+import tailwindIcon from "/assets/tailwind.svg";
+import reactTestingLibraryIcon from "/assets/reactTestingLibrary.png";
+import threeJSIcon from "/assets/threejs.svg";
+import awsIcon from "/assets/awsS3.svg";
 
 const skills = [
   { src: html5Icon, title: "HTML 5" },

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
+import smallLightGithubIcon from "/assets/smallLightGithubLogo.png";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
 export interface IProject {

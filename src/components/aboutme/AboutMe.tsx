@@ -1,6 +1,6 @@
-import myHeadshot from "../../assets/headshot.jpg";
+import myHeadshot from "/assets/headshot.jpg";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import resumePDF from "../../assets/MichaelOngaroResume.pdf";
+import resumePDF from "/assets/MichaelOngaroResume.pdf";
 
 function AboutMe() {
   return (

@@ -5,7 +5,6 @@ import {
   PerspectiveCamera,
   ContactShadows,
   Environment,
-  Float,
   RoundedBox,
   useTexture,
 } from "@react-three/drei";
@@ -13,7 +12,7 @@ import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
 import * as THREE from "three";
 import { useMemo, useRef } from "react";
-import headshot from "../../assets/headshot.jpg";
+import headshot from "/assets/headshot.jpg";
 
 // --- Components ---
 

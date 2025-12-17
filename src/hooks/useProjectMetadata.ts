@@ -1,32 +1,32 @@
 import { type IProject } from "../components/projects/Project";
 
-import autostrumImage from "../assets/promoImages/autostrum.png";
-import squeakImage from "../assets/promoImages/squeak.png";
-import drawingDashImage from "../assets/promoImages/drawingDash.png";
-import stashImage from "../assets/promoImages/stash.jpg";
-import lyricizeImage from "../assets/promoImages/lyricize.png";
-import universalForecastImage from "../assets/promoImages/universalForecast.png";
+import autostrumImage from "/assets/promoImages/autostrum.png";
+import squeakImage from "/assets/promoImages/squeak.png";
+import drawingDashImage from "/assets/promoImages/drawingDash.png";
+import stashImage from "/assets/promoImages/stash.jpg";
+import lyricizeImage from "/assets/promoImages/lyricize.png";
+import universalForecastImage from "/assets/promoImages/universalForecast.png";
 
-import reactIcon from "../assets/react.png";
-import firebaseIcon from "../assets/firebase.png";
-import auth0Icon from "../assets/auth0.png";
-import nodeJSIcon from "../assets/nodejs.png";
-import typeScriptIcon from "../assets/typescript.png";
-import nextIcon from "../assets/nextjs.svg";
-import trpcIcon from "../assets/trpc.svg";
-import prismaIcon from "../assets/prisma.svg";
-import postgresIcon from "../assets/postgresql.svg";
-import tailwindIcon from "../assets/tailwind.svg";
-import mongoDBIcon from "../assets/mongodb.png";
-import sassIcon from "../assets/sass.svg";
-import playwrightIcon from "../assets/playwright.svg";
-import socketIOIcon from "../assets/socketio.svg";
-import jestIcon from "../assets/jest.png";
-import viteIcon from "../assets/vite.png";
-import html5Icon from "../assets/html5.png";
-import css3Icon from "../assets/css3.png";
-import javaScriptIcon from "../assets/javascript.png";
-import awsIcon from "../assets/awsS3.svg";
+import reactIcon from "/assets/react.png";
+import firebaseIcon from "/assets/firebase.png";
+import auth0Icon from "/assets/auth0.png";
+import nodeJSIcon from "/assets/nodejs.png";
+import typeScriptIcon from "/assets/typescript.png";
+import nextIcon from "/assets/nextjs.svg";
+import trpcIcon from "/assets/trpc.svg";
+import prismaIcon from "/assets/prisma.svg";
+import postgresIcon from "/assets/postgresql.svg";
+import tailwindIcon from "/assets/tailwind.svg";
+import mongoDBIcon from "/assets/mongodb.png";
+import sassIcon from "/assets/sass.svg";
+import playwrightIcon from "/assets/playwright.svg";
+import socketIOIcon from "/assets/socketio.svg";
+import jestIcon from "/assets/jest.png";
+import viteIcon from "/assets/vite.svg";
+import html5Icon from "/assets/html5.png";
+import css3Icon from "/assets/css3.png";
+import javaScriptIcon from "/assets/javascript.png";
+import awsIcon from "/assets/awsS3.svg";
 
 function useProjectMetadata() {
   const projectMetadata: IProject[] = [
