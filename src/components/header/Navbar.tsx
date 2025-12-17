@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import useNavbarHighlighter from "../../util/useNavbarHighlighter";
 import Hamburger from "hamburger-react";
+import { LuSun, LuMoon } from "react-icons/lu";
 
 const navLinks = [
   { name: "Skills", href: "#skills" },
@@ -27,7 +28,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-50 ${
         scrolled
           ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md"
           : "bg-transparent"
@@ -52,7 +53,7 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-center space-x-4">
               {navLinks.map((link, idx) => (
                 <a
                   key={link.name}
@@ -74,33 +75,9 @@ export default function Navbar() {
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
-                  <svg
-                    className="w-5 h-5 text-yellow-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
+                  <LuSun className="size-4 text-yellow-500" />
                 ) : (
-                  <svg
-                    className="w-5 h-5 text-blue-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20.354 24.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                    />
-                  </svg>
+                  <LuMoon className="size-4 text-blue-400" />
                 )}
               </button>
             </div>
@@ -113,33 +90,9 @@ export default function Navbar() {
               className="p-2 mr-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
             >
               {theme === "light" ? (
-                <svg
-                  className="w-5 h-5 text-yellow-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
+                <LuSun className="size-4 text-yellow-500" />
               ) : (
-                <svg
-                  className="w-5 h-5 text-blue-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 24.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
+                <LuMoon className="size-4 text-blue-400" />
               )}
             </button>
             <Hamburger toggled={isOpen} toggle={setIsOpen} size={24} />

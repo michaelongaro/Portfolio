@@ -135,7 +135,7 @@ function useProjectMetadata() {
     },
     {
       title: "Drawing Dash",
-      link: "https://drawingdash.com/",
+      link: "deadLink",
       description:
         "Drawing Dash is a drawing game where players are given a prompt and must draw it within a time limit. Players can then vote on their favorite drawings. The game features a custom drawing canvas with various tools and colors. Players can also create their own custom prompts to play with friends.",
       whatILearned: [
@@ -267,7 +267,7 @@ function useProjectMetadata() {
     },
     {
       title: "Universal Forecast",
-      link: "https://universalforecast.netlify.app/",
+      link: "deadLink",
       description:
         "Universal Forecast is a weather application that provides users with accurate weather forecasts for any location in the world. The application uses the OpenWeatherMap API to retrieve weather data. Users can also view detailed weather information such as humidity, wind speed, and pressure.",
       whatILearned: [

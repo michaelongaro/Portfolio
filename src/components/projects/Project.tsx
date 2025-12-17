@@ -1,7 +1,7 @@
 import { useState } from "react";
 import openInNewTab from "../../util/openInNewTab";
 import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
-import externalLink from "../../assets/externalLink.svg";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export interface IProject {
   title: string;
@@ -40,7 +40,7 @@ function Project({
 
   return (
     <article
-      className={`flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl ${
+      className={`flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl hover:shadow-2xl ${
         slideInFromLeft ? "lg:flex-row" : "lg:flex-row-reverse"
       }`}
     >
@@ -65,7 +65,7 @@ function Project({
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
             >
               <span>Visit</span>
-              <img src={externalLink} alt="External Link" className="w-4 h-4" />
+              <HiOutlineExternalLink className="size-5" />
             </button>
           )}
           <button
