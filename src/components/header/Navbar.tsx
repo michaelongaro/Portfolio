@@ -65,13 +65,13 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
-                  <LuSun className="size-4 text-yellow-500" />
+                  <LuSun className="size-[18px] text-yellow-500" />
                 ) : (
-                  <LuMoon className="size-4 text-blue-400" />
+                  <LuMoon className="size-[18px] text-blue-400" />
                 )}
               </button>
             </div>
@@ -81,15 +81,15 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleTheme}
-              className="p-2 mr-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
+              className="p-2 mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
             >
               {theme === "light" ? (
-                <LuSun className="size-4 text-yellow-500" />
+                <LuSun className="size-[18px] text-yellow-500" />
               ) : (
-                <LuMoon className="size-4 text-blue-400" />
+                <LuMoon className="size-[18px] text-blue-400" />
               )}
             </button>
-            <Hamburger toggled={isOpen} toggle={setIsOpen} size={24} />
+            <Hamburger toggled={isOpen} toggle={setIsOpen} size={20} />
           </div>
         </div>
       </div>
