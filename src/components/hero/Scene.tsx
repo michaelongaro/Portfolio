@@ -633,7 +633,7 @@ function Wall({ isDark }: { isDark: boolean }) {
     <group>
       {/* Back wall */}
       <group position={[0, -0.23, -2.5]}>
-        <mesh receiveShadow>
+        <mesh receiveShadow castShadow>
           <planeGeometry args={[15, 8]} />
           <meshStandardMaterial {...wallMaterialProps} />
         </mesh>
@@ -645,7 +645,7 @@ function Wall({ isDark }: { isDark: boolean }) {
 
       {/* Left wall */}
       <group position={[-7.5, -0.23, 2.5]} rotation={[0, Math.PI / 2, 0]}>
-        <mesh receiveShadow>
+        <mesh receiveShadow castShadow>
           <planeGeometry args={[10, 8]} />
           <meshStandardMaterial {...wallMaterialProps} />
         </mesh>
@@ -657,7 +657,7 @@ function Wall({ isDark }: { isDark: boolean }) {
 
       {/* Right wall */}
       <group position={[7.5, -0.23, 2.5]} rotation={[0, -Math.PI / 2, 0]}>
-        <mesh receiveShadow>
+        <mesh receiveShadow castShadow>
           <planeGeometry args={[10, 8]} />
           <meshStandardMaterial {...wallMaterialProps} />
         </mesh>
@@ -674,7 +674,12 @@ function Ceiling({ isDark }: { isDark: boolean }) {
   const texture = usePlasterTexture();
 
   return (
-    <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 3.75, 0]} receiveShadow>
+    <mesh
+      rotation={[Math.PI / 2, 0, 0]}
+      position={[0, 3.75, 0]}
+      castShadow
+      receiveShadow
+    >
       <planeGeometry args={[15.8, 15]} />
       <meshStandardMaterial
         map={texture}
@@ -1440,11 +1445,11 @@ export default function Scene() {
         ) : (
           <>
             {/* Light mode - warm sunlight through blinds */}
-            <ambientLight intensity={0.2} color="#fff0e0" />
+            <ambientLight intensity={0.3} color="#fff0e0" />
 
             {/* Main sunlight source - Warm and bright */}
             <directionalLight
-              position={[1.25, 5, -5]} // Angled from back-left (window)
+              position={[0.5, 3, -1]}
               intensity={5}
               color="#ffaa55" // Warm golden hour color
               castShadow
@@ -1458,21 +1463,12 @@ export default function Scene() {
               shadow-radius={2} // Soften edges slightly
             />
 
-            {/* Cool fill light from opposite side (shadows are not pitch black) */}
+            {/* Cool fill light from opposite side */}
             <pointLight
               position={[5, 2, 2]}
               intensity={0.4}
               color="#d0e0ff"
               distance={10}
-              decay={2}
-            />
-
-            {/* Bounce light from floor/desk */}
-            <pointLight
-              position={[0, -1, 1]}
-              intensity={0.2}
-              color="#ffaa55"
-              distance={5}
               decay={2}
             />
           </>
