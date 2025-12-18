@@ -126,7 +126,7 @@ function Project({
           </div>
 
           <div className="min-h-[100px]">
-            <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300 text-sm">
+            <ul className="list-disc list-outside pl-6 space-y-2 text-gray-600 dark:text-gray-300 text-sm">
               {(activeTab === "learned" ? whatILearned : challenges).map(
                 (item, idx) => (
                   <li key={idx}>{item}</li>
