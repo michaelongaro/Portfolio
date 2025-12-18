@@ -171,6 +171,7 @@ function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
         <Text
           fontSize={fontSize}
           color={isDark ? "#ffffff" : "#000000"}
+          fillOpacity={0.75}
           anchorX="center"
           anchorY="middle"
           position={[0, 0.029, 0]}
