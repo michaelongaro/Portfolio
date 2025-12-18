@@ -1000,6 +1000,91 @@ function Window({ position, rotation, isDark }: any) {
   );
 }
 
+function Whiteboard({ position, rotation, isDark }: any) {
+  const texture = useTexture("/assets/whiteboard.png");
+
+  return (
+    <group position={position} rotation={rotation}>
+      {/* Board Surface */}
+      <mesh receiveShadow castShadow>
+        <boxGeometry args={[3, 2, 0.05]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.2} metalness={0.1} />
+      </mesh>
+
+      {/* Whiteboard Image */}
+      <mesh position={[0, 0, 0.026]}>
+        <planeGeometry args={[3, 2]} />
+        <meshStandardMaterial
+          map={texture}
+          roughness={0.2}
+          metalness={0.1}
+          transparent
+        />
+      </mesh>
+
+      {/* Frame - Metal Bezel */}
+      {/* Top */}
+      <mesh position={[0, 1.025, 0]} castShadow receiveShadow>
+        <boxGeometry args={[3.1, 0.05, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" roughness={0.3} metalness={0.8} />
+      </mesh>
+      {/* Bottom */}
+      <mesh position={[0, -1.025, 0]} castShadow receiveShadow>
+        <boxGeometry args={[3.1, 0.05, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" roughness={0.3} metalness={0.8} />
+      </mesh>
+      {/* Left */}
+      <mesh position={[-1.525, 0, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.05, 2.1, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" roughness={0.3} metalness={0.8} />
+      </mesh>
+      {/* Right */}
+      <mesh position={[1.525, 0, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.05, 2.1, 0.08]} />
+        <meshStandardMaterial color="#c0c0c0" roughness={0.3} metalness={0.8} />
+      </mesh>
+
+      {/* Tray */}
+      <mesh position={[0, -1.05, 0.1]} castShadow receiveShadow>
+        <boxGeometry args={[2.5, 0.02, 0.15]} />
+        <meshStandardMaterial color="#c0c0c0" roughness={0.3} metalness={0.8} />
+      </mesh>
+
+      {/* Markers & Eraser on Tray */}
+      <group position={[-0.5, -1.03, 0.1]}>
+        {/* Red Marker */}
+        <mesh
+          position={[-0.2, 0.01, 0]}
+          rotation={[0, 0, Math.PI / 2]}
+          castShadow
+        >
+          <cylinderGeometry args={[0.015, 0.015, 0.12, 16]} />
+          <meshStandardMaterial color="#cc0000" />
+        </mesh>
+        {/* Blue Marker */}
+        <mesh position={[0, 0.01, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.015, 0.015, 0.12, 16]} />
+          <meshStandardMaterial color="#0000cc" />
+        </mesh>
+        {/* Green Marker */}
+        <mesh
+          position={[0.2, 0.01, 0]}
+          rotation={[0, 0, Math.PI / 2]}
+          castShadow
+        >
+          <cylinderGeometry args={[0.015, 0.015, 0.12, 16]} />
+          <meshStandardMaterial color="#00cc00" />
+        </mesh>
+        {/* Eraser */}
+        <mesh position={[0.6, 0.02, 0]} castShadow>
+          <boxGeometry args={[0.15, 0.04, 0.08]} />
+          <meshStandardMaterial color="#333333" />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
 export default function Scene() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -1096,6 +1181,13 @@ export default function Scene() {
           {/* Window on back wall */}
           <Window
             position={[0, 1, -2.4]}
+            rotation={[0, 0, 0]}
+            isDark={isDark}
+          />
+
+          {/* Whiteboard - to the right of window */}
+          <Whiteboard
+            position={[4.5, 1, -2.45]}
             rotation={[0, 0, 0]}
             isDark={isDark}
           />
