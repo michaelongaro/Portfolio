@@ -807,7 +807,7 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
             {isDark && (
               <pointLight
                 position={[0, -0.05, 0]}
-                intensity={0.8}
+                intensity={3.5}
                 color="#ffeaa7"
                 distance={3}
                 decay={2}
