@@ -1463,7 +1463,7 @@ export default function Scene() {
         gl={{ antialias: true }}
         style={{ touchAction: "pan-y" }}
       >
-        <PerspectiveCamera makeDefault position={[0, 0.5, 3.5]} fov={40} />
+        <PerspectiveCamera makeDefault position={[0, -1, 3.5]} fov={40} />
 
         {/* Environment for reflections */}
         <Environment preset={isDark ? "night" : "forest"} />
@@ -1593,10 +1593,10 @@ export default function Scene() {
         </EffectComposer>
 
         <OrbitControls
-          // minPolarAngle={Math.PI / 3}
-          // maxPolarAngle={Math.PI / 2}
-          // minAzimuthAngle={-Math.PI / 8}
-          // maxAzimuthAngle={Math.PI / 8}
+          minPolarAngle={-Math.PI / 2}
+          maxPolarAngle={Math.PI / 1.5}
+          minAzimuthAngle={-Math.PI / 4}
+          maxAzimuthAngle={Math.PI / 4}
           target={[0, -1.3, -0.3]}
           enableZoom={true}
           enablePan={true}
