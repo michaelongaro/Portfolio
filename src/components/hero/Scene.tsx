@@ -892,7 +892,7 @@ function CoffeeMug({ position, scale = 1, isDark }: any) {
 }
 
 function Window({ position, rotation, isDark }: any) {
-  const width = 4;
+  const width = 4.5;
   const height = 3;
   const frameThickness = 0.15;
   const frameDepth = 0.2;
@@ -908,7 +908,7 @@ function Window({ position, rotation, isDark }: any) {
       <mesh
         key={i}
         position={[(i - (count - 1) / 2) * gap, 0, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
+        rotation={[0, Math.PI / 2.35, 0]}
         castShadow
         receiveShadow
       >
@@ -972,13 +972,13 @@ function Window({ position, rotation, isDark }: any) {
         <planeGeometry args={[width, height]} />
         <meshPhysicalMaterial
           transparent
-          opacity={0.15}
+          opacity={1}
           roughness={0}
           metalness={0.9}
           clearcoat={1}
           clearcoatRoughness={0}
-          color="#aaddff"
-          side={THREE.DoubleSide}
+          color={isDark ? "#03002e" : "#FFFFFF"}
+          side={THREE.FrontSide}
         />
       </mesh>
 
@@ -1402,7 +1402,7 @@ export default function Scene() {
         <PerspectiveCamera makeDefault position={[0, 0.5, 3.5]} fov={40} />
 
         {/* Environment for reflections */}
-        <Environment preset={isDark ? "night" : "apartment"} />
+        <Environment preset={isDark ? "night" : "forest"} />
 
         {/* Lighting Setup */}
         {isDark ? (
