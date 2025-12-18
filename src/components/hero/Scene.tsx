@@ -1133,11 +1133,101 @@ function Book({ position, width, height, depth, color, title }: any) {
   );
 }
 
+function Chain({
+  start,
+  end,
+}: {
+  start: [number, number, number];
+  end: [number, number, number];
+}) {
+  const startVec = useMemo(() => new THREE.Vector3(...start), [start]);
+  const endVec = useMemo(() => new THREE.Vector3(...end), [end]);
+  const vec = useMemo(
+    () => new THREE.Vector3().subVectors(endVec, startVec),
+    [startVec, endVec]
+  );
+  const length = vec.length();
+  const linkSize = 0.04;
+  const linkThickness = 0.006;
+  const count = Math.floor(length / (linkSize * 0.65));
+
+  const quaternion = useMemo(() => {
+    const up = new THREE.Vector3(0, 1, 0);
+    return new THREE.Quaternion().setFromUnitVectors(
+      up,
+      vec.clone().normalize()
+    );
+  }, [vec]);
+
+  const links = useMemo(
+    () => Array.from({ length: count }, (_, i) => i),
+    [count]
+  );
+
+  return (
+    <group position={start} quaternion={quaternion}>
+      {links.map((i) => (
+        <group
+          key={i}
+          position={[0, i * (length / count), 0]}
+          rotation={[0, ((i % 2) * Math.PI) / 2, 0]}
+        >
+          <mesh castShadow receiveShadow scale={[1, 1.4, 1]}>
+            <torusGeometry args={[linkSize / 2, linkThickness, 8, 16]} />
+            <meshStandardMaterial
+              color="#2a2a2a"
+              metalness={0.9}
+              roughness={0.2}
+            />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+function Bookend({ position }: any) {
+  const start: [number, number, number] = [0, 0, 0.12];
+  const end: [number, number, number] = [0, 0.4, -0.15];
+
+  return (
+    <group position={position}>
+      {/* Shelf Mount */}
+      <mesh position={start} castShadow receiveShadow>
+        <cylinderGeometry args={[0.015, 0.015, 0.005, 16]} />
+        <meshStandardMaterial color="#111" metalness={0.8} roughness={0.2} />
+      </mesh>
+      <mesh
+        position={[start[0], start[1] + 0.005, start[2]]}
+        rotation={[0, Math.PI / 2, 0]}
+        castShadow
+        receiveShadow
+      >
+        <torusGeometry args={[0.01, 0.003, 8, 16]} />
+        <meshStandardMaterial color="#111" metalness={0.8} roughness={0.2} />
+      </mesh>
+
+      {/* Wall Mount */}
+      <mesh
+        position={end}
+        rotation={[Math.PI / 2, 0, 0]}
+        castShadow
+        receiveShadow
+      >
+        <cylinderGeometry args={[0.02, 0.02, 0.005, 16]} />
+        <meshStandardMaterial color="#111" metalness={0.8} roughness={0.2} />
+      </mesh>
+
+      {/* Chain */}
+      <Chain start={start} end={end} />
+    </group>
+  );
+}
+
 function Bookshelf({ position, isDark, books }: any) {
   const shelfWidth = 1.8;
   const shelfDepth = 0.3;
   const shelfThickness = 0.05;
-  const bookendHeight = 0.15;
   const bookendThickness = 0.02;
 
   let currentX = -shelfWidth / 2 + bookendThickness + 0.05;
@@ -1151,32 +1241,10 @@ function Bookshelf({ position, isDark, books }: any) {
       </mesh>
 
       {/* Left Bookend */}
-      <mesh
-        position={[
-          -shelfWidth / 2 + bookendThickness / 2,
-          bookendHeight / 2 + shelfThickness / 2,
-          0,
-        ]}
-        castShadow
-        receiveShadow
-      >
-        <boxGeometry args={[bookendThickness, bookendHeight, shelfDepth]} />
-        <WoodMaterial isDark={isDark} />
-      </mesh>
+      <Bookend position={[-shelfWidth / 2, shelfThickness / 2, 0]} />
 
       {/* Right Bookend */}
-      <mesh
-        position={[
-          shelfWidth / 2 - bookendThickness / 2,
-          bookendHeight / 2 + shelfThickness / 2,
-          0,
-        ]}
-        castShadow
-        receiveShadow
-      >
-        <boxGeometry args={[bookendThickness, bookendHeight, shelfDepth]} />
-        <WoodMaterial isDark={isDark} />
-      </mesh>
+      <Bookend position={[shelfWidth / 2, shelfThickness / 2, 0]} />
 
       {/* Books */}
       {books.map((book: any, i: number) => {
@@ -1464,10 +1532,10 @@ export default function Scene() {
         </EffectComposer>
 
         <OrbitControls
-          minPolarAngle={Math.PI / 3}
-          maxPolarAngle={Math.PI / 2}
-          minAzimuthAngle={-Math.PI / 8}
-          maxAzimuthAngle={Math.PI / 8}
+          // minPolarAngle={Math.PI / 3}
+          // maxPolarAngle={Math.PI / 2}
+          // minAzimuthAngle={-Math.PI / 8}
+          // maxAzimuthAngle={Math.PI / 8}
           target={[0, -1.3, -0.3]}
           enableZoom={true}
           enablePan={true}
