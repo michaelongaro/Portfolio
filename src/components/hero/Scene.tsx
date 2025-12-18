@@ -792,22 +792,9 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
             </mesh>
 
             {/* Twist Switch */}
-            <group position={[0, 0, 0]}>
+            <group position={[0, -0.12, 0]}>
               <mesh castShadow receiveShadow>
-                <cylinderGeometry args={[0.015, 0.015, 0.02, 16]} />
-                <meshStandardMaterial
-                  color="#111111"
-                  metalness={0.5}
-                  roughness={0.5}
-                />
-              </mesh>
-              <mesh
-                position={[0, 0.015, 0]}
-                rotation={[0, 0, Math.PI / 4]}
-                castShadow
-                receiveShadow
-              >
-                <boxGeometry args={[0.008, 0.04, 0.008]} />
+                <cylinderGeometry args={[0.01, 0.01, 0.02, 16]} />
                 <meshStandardMaterial
                   color="#111111"
                   metalness={0.5}
