@@ -633,8 +633,24 @@ function Wall({ isDark }: { isDark: boolean }) {
     <group>
       {/* Back wall */}
       <group position={[0, -0.23, -2.5]}>
-        <mesh receiveShadow castShadow>
-          <planeGeometry args={[15, 8]} />
+        {/* Left Panel */}
+        <mesh position={[-4.875, 0, 0]} receiveShadow castShadow>
+          <planeGeometry args={[5.25, 8]} />
+          <meshStandardMaterial {...wallMaterialProps} />
+        </mesh>
+        {/* Right Panel */}
+        <mesh position={[4.875, 0, 0]} receiveShadow castShadow>
+          <planeGeometry args={[5.25, 8]} />
+          <meshStandardMaterial {...wallMaterialProps} />
+        </mesh>
+        {/* Top Panel */}
+        <mesh position={[0, 3.365, 0]} receiveShadow castShadow>
+          <planeGeometry args={[4.5, 1.27]} />
+          <meshStandardMaterial {...wallMaterialProps} />
+        </mesh>
+        {/* Bottom Panel */}
+        <mesh position={[0, -2.135, 0]} receiveShadow castShadow>
+          <planeGeometry args={[4.5, 3.73]} />
           <meshStandardMaterial {...wallMaterialProps} />
         </mesh>
         <mesh position={[0, -3.8, 0.05]} receiveShadow>
@@ -1449,8 +1465,8 @@ export default function Scene() {
 
             {/* Main sunlight source - Warm and bright */}
             <directionalLight
-              position={[0.5, 3, -1]}
-              intensity={5}
+              position={[0.5, 2.75, -3]}
+              intensity={10}
               color="#ffaa55" // Warm golden hour color
               castShadow
               shadow-mapSize={[2048, 2048]}
