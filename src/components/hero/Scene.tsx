@@ -1705,6 +1705,16 @@ export default function Scene() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -1795,7 +1805,10 @@ export default function Scene() {
   ];
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-10">
+    <div
+      ref={containerRef}
+      className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing"
+    >
       <Canvas
         shadows
         dpr={[1, 2]}
@@ -1930,7 +1943,7 @@ export default function Scene() {
           minAzimuthAngle={-Math.PI / 3}
           maxAzimuthAngle={Math.PI / 3}
           minDistance={1}
-          maxDistance={6.5}
+          maxDistance={isMobile ? 10.5 : 6.5}
           target={[0, -1.3, -0.3]}
           enableZoom={true}
           enablePan={true}
@@ -1941,7 +1954,7 @@ export default function Scene() {
           }}
           touches={{
             ONE: null as any,
-            TWO: THREE.TOUCH.ROTATE,
+            TWO: THREE.TOUCH.DOLLY_ROTATE,
           }}
         />
       </Canvas>
