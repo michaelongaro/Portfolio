@@ -1270,6 +1270,64 @@ function Bookshelf({ position, isDark, books }: any) {
   );
 }
 
+function DeskGroup({
+  position = [0, 0, 0],
+  rotation = [0, 0, 0],
+  isDark,
+}: any) {
+  return (
+    <group position={position} rotation={rotation}>
+      <WoodenDesk isDark={isDark} />
+
+      {/* Main Monitor - centered on desk */}
+      <Monitor
+        position={[0.3, -1.3, -0.7]}
+        text="Michael Ongaro"
+        subtext="Full Stack Developer"
+        isDark={isDark}
+        screenColor={isDark ? "#0a0a15" : "#f8f9fa"}
+        image={headshot}
+      />
+
+      {/* Side Monitor - angled */}
+      <Monitor
+        position={[-1.35, -1.3, -0.35]}
+        rotation={[0, 0.45, 0]}
+        isDark={isDark}
+        screenColor={isDark ? "#0a0512" : "#f8f9fa"}
+      />
+
+      {/* Keyboard */}
+      <Keyboard
+        position={[0.2, -2, 0.6]}
+        rotation={[0, 0, 0]}
+        isDark={isDark}
+      />
+
+      {/* Mouse - to the right of keyboard */}
+      <Mouse position={[1.5, -2.01, 0.55]} isDark={isDark} />
+
+      {/* Desk accessories */}
+      <DeskLamp
+        position={[1.9, -2, -0.5]}
+        rotation={[0, -1.2, 0]}
+        scale={1.8}
+        isDark={isDark}
+      />
+      <CoffeeMug position={[-1.6, -1.9, 0.5]} scale={1.25} isDark={isDark} />
+
+      {/* Contact shadows on desk */}
+      <ContactShadows
+        position={[0, -2.01, 0]}
+        opacity={isDark ? 0.3 : 0.5}
+        scale={6}
+        blur={1.5}
+        far={2}
+      />
+    </group>
+  );
+}
+
 export default function Scene() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -1466,59 +1524,9 @@ export default function Scene() {
           {/* Floor */}
           <Floor isDark={isDark} />
 
-          {/* Wooden Desk */}
-          <WoodenDesk isDark={isDark} />
-
-          {/* Main Monitor - centered on desk */}
-          <Monitor
-            position={[0.3, -1.3, -0.7]}
-            text="Michael Ongaro"
-            subtext="Full Stack Developer"
-            isDark={isDark}
-            screenColor={isDark ? "#0a0a15" : "#f8f9fa"}
-            image={headshot}
-          />
-
-          {/* Side Monitor - angled */}
-          <Monitor
-            position={[-1.35, -1.3, -0.35]}
-            rotation={[0, 0.45, 0]}
-            isDark={isDark}
-            screenColor={isDark ? "#0a0512" : "#f8f9fa"}
-          />
-
-          {/* Keyboard */}
-          <Keyboard
-            position={[0.2, -2, 0.6]}
-            rotation={[0, 0, 0]}
-            isDark={isDark}
-          />
-
-          {/* Mouse - to the right of keyboard */}
-          <Mouse position={[1.5, -2.01, 0.55]} isDark={isDark} />
-
-          {/* Desk accessories */}
-          <DeskLamp
-            position={[1.9, -2, -0.5]}
-            rotation={[0, -1.2, 0]}
-            scale={1.8}
-            isDark={isDark}
-          />
-          <CoffeeMug
-            position={[-1.6, -1.9, 0.5]}
-            scale={1.25}
-            isDark={isDark}
-          />
+          {/* Desk Group */}
+          <DeskGroup position={[0, 0, -1]} isDark={isDark} />
         </group>
-
-        {/* Contact shadows on desk */}
-        <ContactShadows
-          position={[0, -2.01, 0]}
-          opacity={isDark ? 0.3 : 0.5}
-          scale={6}
-          blur={1.5}
-          far={2}
-        />
 
         {/* Post-processing - minimal to keep scene sharp */}
         <EffectComposer>
