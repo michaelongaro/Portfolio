@@ -467,6 +467,22 @@ function Mouse({ position = [0, 0, 0], isDark = true }: any) {
   );
 }
 
+function MousePad({ position }: any) {
+  return (
+    <group position={position}>
+      <RoundedBox
+        args={[0.8, 0.01, 0.6]}
+        radius={0}
+        smoothness={4}
+        receiveShadow
+        castShadow
+      >
+        <meshStandardMaterial color="#121212" roughness={1} metalness={0.5} />
+      </RoundedBox>
+    </group>
+  );
+}
+
 // Wood grain shader material
 function WoodMaterial({ isDark }: { isDark: boolean }) {
   // Darker, richer wood tones (Walnut/Mahogany style)
@@ -1337,8 +1353,11 @@ function DeskGroup({
         isDark={isDark}
       />
 
+      {/* Mouse Pad */}
+      <MousePad position={[1.5, -2.008, 0.55]} />
+
       {/* Mouse - to the right of keyboard */}
-      <Mouse position={[1.5, -2.01, 0.55]} isDark={isDark} />
+      <Mouse position={[1.5, -2.005, 0.55]} isDark={isDark} />
 
       {/* Desk accessories */}
       <DeskLamp
