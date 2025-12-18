@@ -670,7 +670,7 @@ function usePlasterTexture() {
   }, []);
 }
 
-function Wall({ isDark }: { isDark: boolean }) {
+function Walls({ isDark }: { isDark: boolean }) {
   const texture = usePlasterTexture();
 
   const wallMaterialProps = {
@@ -738,6 +738,18 @@ function Wall({ isDark }: { isDark: boolean }) {
         </mesh>
         <mesh position={[0, -3.8, 0.05]} receiveShadow>
           <boxGeometry args={[10, 0.15, 0.08]} />
+          <meshStandardMaterial {...baseboardMaterialProps} />
+        </mesh>
+      </group>
+
+      {/* Front wall */}
+      <group position={[0, -0.23, 7.5]}>
+        <mesh receiveShadow castShadow>
+          <planeGeometry args={[15, 8]} />
+          <meshStandardMaterial {...wallMaterialProps} side={THREE.BackSide} />
+        </mesh>
+        <mesh position={[0, -3.8, -0.05]} receiveShadow>
+          <boxGeometry args={[15, 0.15, 0.08]} />
           <meshStandardMaterial {...baseboardMaterialProps} />
         </mesh>
       </group>
@@ -1720,10 +1732,8 @@ export default function Scene() {
             isDark={isDark}
           />
 
-          {/* Wall */}
-          <Wall isDark={isDark} />
+          <Walls isDark={isDark} />
 
-          {/* Ceiling */}
           <Ceiling isDark={isDark} />
 
           {/* Floor */}
