@@ -378,6 +378,63 @@ function Keyboard({ position, rotation, isDark }: any) {
   );
 }
 
+function MouseMaterial({ color }: { color: string }) {
+  return (
+    <meshStandardMaterial
+      color={color}
+      roughness={0.3}
+      metalness={0.25}
+      onBeforeCompile={(shader) => {
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <common>",
+          `#include <common>
+          varying vec3 vLocalPos;
+          `
+        );
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          `#include <begin_vertex>
+          vLocalPos = position;
+          `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <common>",
+          `#include <common>
+          varying vec3 vLocalPos;
+          `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <dithering_fragment>",
+          `#include <dithering_fragment>
+          
+          // Cut-out lines
+          float lineWidth = 0.001;
+          float zSplit = 0.03;
+          
+          // Vertical line (center split)
+          float vLine = smoothstep(lineWidth, 0.0, abs(vLocalPos.x));
+          vLine *= step(zSplit, vLocalPos.z); // Only in front of the horizontal split
+          
+          // Horizontal line (button separation)
+          float hLine = smoothstep(lineWidth, 0.0, abs(vLocalPos.z - zSplit));
+          // Limit horizontal line to not go all the way down the sides
+          hLine *= step(abs(vLocalPos.x), 0.5);
+          
+          float lines = max(vLine, hLine);
+          
+          // Only apply on top hemisphere
+          lines *= step(0.0, vLocalPos.y);
+          
+          // Apply dark line
+          vec3 cutColor = gl_FragColor.rgb * 0.1;
+          gl_FragColor.rgb = mix(gl_FragColor.rgb, cutColor, lines);
+          `
+        );
+      }}
+    />
+  );
+}
+
 function Mouse({ position = [0, 0, 0], isDark = true }: any) {
   // Color scheme
   const bodyColor = isDark ? "#111111" : "#222222";
@@ -385,58 +442,25 @@ function Mouse({ position = [0, 0, 0], isDark = true }: any) {
   const accentColor = isDark ? "#080808" : "#151515";
 
   return (
-    <group position={position}>
+    <group position={position} rotation={[0, Math.PI, 0]}>
       {/* Mouse body: an ellipsoid sphere */}
       <mesh
-        position={[0, 0.04, 0]}
+        position={[0, 0.03, 0]}
         castShadow
         receiveShadow
         scale={[0.7, 0.26, 1.15]}
       >
         <sphereGeometry args={[0.11, 32, 32]} />
-        <meshStandardMaterial
-          color={bodyColor}
-          roughness={0.3}
-          metalness={0.25}
-        />
-      </mesh>
-
-      {/* Skirt/chassis for definition */}
-      <mesh position={[0, 0.01, 0]} scale={[0.74, 0.045, 1.18]}>
-        <sphereGeometry args={[0.105, 24, 24]} />
-        <meshStandardMaterial
-          color={accentColor}
-          roughness={0.5}
-          metalness={0.05}
-        />
-      </mesh>
-
-      {/* Left button */}
-      <mesh position={[-0.038, 0.062, 0.07]} scale={[0.33, 0.09, 0.43]}>
-        <sphereGeometry args={[0.13, 16, 16, 0, Math.PI]} />
-        <meshStandardMaterial
-          color={buttonColor}
-          roughness={0.2}
-          metalness={0.1}
-        />
-      </mesh>
-      {/* Right button */}
-      <mesh position={[0.038, 0.062, 0.07]} scale={[0.33, 0.09, 0.43]}>
-        <sphereGeometry args={[0.13, 16, 16, 0, Math.PI]} />
-        <meshStandardMaterial
-          color={buttonColor}
-          roughness={0.2}
-          metalness={0.1}
-        />
+        <MouseMaterial color={bodyColor} />
       </mesh>
 
       {/* Scroll wheel */}
       <mesh
-        position={[0, 0.082, 0.09]}
-        rotation={[Math.PI / 2, 0, 0]}
+        position={[0, 0.04, 0.075]}
+        rotation={[0, 0, Math.PI / 2]}
         castShadow
       >
-        <cylinderGeometry args={[0.012, 0.012, 0.019, 24]} />
+        <cylinderGeometry args={[0.02, 0.02, 0.019, 24]} />
         <meshStandardMaterial color="#111" roughness={0.5} metalness={0.1} />
       </mesh>
     </group>
