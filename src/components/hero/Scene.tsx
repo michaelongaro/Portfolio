@@ -833,45 +833,71 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
   );
 }
 
-function CoffeeMug({ position, isDark }: any) {
+function CoffeeMug({ position, scale = 1, isDark }: any) {
+  const mugColor = isDark ? "#4a4a4a" : "#f8f8f8";
+  const innerColor = isDark ? "#3a3a3a" : "#eeeeee";
+
   return (
-    <group position={position}>
-      {/* Mug body - ceramic */}
+    <group position={position} scale={scale}>
+      {/* Mug body - ceramic (Outer Shell) */}
       <mesh castShadow receiveShadow>
-        <cylinderGeometry args={[0.08, 0.065, 0.18, 32]} />
+        <cylinderGeometry args={[0.08, 0.065, 0.18, 32, 1, true]} />
         <meshStandardMaterial
-          color={isDark ? "#4a4a4a" : "#f8f8f8"}
+          color={mugColor}
           roughness={0.25}
           metalness={0.05}
         />
       </mesh>
-      {/* Mug inner wall (darker) */}
-      <mesh position={[0, 0.02, 0]}>
+
+      {/* Mug Bottom */}
+      <mesh
+        position={[0, -0.09, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <circleGeometry args={[0.065, 32]} />
+        <meshStandardMaterial
+          color={mugColor}
+          roughness={0.25}
+          metalness={0.05}
+        />
+      </mesh>
+
+      {/* Mug inner wall */}
+      <mesh position={[0, 0.01, 0]}>
         <cylinderGeometry args={[0.07, 0.055, 0.16, 32, 1, true]} />
         <meshStandardMaterial
-          color={isDark ? "#3a3a3a" : "#eeeeee"}
+          color={innerColor}
           roughness={0.3}
           metalness={0.05}
           side={THREE.BackSide}
         />
       </mesh>
-      {/* Handle */}
-      <mesh position={[0.07, 0, 0]} rotation={[0, 0, Math.PI * 1.48]}>
-        <torusGeometry args={[0.045, 0.015, 16, 32, Math.PI]} />
+
+      {/* Mug Rim */}
+      <mesh position={[0, 0.09, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.07, 0.08, 32]} />
         <meshStandardMaterial
-          color={isDark ? "#4a4a4a" : "#f8f8f8"}
+          color={mugColor}
           roughness={0.25}
           metalness={0.05}
         />
       </mesh>
-      {/* Coffee surface */}
-      <mesh position={[0, 0.07, 0]}>
-        <cylinderGeometry args={[0.068, 0.068, 0.01, 32]} />
+
+      {/* Handle */}
+      <mesh position={[-0.07, 0, 0]} rotation={[0, 0, -Math.PI * 1.48]}>
+        <torusGeometry args={[0.045, 0.012, 16, 32, Math.PI]} />
         <meshStandardMaterial
-          color="#2d1810"
-          roughness={0.05}
-          metalness={0.1}
+          color={mugColor}
+          roughness={0.25}
+          metalness={0.05}
         />
+      </mesh>
+
+      {/* Coffee surface */}
+      <mesh position={[0, 0.06, 0]}>
+        <cylinderGeometry args={[0.068, 0.068, 0.01, 32]} />
+        <meshStandardMaterial color="#3c2f2f" roughness={0.2} metalness={0.0} />
       </mesh>
     </group>
   );
@@ -1121,7 +1147,11 @@ export default function Scene() {
             scale={1.8}
             isDark={isDark}
           />
-          <CoffeeMug position={[-1.6, -1.92, 0.5]} isDark={isDark} />
+          <CoffeeMug
+            position={[-1.6, -1.9, 0.5]}
+            scale={1.25}
+            isDark={isDark}
+          />
         </group>
 
         {/* Contact shadows on desk */}
