@@ -1334,6 +1334,73 @@ function Bookshelf({ position, isDark, books }: any) {
   );
 }
 
+function TrashCan({ position, scale = 1, isDark }: any) {
+  const canColor = isDark ? "#2a2a2a" : "#dddddd";
+
+  return (
+    <group position={position} scale={scale}>
+      {/* Can Body */}
+      <mesh castShadow receiveShadow>
+        <cylinderGeometry args={[0.25, 0.2, 0.6, 32, 1, true]} />
+        <meshStandardMaterial
+          color={canColor}
+          roughness={0.5}
+          metalness={0.3}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* Can Bottom */}
+      <mesh
+        position={[0, -0.3, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
+        <circleGeometry args={[0.2, 32]} />
+        <meshStandardMaterial
+          color={canColor}
+          roughness={0.5}
+          metalness={0.3}
+        />
+      </mesh>
+
+      {/* Rim */}
+      <mesh position={[0, 0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.24, 0.26, 32]} />
+        <meshStandardMaterial
+          color={canColor}
+          roughness={0.5}
+          metalness={0.3}
+        />
+      </mesh>
+
+      {/* Trash inside */}
+      <mesh position={[0, -0.28, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.2, 32]} />
+        <meshStandardMaterial color="#000000" roughness={1} />
+      </mesh>
+
+      {/* Crumpled paper */}
+      <mesh position={[0.1, -0.28, 0.05]} rotation={[1, 2, 3]} castShadow>
+        <dodecahedronGeometry args={[0.06, 0]} />
+        <meshStandardMaterial color="#f0f0f0" roughness={0.9} />
+      </mesh>
+      <mesh position={[-0.1, -0.28, -0.05]} rotation={[2, 1, 0]} castShadow>
+        <dodecahedronGeometry args={[0.07, 0]} />
+        <meshStandardMaterial color="#f0f0f0" roughness={0.9} />
+      </mesh>
+      <mesh
+        position={[0.02, -0.28, -0.02]}
+        rotation={[0.5, 0.5, 0.5]}
+        castShadow
+      >
+        <dodecahedronGeometry args={[0.065, 0]} />
+        <meshStandardMaterial color="#f0f0f0" roughness={0.9} />
+      </mesh>
+    </group>
+  );
+}
+
 function DeskGroup({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
@@ -1383,6 +1450,9 @@ function DeskGroup({
         isDark={isDark}
       />
       <CoffeeMug position={[-1.6, -1.9, 0.5]} scale={1.25} isDark={isDark} />
+
+      {/* Trash Can - Left of desk */}
+      <TrashCan position={[-3.2, -3.65, 0.5]} scale={1.5} isDark={isDark} />
 
       {/* Contact shadows on desk */}
       <ContactShadows
