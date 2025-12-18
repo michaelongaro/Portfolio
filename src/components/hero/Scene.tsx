@@ -454,27 +454,28 @@ function MouseMaterial({ color }: { color: string }) {
 }
 
 function Mouse({ position = [0, 0, 0], isDark = true }: any) {
-  // Color scheme
-  const bodyColor = isDark ? "#111111" : "#222222";
-  const buttonColor = isDark ? "#1a1a1a" : "#2a2a2a";
-  const accentColor = isDark ? "#080808" : "#151515";
-
   return (
     <group position={position} rotation={[0, Math.PI, 0]}>
-      {/* Mouse body: an ellipsoid sphere */}
+      {/* Mouse body */}
       <mesh
-        position={[0, 0.03, 0]}
+        position={[0, 0, 0]}
         castShadow
         receiveShadow
-        scale={[0.7, 0.26, 1.15]}
+        scale={[0.7, 0.52, 1.15]}
       >
-        <sphereGeometry args={[0.11, 32, 32]} />
-        <MouseMaterial color={bodyColor} />
+        <sphereGeometry args={[0.11, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <MouseMaterial color={isDark ? "#111111" : "#222222"} />
+
+        {/* The Flat Bottom Cap */}
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[0.11, 32]} />
+          <MouseMaterial color={isDark ? "#111111" : "#222222"} />
+        </mesh>
       </mesh>
 
       {/* Scroll wheel */}
       <mesh
-        position={[0, 0.04, 0.075]}
+        position={[0, 0.035, 0.075]}
         rotation={[0, 0, Math.PI / 2]}
         castShadow
       >
@@ -1520,7 +1521,7 @@ function DeskGroup({
         scale={1.8}
         isDark={isDark}
       />
-      <CoffeeMug position={[-1.6, -1.9, 0.5]} scale={1.25} isDark={isDark} />
+      <CoffeeMug position={[-1.6, -1.9, 0.5]} scale={1.35} isDark={isDark} />
 
       {/* Trash Can - Left of desk */}
       <TrashCan position={[-3.2, -3.65, 0.5]} scale={1.5} isDark={isDark} />
