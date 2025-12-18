@@ -7,6 +7,7 @@ import {
   Environment,
   RoundedBox,
   useTexture,
+  Html,
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
@@ -94,16 +95,6 @@ function ElasticOrbitControls({
   );
 }
 
-function MonitorImage({ url }: { url: string }) {
-  const texture = useTexture(url);
-  return (
-    <mesh position={[0, 0.2, 0]}>
-      <circleGeometry args={[0.12, 64]} />
-      <meshBasicMaterial map={texture} toneMapped={false} />
-    </mesh>
-  );
-}
-
 function TexturedScreen({ image }: any) {
   const texture = useTexture(image);
   return (
@@ -186,33 +177,118 @@ function Monitor({
 
       {/* Text Content */}
       {text && (
-        <group position={[0, 0, 0.232]}>
-          {image && <MonitorImage url={image} />}
-          <Text
-            fontSize={0.12}
-            color={isDark ? "#ffffff" : "#1a1a1a"}
-            anchorX="center"
-            anchorY="middle"
-            position={[0, image ? -0.05 : 0.08, 0]}
-            maxWidth={1.4}
-            textAlign="center"
-            font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-          >
-            {text}
-          </Text>
-          {subtext && (
-            <Text
-              fontSize={0.06}
-              color={isDark ? "#8ab4f8" : "#4a5568"}
-              anchorX="center"
-              anchorY="middle"
-              position={[0, image ? -0.2 : -0.08, 0]}
-              font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-            >
-              {subtext}
-            </Text>
-          )}
-        </group>
+        <Html
+          transform
+          position={[0, 0, 0.232]}
+          scale={0.05}
+          style={{
+            width: "1500px",
+            height: "850px",
+            userSelect: "none",
+          }}
+        >
+          <div className="flex flex-col justify-center gap-16 w-full h-full p-16">
+            {/* Main Content Group */}
+            <div className="flex flex-row items-start justify-center gap-12 mt-12">
+              {/* Image */}
+              {image && (
+                <img
+                  src={image}
+                  alt="Profile"
+                  className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg"
+                />
+              )}
+
+              {/* Text Group */}
+              <div className="flex flex-col items-start justify-center h-64">
+                <h1
+                  className={`text-7xl font-bold mb-4 ${
+                    isDark ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  {text}
+                </h1>
+                <h2
+                  className={`text-5xl font-medium mb-8 ${
+                    isDark ? "text-blue-300" : "text-gray-700"
+                  }`}
+                >
+                  {subtext}
+                </h2>
+
+                {/* Links */}
+                <div className="flex gap-8">
+                  <a
+                    href="https://github.com/michaelongaro"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-4xl underline hover:opacity-80 ${
+                      isDark ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="/assets/MichaelOngaroResume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-4xl underline hover:opacity-80 ${
+                      isDark ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
+                    Resume
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/michaelongaro/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-4xl underline hover:opacity-80 ${
+                      isDark ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Controls Section */}
+            <div className="flex flex-col items-center justify-center mb-8">
+              <h3
+                className={`text-4xl font-bold mb-4 ${
+                  isDark ? "text-gray-200" : "text-gray-800"
+                }`}
+              >
+                Controls
+              </h3>
+              <div className="hidden md:flex flex-col items-center">
+                <p
+                  className={`text-3xl ${
+                    isDark ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  Click and drag to pan the camera
+                </p>
+                <p
+                  className={`text-3xl ${
+                    isDark ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  Alt + Scroll to zoom
+                </p>
+              </div>
+              <div className="flex md:hidden flex-col items-center">
+                <p
+                  className={`text-3xl ${
+                    isDark ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  Use two fingers to pan and zoom
+                </p>
+              </div>
+            </div>
+          </div>
+        </Html>
       )}
     </group>
   );
@@ -1576,7 +1652,7 @@ function DeskGroup({
 
       {/* Main Monitor - centered on desk */}
       <Monitor
-        position={[0.3, -1.3, -0.7]}
+        position={[0.2, -1.3, -0.7]}
         text="Michael Ongaro"
         subtext="Full Stack Developer"
         isDark={isDark}
@@ -1586,7 +1662,7 @@ function DeskGroup({
 
       {/* Side Monitor - angled */}
       <Monitor
-        position={[-1.35, -1.3, -0.35]}
+        position={[-1.45, -1.3, -0.35]}
         rotation={[0, 0.45, 0]}
         isDark={isDark}
         screenColor={isDark ? "#0a0512" : "#f8f9fa"}
@@ -1595,16 +1671,16 @@ function DeskGroup({
 
       {/* Keyboard */}
       <Keyboard
-        position={[0.2, -2, 0.6]}
+        position={[0.1, -2, 0.6]}
         rotation={[0, 0, 0]}
         isDark={isDark}
       />
 
       {/* Mouse Pad */}
-      <MousePad position={[1.5, -2.008, 0.55]} />
+      <MousePad position={[1.4, -2.008, 0.55]} />
 
       {/* Mouse - to the right of keyboard */}
-      <Mouse position={[1.5, -2.005, 0.55]} isDark={isDark} />
+      <Mouse position={[1.4, -2.005, 0.55]} isDark={isDark} />
 
       {/* Desk accessories */}
       <DeskLamp
