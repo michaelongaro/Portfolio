@@ -24,6 +24,16 @@ function MonitorImage({ url }: { url: string }) {
   );
 }
 
+function TexturedScreen({ image }: any) {
+  const texture = useTexture(image);
+  return (
+    <mesh position={[0, 0, 0.228]}>
+      <planeGeometry args={[1.5, 0.85]} />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
+  );
+}
+
 function Monitor({
   position,
   rotation = [0, 0, 0],
@@ -32,6 +42,7 @@ function Monitor({
   isDark,
   screenColor = "#1a1a2e",
   image,
+  screenImage,
 }: any) {
   const emissiveIntensity = isDark ? 1.5 : 0.3;
 
@@ -44,7 +55,7 @@ function Monitor({
       </mesh>
 
       {/* Monitor Stand - Neck/pole */}
-      <mesh position={[0, -0.5, 0.12]} castShadow receiveShadow>
+      <mesh position={[0, -0.5, 0.145]} castShadow receiveShadow>
         <boxGeometry args={[0.06, 0.45, 0.06]} />
         <meshStandardMaterial color="#2a2a2a" metalness={0.9} roughness={0.1} />
       </mesh>
@@ -62,16 +73,20 @@ function Monitor({
       </RoundedBox>
 
       {/* Screen Display */}
-      <mesh position={[0, 0, 0.228]}>
-        <planeGeometry args={[1.5, 0.85]} />
-        <meshStandardMaterial
-          color={screenColor}
-          emissive={isDark ? "#0f172b" : "#ffffff"}
-          emissiveIntensity={emissiveIntensity}
-          roughness={0.1}
-          metalness={0.1}
-        />
-      </mesh>
+      {screenImage ? (
+        <TexturedScreen image={screenImage} />
+      ) : (
+        <mesh position={[0, 0, 0.228]}>
+          <planeGeometry args={[1.5, 0.85]} />
+          <meshStandardMaterial
+            color={screenColor}
+            emissive={isDark ? "#0f172b" : "#ffffff"}
+            emissiveIntensity={emissiveIntensity}
+            roughness={0.1}
+            metalness={0.1}
+          />
+        </mesh>
+      )}
 
       {/* Screen glass reflection layer */}
       <mesh position={[0, 0, 0.23]}>
@@ -1344,6 +1359,7 @@ function DeskGroup({
         rotation={[0, 0.45, 0]}
         isDark={isDark}
         screenColor={isDark ? "#0a0512" : "#f8f9fa"}
+        screenImage="/assets/altMonitor.png"
       />
 
       {/* Keyboard */}
