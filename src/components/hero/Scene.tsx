@@ -42,7 +42,7 @@ function ElasticOrbitControls({
 
     if (isDragging) {
       const overflow = Math.max(azOverflow, polOverflow);
-      const resistance = 1 - Math.min(1, overflow * 2);
+      const resistance = 1 - Math.min(1, overflow * 7);
       controls.rotateSpeed = baseRotateSpeed * resistance;
     } else {
       controls.rotateSpeed = baseRotateSpeed;
@@ -1830,13 +1830,15 @@ export default function Scene() {
         </EffectComposer>
 
         <ElasticOrbitControls
-          minPolarAngle={-Math.PI / 2}
-          maxPolarAngle={Math.PI / 1.5}
-          minAzimuthAngle={-Math.PI / 4}
-          maxAzimuthAngle={Math.PI / 4}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 1.75}
+          minAzimuthAngle={-Math.PI / 3}
+          maxAzimuthAngle={Math.PI / 3}
+          minDistance={1}
+          maxDistance={6.5}
           target={[0, -1.3, -0.3]}
           enableZoom={true}
-          enablePan={true}
+          enablePan={false}
           touches={{
             ONE: null as any,
             TWO: THREE.TOUCH.DOLLY_ROTATE,
