@@ -1099,9 +1099,173 @@ function Whiteboard({ position, rotation, isDark }: any) {
   );
 }
 
+function Book({ position, width, height, depth, color, title }: any) {
+  // Dynamic font size based on spine width and title length
+  const fontSize = Math.min(width * 0.65, 0.05);
+
+  return (
+    <group position={position}>
+      {/* Cover / Spine */}
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[width, height, depth]} />
+        <meshStandardMaterial color={color} roughness={0.4} />
+      </mesh>
+
+      {/* Pages - visible on top/bottom/back */}
+      <mesh position={[0, 0, -0.01]}>
+        <boxGeometry args={[width - 0.01, height + 0.001, depth - 0.01]} />
+        <meshStandardMaterial color="#fdfbf7" roughness={0.8} />
+      </mesh>
+
+      <Text
+        position={[0, 0, depth / 2 + 0.001]}
+        rotation={[0, 0, -Math.PI / 2]}
+        fontSize={fontSize}
+        color="#ffffff"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={height * 0.9}
+        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
+      >
+        {title}
+      </Text>
+    </group>
+  );
+}
+
+function Bookshelf({ position, isDark, books }: any) {
+  const shelfWidth = 1.8;
+  const shelfDepth = 0.3;
+  const shelfThickness = 0.05;
+  const bookendHeight = 0.15;
+  const bookendThickness = 0.02;
+
+  let currentX = -shelfWidth / 2 + bookendThickness + 0.05;
+
+  return (
+    <group position={position}>
+      {/* Shelf Board */}
+      <mesh receiveShadow castShadow>
+        <boxGeometry args={[shelfWidth, shelfThickness, shelfDepth]} />
+        <WoodMaterial isDark={isDark} />
+      </mesh>
+
+      {/* Left Bookend */}
+      <mesh
+        position={[
+          -shelfWidth / 2 + bookendThickness / 2,
+          bookendHeight / 2 + shelfThickness / 2,
+          0,
+        ]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[bookendThickness, bookendHeight, shelfDepth]} />
+        <WoodMaterial isDark={isDark} />
+      </mesh>
+
+      {/* Right Bookend */}
+      <mesh
+        position={[
+          shelfWidth / 2 - bookendThickness / 2,
+          bookendHeight / 2 + shelfThickness / 2,
+          0,
+        ]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[bookendThickness, bookendHeight, shelfDepth]} />
+        <WoodMaterial isDark={isDark} />
+      </mesh>
+
+      {/* Books */}
+      {books.map((book: any, i: number) => {
+        const bookPos = [
+          currentX + book.width / 2,
+          book.height / 2 + shelfThickness / 2,
+          0,
+        ];
+        currentX += book.width + 0.05;
+        return (
+          <Book
+            key={i}
+            position={bookPos}
+            width={book.width}
+            height={book.height}
+            depth={shelfDepth * 0.85}
+            color={book.color}
+            title={book.title}
+          />
+        );
+      })}
+    </group>
+  );
+}
+
 export default function Scene() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  const topShelfBooks = [
+    {
+      title: "The Pragmatic Programmer",
+      color: "#2c3e50",
+      width: 0.117,
+      height: 0.416,
+    },
+    { title: "Clean Code", color: "#f1c40f", width: 0.104, height: 0.39 },
+    { title: "Refactoring", color: "#e74c3c", width: 0.104, height: 0.403 },
+    {
+      title: "The Mythical Man-Month",
+      color: "#3498db",
+      width: 0.151,
+      height: 0.364,
+    },
+  ];
+
+  const middleShelfBooks = [
+    {
+      title: "Introduction to Algorithms",
+      color: "#27ae60",
+      width: 0.143,
+      height: 0.455,
+    },
+    { title: "Design Patterns", color: "#7f8c8d", width: 0.121, height: 0.39 },
+    {
+      title: "Designing Data-Intensive Applications",
+      color: "#c0392b",
+      width: 0.187,
+      height: 0.416,
+    },
+    {
+      title: "Clean Architecture",
+      color: "#f39c12",
+      width: 0.121,
+      height: 0.39,
+    },
+  ];
+
+  const bottomShelfBooks = [
+    {
+      title: "Eloquent JavaScript",
+      color: "#f1c40f",
+      width: 0.134,
+      height: 0.39,
+    },
+    {
+      title: "CSS: The Definitive Guide",
+      color: "#2980b9",
+      width: 0.13,
+      height: 0.429,
+    },
+    { title: "Refactoring UI", color: "#8e44ad", width: 0.091, height: 0.377 },
+    {
+      title: "Test Driven Development",
+      color: "#16a085",
+      width: 0.128,
+      height: 0.364,
+    },
+  ];
 
   return (
     <div className="absolute inset-0 z-10">
@@ -1192,6 +1356,25 @@ export default function Scene() {
 
         {/* Scene Content */}
         <group position={[0, 0, 0]}>
+          {/* Bookshelves - to the left of window */}
+          <group position={[-4.5, 0, -2.45]}>
+            <Bookshelf
+              position={[0, 1.8, 0]}
+              isDark={isDark}
+              books={topShelfBooks}
+            />
+            <Bookshelf
+              position={[0, 0.9, 0]}
+              isDark={isDark}
+              books={middleShelfBooks}
+            />
+            <Bookshelf
+              position={[0, 0, 0]}
+              isDark={isDark}
+              books={bottomShelfBooks}
+            />
+          </group>
+
           {/* Window on back wall */}
           <Window
             position={[0, 1, -2.4]}
