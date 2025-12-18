@@ -960,7 +960,7 @@ function Window({ position, rotation, isDark }: any) {
 
   // Vertical Blinds
   const slats: any[] = [];
-  const count = 20;
+  const count = 15;
   const slatWidth = 0.25;
   const gap = width / count;
 
@@ -1035,7 +1035,7 @@ function Window({ position, rotation, isDark }: any) {
           transparent
           opacity={1}
           roughness={0}
-          metalness={0.9}
+          metalness={0.95}
           clearcoat={1}
           clearcoatRoughness={0}
           color={isDark ? "#03002e" : "#FFFFFF"}
