@@ -29,7 +29,10 @@ function TexturedScreen({ image }: any) {
   return (
     <mesh position={[0, 0, 0.228]}>
       <planeGeometry args={[1.5, 0.85]} />
-      <meshBasicMaterial map={texture} toneMapped={false} />
+      <meshBasicMaterial
+        map={texture as THREE.Texture<unknown>}
+        toneMapped={false}
+      />
     </mesh>
   );
 }
@@ -1401,6 +1404,74 @@ function TrashCan({ position, scale = 1, isDark }: any) {
   );
 }
 
+function PC({ position, scale = 1, isDark }: any) {
+  return (
+    <group position={position} scale={scale}>
+      {/* Main Case Body */}
+      <mesh position={[0, 0.7, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.55, 1.2, 1.2]} />
+        <meshStandardMaterial
+          color={"#e0e0e0"}
+          roughness={0.3}
+          metalness={0.8}
+        />
+      </mesh>
+
+      {/* Case Legs */}
+      {[
+        [-0.2, 0.05, 0.5],
+        [0.2, 0.05, 0.5],
+        [-0.2, 0.05, -0.5],
+        [0.2, 0.05, -0.5],
+      ].map((pos, i) => (
+        <mesh
+          key={i}
+          position={new THREE.Vector3(...pos)}
+          castShadow
+          receiveShadow
+        >
+          <cylinderGeometry args={[0.04, 0.04, 0.1, 16]} />
+          <meshStandardMaterial color="#111" />
+        </mesh>
+      ))}
+
+      {/* Front Panel Details Group */}
+      <group position={[0, 1.3, 0.53]} rotation={[Math.PI * 1.5, 0, 0]}>
+        {/* Headphone Jack */}
+        <mesh position={[-0.01, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.01, 0.01, 0.01, 16]} />
+          <meshStandardMaterial color="#000" />
+        </mesh>
+
+        {/* USB "C" */}
+        <mesh position={[0.03, 0, 0]}>
+          <boxGeometry args={[0.015, 0.035, 0.01]} />
+          <meshStandardMaterial color="#000" />
+        </mesh>
+
+        {/* USB A */}
+        <mesh position={[0.08, 0, 0]}>
+          <boxGeometry args={[0.025, 0.055, 0.01]} />
+          <meshStandardMaterial color="#000" />
+        </mesh>
+
+        {/* Power Button */}
+        <group position={[0.15, 0, 0]}>
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.02, 0.02, 0.01, 32]} />
+            <meshStandardMaterial color="#333" />
+          </mesh>
+          {/* LED Ring */}
+          <mesh rotation={[0, 0, 0]} position={[0, 0, 0.001]}>
+            <ringGeometry args={[0.02, 0.03, 32]} />
+            <meshBasicMaterial color={"#ffffff"} toneMapped={false} />
+          </mesh>
+        </group>
+      </group>
+    </group>
+  );
+}
+
 function DeskGroup({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
@@ -1453,6 +1524,9 @@ function DeskGroup({
 
       {/* Trash Can - Left of desk */}
       <TrashCan position={[-3.2, -3.65, 0.5]} scale={1.5} isDark={isDark} />
+
+      {/* PC - Right of desk */}
+      <PC position={[3.2, -4.1, 0.5]} isDark={isDark} />
 
       {/* Contact shadows on desk */}
       <ContactShadows
