@@ -1941,7 +1941,7 @@ export default function Scene() {
           }}
           touches={{
             ONE: null as any,
-            TWO: THREE.TOUCH.DOLLY_PAN,
+            TWO: THREE.TOUCH.ROTATE,
           }}
         />
       </Canvas>

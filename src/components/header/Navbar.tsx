@@ -24,7 +24,7 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <a
               href="/"
-              className="text-2xl font-bold text-primary-light dark:text-primary-dark font-mono"
+              className="text-xl sm:text-2xl font-bold text-primary-light dark:text-primary-dark font-mono"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -86,13 +86,13 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white dark:bg-slate-900 shadow-lg">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="md:hidden  shadow-lg">
+          <div className="px-2 flex place-self-center max-w-sm justify-between pt-2 pb-3 sm:px-3">
             {navLinks.map((link, idx) => (
               <a
                 key={link.name}
                 href={link.href}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                className={` px-3 py-2 rounded-md text-base font-medium ${
                   linkStates[idx]
                     ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-slate-800"
                     : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-slate-800"
