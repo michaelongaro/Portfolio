@@ -179,15 +179,16 @@ function Monitor({
       {text && (
         <Html
           transform
+          occlude="blending"
           position={[0, 0, 0.232]}
-          scale={0.05}
+          scale={0.04}
           style={{
             width: "1500px",
             height: "850px",
             userSelect: "none",
           }}
         >
-          <div className="flex flex-col justify-center gap-16 w-full h-full p-16">
+          <div className="flex flex-col justify-center gap-24 w-full h-full p-16">
             {/* Main Content Group */}
             <div className="flex flex-row items-start justify-center gap-12 mt-12">
               {/* Image */}
@@ -255,7 +256,7 @@ function Monitor({
             {/* Controls Section */}
             <div className="flex flex-col items-center justify-center mb-8">
               <h3
-                className={`text-4xl font-bold mb-4 ${
+                className={`text-5xl font-bold mb-4 ${
                   isDark ? "text-gray-200" : "text-gray-800"
                 }`}
               >
@@ -263,14 +264,14 @@ function Monitor({
               </h3>
               <div className="hidden md:flex flex-col items-center">
                 <p
-                  className={`text-3xl ${
+                  className={`text-4xl ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
                   Click and drag to pan the camera
                 </p>
                 <p
-                  className={`text-3xl ${
+                  className={`text-4xl ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
@@ -279,7 +280,7 @@ function Monitor({
               </div>
               <div className="flex md:hidden flex-col items-center">
                 <p
-                  className={`text-3xl ${
+                  className={`text-4xl ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
