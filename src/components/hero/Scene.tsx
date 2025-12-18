@@ -11,8 +11,88 @@ import {
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
 import * as THREE from "three";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import headshot from "/assets/headshot.jpg";
+
+function ElasticOrbitControls({
+  minPolarAngle,
+  maxPolarAngle,
+  minAzimuthAngle,
+  maxAzimuthAngle,
+  ...props
+}: any) {
+  const controlsRef = useRef<any>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const baseRotateSpeed = props.rotateSpeed || 1.0;
+
+  useFrame((state, delta) => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+
+    const azimuth = controls.getAzimuthalAngle();
+    const polar = controls.getPolarAngle();
+
+    let azOverflow = 0;
+    if (azimuth < minAzimuthAngle) azOverflow = minAzimuthAngle - azimuth;
+    else if (azimuth > maxAzimuthAngle) azOverflow = azimuth - maxAzimuthAngle;
+
+    let polOverflow = 0;
+    if (polar < minPolarAngle) polOverflow = minPolarAngle - polar;
+    else if (polar > maxPolarAngle) polOverflow = polar - maxPolarAngle;
+
+    if (isDragging) {
+      const overflow = Math.max(azOverflow, polOverflow);
+      const resistance = 1 - Math.min(1, overflow * 2);
+      controls.rotateSpeed = baseRotateSpeed * resistance;
+    } else {
+      controls.rotateSpeed = baseRotateSpeed;
+
+      if (azOverflow > 0.001 || polOverflow > 0.001) {
+        const step = delta * 10;
+
+        let targetTheta = azimuth;
+        if (azimuth < minAzimuthAngle) targetTheta = minAzimuthAngle;
+        else if (azimuth > maxAzimuthAngle) targetTheta = maxAzimuthAngle;
+
+        let targetPhi = polar;
+        if (polar < minPolarAngle) targetPhi = minPolarAngle;
+        else if (polar > maxPolarAngle) targetPhi = maxPolarAngle;
+
+        const spherical = new THREE.Spherical();
+        spherical.setFromVector3(
+          controls.object.position.clone().sub(controls.target)
+        );
+
+        spherical.theta = THREE.MathUtils.lerp(
+          spherical.theta,
+          targetTheta,
+          step
+        );
+        spherical.phi = THREE.MathUtils.lerp(spherical.phi, targetPhi, step);
+        spherical.makeSafe();
+
+        const newPos = new THREE.Vector3()
+          .setFromSpherical(spherical)
+          .add(controls.target);
+        controls.object.position.copy(newPos);
+        controls.object.lookAt(controls.target);
+      }
+    }
+  });
+
+  return (
+    <OrbitControls
+      ref={controlsRef}
+      {...props}
+      minAzimuthAngle={-Infinity}
+      maxAzimuthAngle={Infinity}
+      minPolarAngle={0}
+      maxPolarAngle={Math.PI}
+      onStart={() => setIsDragging(true)}
+      onEnd={() => setIsDragging(false)}
+    />
+  );
+}
 
 function MonitorImage({ url }: { url: string }) {
   const texture = useTexture(url);
@@ -1699,7 +1779,6 @@ export default function Scene() {
 
         {/* Scene Content */}
         <group position={[0, 0, 0]}>
-          {/* Bookshelves - to the left of window */}
           <group position={[-4.5, 0, -2.45]}>
             <Bookshelf
               position={[0, 1.8, 0]}
@@ -1718,14 +1797,12 @@ export default function Scene() {
             />
           </group>
 
-          {/* Window on back wall */}
           <Window
             position={[0, 1, -2.4]}
             rotation={[0, 0, 0]}
             isDark={isDark}
           />
 
-          {/* Whiteboard - to the right of window */}
           <Whiteboard
             position={[4.5, 1, -2.45]}
             rotation={[0, 0, 0]}
@@ -1736,14 +1813,12 @@ export default function Scene() {
 
           <Ceiling isDark={isDark} />
 
-          {/* Floor */}
           <Floor isDark={isDark} />
 
-          {/* Desk Group */}
           <DeskGroup position={[0, 0, -1]} isDark={isDark} />
         </group>
 
-        {/* Post-processing - minimal to keep scene sharp */}
+        {/* Post-processing */}
         <EffectComposer>
           <Bloom
             luminanceThreshold={isDark ? 0.8 : 2}
@@ -1754,7 +1829,7 @@ export default function Scene() {
           <Vignette eskil={false} offset={0.2} darkness={isDark ? 0.6 : 0.3} />
         </EffectComposer>
 
-        <OrbitControls
+        <ElasticOrbitControls
           minPolarAngle={-Math.PI / 2}
           maxPolarAngle={Math.PI / 1.5}
           minAzimuthAngle={-Math.PI / 4}
