@@ -59,7 +59,12 @@ export default function Navbar() {
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
-                  <LuSun className="size-[18px] text-yellow-500" />
+                  <LuSun
+                    style={{
+                      filter: "drop-shadow(0px 0px 0px rgb(202,138,4))",
+                    }}
+                    className="size-[18px] stroke-yellow-500"
+                  />
                 ) : (
                   <LuMoon className="size-[18px] text-blue-400" />
                 )}
@@ -74,7 +79,12 @@ export default function Navbar() {
               className="p-2 mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
             >
               {theme === "light" ? (
-                <LuSun className="size-[18px] text-yellow-500" />
+                <LuSun
+                  style={{
+                    filter: "drop-shadow(0px 0px 0px rgb(202,138,4))",
+                  }}
+                  className="size-[18px] stroke-yellow-600"
+                />
               ) : (
                 <LuMoon className="size-[18px] text-blue-400" />
               )}
