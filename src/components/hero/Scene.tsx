@@ -1000,6 +1000,36 @@ function Window({ position, rotation, isDark }: any) {
   );
 }
 
+function Marker({
+  position,
+  color,
+}: {
+  position: [number, number, number];
+  color: string;
+}) {
+  return (
+    <group position={position} rotation={[0, 0, Math.PI / 2]}>
+      {/* Body - White tapered cylinder */}
+      <mesh position={[0, -0.02, 0]} castShadow>
+        <cylinderGeometry args={[0.011, 0.011, 0.1, 16]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.3} />
+      </mesh>
+
+      {/* Cap - Colored */}
+      <mesh position={[0, 0.045, 0]} castShadow>
+        <cylinderGeometry args={[0.012, 0.012, 0.045, 16]} />
+        <meshStandardMaterial color={color} roughness={0.3} />
+      </mesh>
+
+      {/* End cap - Colored small detail */}
+      <mesh position={[0, -0.075, 0]} castShadow>
+        <cylinderGeometry args={[0.01, 0.01, 0.01, 16]} />
+        <meshStandardMaterial color={color} roughness={0.3} />
+      </mesh>
+    </group>
+  );
+}
+
 function Whiteboard({ position, rotation, isDark }: any) {
   const texture = useTexture("/assets/whiteboard.png");
 
@@ -1052,31 +1082,15 @@ function Whiteboard({ position, rotation, isDark }: any) {
 
       {/* Markers & Eraser on Tray */}
       <group position={[-0.5, -1.03, 0.1]}>
-        {/* Red Marker */}
-        <mesh
-          position={[-0.2, 0.01, 0]}
-          rotation={[0, 0, Math.PI / 2]}
-          castShadow
-        >
-          <cylinderGeometry args={[0.015, 0.015, 0.12, 16]} />
-          <meshStandardMaterial color="#cc0000" />
-        </mesh>
+        {/* Black Marker */}
+        <Marker position={[-0.2, 0.012, 0]} color="#1a1a1a" />
         {/* Blue Marker */}
-        <mesh position={[0, 0.01, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.015, 0.015, 0.12, 16]} />
-          <meshStandardMaterial color="#0000cc" />
-        </mesh>
+        <Marker position={[0, 0.012, 0]} color="#0000cc" />
         {/* Green Marker */}
-        <mesh
-          position={[0.2, 0.01, 0]}
-          rotation={[0, 0, Math.PI / 2]}
-          castShadow
-        >
-          <cylinderGeometry args={[0.015, 0.015, 0.12, 16]} />
-          <meshStandardMaterial color="#00cc00" />
-        </mesh>
+        <Marker position={[0.2, 0.012, 0]} color="#00cc00" />
+
         {/* Eraser */}
-        <mesh position={[0.6, 0.02, 0]} castShadow>
+        <mesh position={[0.6, 0.02, 0.05]} castShadow>
           <boxGeometry args={[0.15, 0.04, 0.08]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
