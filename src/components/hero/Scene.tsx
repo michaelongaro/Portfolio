@@ -1336,16 +1336,16 @@ export default function Scene() {
     {
       title: "The Pragmatic Programmer",
       color: "#2c3e50",
-      width: 0.117,
-      height: 0.416,
+      width: 0.1404,
+      height: 0.4992,
     },
-    { title: "Clean Code", color: "#f1c40f", width: 0.104, height: 0.39 },
-    { title: "Refactoring", color: "#e74c3c", width: 0.104, height: 0.403 },
+    { title: "Clean Code", color: "#f1c40f", width: 0.1248, height: 0.468 },
+    { title: "Refactoring", color: "#e74c3c", width: 0.1248, height: 0.4836 },
     {
       title: "The Mythical Man-Month",
       color: "#3498db",
-      width: 0.151,
-      height: 0.364,
+      width: 0.1812,
+      height: 0.4368,
     },
   ];
 
@@ -1353,21 +1353,26 @@ export default function Scene() {
     {
       title: "Introduction to Algorithms",
       color: "#27ae60",
-      width: 0.143,
-      height: 0.455,
+      width: 0.1716,
+      height: 0.546,
     },
-    { title: "Design Patterns", color: "#7f8c8d", width: 0.121, height: 0.39 },
+    {
+      title: "Design Patterns",
+      color: "#7f8c8d",
+      width: 0.1452,
+      height: 0.468,
+    },
     {
       title: "Designing Data-Intensive Applications",
       color: "#c0392b",
-      width: 0.187,
-      height: 0.416,
+      width: 0.2244,
+      height: 0.4992,
     },
     {
       title: "Clean Architecture",
       color: "#f39c12",
-      width: 0.121,
-      height: 0.39,
+      width: 0.1452,
+      height: 0.468,
     },
   ];
 
@@ -1375,21 +1380,26 @@ export default function Scene() {
     {
       title: "Eloquent JavaScript",
       color: "#f1c40f",
-      width: 0.134,
-      height: 0.39,
+      width: 0.1608,
+      height: 0.468,
     },
     {
       title: "CSS: The Definitive Guide",
       color: "#2980b9",
-      width: 0.13,
-      height: 0.429,
+      width: 0.156,
+      height: 0.5148,
     },
-    { title: "Refactoring UI", color: "#8e44ad", width: 0.091, height: 0.377 },
+    {
+      title: "Refactoring UI",
+      color: "#8e44ad",
+      width: 0.1092,
+      height: 0.4524,
+    },
     {
       title: "Test Driven Development",
       color: "#16a085",
-      width: 0.128,
-      height: 0.364,
+      width: 0.1536,
+      height: 0.4368,
     },
   ];
 
