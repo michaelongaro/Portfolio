@@ -12,7 +12,7 @@ import {
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
 import * as THREE from "three";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import headshot from "/assets/headshot.jpg";
 
 function ElasticOrbitControls({
@@ -188,7 +188,7 @@ function Monitor({
             userSelect: "none",
           }}
         >
-          <div className="flex flex-col justify-center gap-24 w-full h-full p-16">
+          <div className="flex flex-col justify-center gap-36 w-full h-full p-16">
             {/* Main Content Group */}
             <div className="flex flex-row items-start justify-center gap-12 mt-12">
               {/* Image */}
@@ -256,7 +256,7 @@ function Monitor({
             {/* Controls Section */}
             <div className="flex flex-col items-center justify-center mb-8">
               <h3
-                className={`text-5xl font-bold mb-4 ${
+                className={`text-6xl font-bold mb-4 ${
                   isDark ? "text-gray-200" : "text-gray-800"
                 }`}
               >
@@ -264,14 +264,14 @@ function Monitor({
               </h3>
               <div className="hidden md:flex flex-col items-center">
                 <p
-                  className={`text-4xl ${
+                  className={`text-5xl ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
                   Click and drag to pan the camera
                 </p>
                 <p
-                  className={`text-4xl ${
+                  className={`text-5xl ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
@@ -280,7 +280,7 @@ function Monitor({
               </div>
               <div className="flex md:hidden flex-col items-center">
                 <p
-                  className={`text-4xl ${
+                  className={`text-5xl ${
                     isDark ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
@@ -1704,6 +1704,24 @@ function DeskGroup({
 export default function Scene() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!e.altKey) {
+        e.stopPropagation();
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { capture: true });
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel, { capture: true });
+    };
+  }, []);
 
   const topShelfBooks = [
     {
@@ -1777,7 +1795,7 @@ export default function Scene() {
   ];
 
   return (
-    <div className="absolute inset-0 z-10">
+    <div ref={containerRef} className="absolute inset-0 z-10">
       <Canvas
         shadows
         dpr={[1, 2]}
@@ -1915,10 +1933,15 @@ export default function Scene() {
           maxDistance={6.5}
           target={[0, -1.3, -0.3]}
           enableZoom={true}
-          enablePan={false}
+          enablePan={true}
+          mouseButtons={{
+            LEFT: THREE.MOUSE.ROTATE,
+            MIDDLE: null,
+            RIGHT: null,
+          }}
           touches={{
             ONE: null as any,
-            TWO: THREE.TOUCH.DOLLY_ROTATE,
+            TWO: THREE.TOUCH.DOLLY_PAN,
           }}
         />
       </Canvas>
