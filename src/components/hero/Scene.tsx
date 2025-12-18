@@ -863,8 +863,8 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
             </mesh>
 
             {/* Light Bulb */}
-            <mesh position={[0, -0.02, 0]}>
-              <sphereGeometry args={[0.03, 16, 16]} />
+            <mesh position={[0, 0.04, 0]}>
+              <sphereGeometry args={[0.05, 16, 16]} />
               <meshStandardMaterial
                 color="#fffbe6"
                 emissive={isDark ? "#ffeaa7" : "#000000"}
@@ -1528,15 +1528,6 @@ function DeskGroup({
 
       {/* PC - Right of desk */}
       <PC position={[3.2, -4.1, 0.5]} isDark={isDark} />
-
-      {/* Contact shadows on desk */}
-      <ContactShadows
-        position={[0, -2.01, 0]}
-        opacity={isDark ? 0.3 : 0.5}
-        scale={6}
-        blur={1.5}
-        far={2}
-      />
     </group>
   );
 }
