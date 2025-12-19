@@ -1,5 +1,5 @@
 import { useState } from "react";
-import smallLightGithubIcon from "/assets/smallLightGithubLogo.png";
+import { FaGithub } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
 export interface IProject {
@@ -41,9 +41,9 @@ function Project({
   );
 
   return (
-    <article className="flex flex-col lg:flex-row gap-8 items-start  border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
+    <article className="flex group flex-col lg:flex-row gap-8 border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
       {/* Image, Links, Metadata Section */}
-      <div className="w-full flex flex-col lg:w-1/2 space-y-4">
+      <div className="w-full flex flex-col lg:w-1/2 gap-4">
         <div className="relative group overflow-hidden rounded-xl shadow-md">
           <img
             src={screenshotLink}
@@ -70,17 +70,13 @@ function Project({
               href={githubRepoLink}
               className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
             >
-              <img
-                src={smallLightGithubIcon}
-                alt="GitHub"
-                className="w-5 h-5"
-              />
+              <FaGithub className="size-5" />
               <span>Repository</span>
             </a>
           )}
         </div>
 
-        <div className="flex self-center lg:self-end gap-2 text-sm opacity-50">
+        <div className="flex lg:mt-auto self-center lg:group-odd:self-end lg:group-even:self-start gap-2 text-sm opacity-50">
           {type} | {startDate} - {endDate}
         </div>
       </div>
