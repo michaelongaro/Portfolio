@@ -1,5 +1,6 @@
 import { type IProject } from "../components/projects/Project";
 
+import khuesKitchenImage from "/assets/promoImages/khuesKitchen.png";
 import autostrumImage from "/assets/promoImages/autostrum.png";
 import squeakImage from "/assets/promoImages/squeak.png";
 import drawingDashImage from "/assets/promoImages/drawingDash.png";
@@ -30,6 +31,62 @@ import awsIcon from "/assets/awsS3.svg";
 
 function useProjectMetadata() {
   const projectMetadata: IProject[] = [
+    {
+      title: "Khue's Kitchen",
+      link: "https://khueskitchen.com/",
+      description:
+        "A custom full-stack e-commerce solution built for a local restaurant to streamline online ordering and customer retention. The platform features a dynamic menu, a custom-built rewards program, and a comprehensive administrative suite. It includes real-time order tracking and business analytics to help the restaurant manage daily operations and monitor growth trends efficiently.",
+      whatILearned: [
+        "How to integrate the Stripe API to securely handle multi-step payment flows and manage complex transaction states.",
+        "Designing and implementing automated transactional email systems and marketing workflows using the Resend API.",
+        "Building advanced administrative dashboards that transform raw database entries into actionable real-time business analytics.",
+      ],
+      challenges: [
+        "Synchronizing real-time order status updates between the kitchen's admin panel and the customer's front-end interface.",
+        "Architecting a flexible relational database schema to support dynamic menu items with various modifiers and pricing tiers.",
+        "Maintaining high system availability (99.9% uptime) while deploying frequent feature enhancements and critical security patches.",
+      ],
+      technologies: [
+        {
+          imageLocation: typeScriptIcon,
+          altText: "TypeScript",
+        },
+        {
+          imageLocation: nextIcon,
+          altText: "NextJS",
+        },
+        {
+          imageLocation: trpcIcon,
+          altText: "tRPC",
+        },
+        {
+          imageLocation: prismaIcon,
+          altText: "Prisma",
+        },
+        {
+          imageLocation: postgresIcon,
+          altText: "PostgreSQL",
+        },
+        {
+          imageLocation: tailwindIcon,
+          altText: "TailwindCSS",
+        },
+        {
+          imageLocation: awsIcon,
+          altText: "AWS S3",
+        },
+        {
+          imageLocation: playwrightIcon,
+          altText: "Playwright",
+        },
+      ],
+      screenshotLink: khuesKitchenImage,
+      screenshotAltText:
+        "A screenshot of Khue's, a new restaurant in St. Paul, Minnesota that I built with the T3 stack.",
+      type: "Professional",
+      startDate: "Jan 2024",
+      endDate: "Present",
+    },
     {
       title: "Autostrum",
       link: "https://autostrum.com/",
@@ -83,6 +140,9 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Autostrum, a guitar tab creator that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/Autostrum",
+      type: "Personal",
+      startDate: "Apr 2023",
+      endDate: "Present",
     },
     {
       title: "Squeak",
@@ -133,21 +193,23 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Squeak, a multiplayer card game that I built with the T3 stack.",
       githubRepoLink: "https://github.com/michaelongaro/Squeak",
+      type: "Personal",
+      startDate: "Dec 2022",
+      endDate: "Present",
     },
     {
       title: "Stash",
-      link: "deadLink",
       description:
-        "Stash is a platform for users to store and organize their digital assets. Users can upload files, create folders, and share their assets with others. The platform also features a powerful search engine that allows users to quickly find the assets they are looking for.",
+        "Stash is an image repository designed for seamless media management. It enables users to perform bulk uploads, organize content into custom folders, and share assets effortlessly. To ensure a premium user experience, the application utilizes a 'blur-up' loading technique, generating low-resolution placeholders that serve as immediate visual feedback while full-resolution images load in the background.",
       whatILearned: [
-        "How to use AWS S3 for file storage and retrieval.",
-        "How to use MongoDB for storing metadata and user information.",
-        "How to use ExpressJS to create a RESTful API.",
+        "How and why you would want to implement optimistic fetching. Basic cache fundamentals with tRPC.",
+        "How to quickly prototype out a design with Tailwind, including custom + responsive classes. Also I feel much more confident with CSS Grid, since it was the cornerstone of most modals.",
+        "How to design a PostgreSQL schema within Prisma to be concise and scalable.",
       ],
       challenges: [
         "Implementing a secure file upload system that prevents malicious files from being uploaded.",
         "Designing a scalable database schema that can handle a large number of users and assets.",
-        "Optimizing the search engine to provide fast and accurate results.",
+        "Creating a tRPC API route that fetches a low resolution blurred placeholder for the image being requested.",
       ],
       technologies: [
         {
@@ -175,21 +237,23 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Stash, a digital asset management platform that I built with the MERN stack.",
       githubRepoLink: "https://github.com/michaelongaro/Stash",
+      type: "Personal",
+      startDate: "Nov 2022",
+      endDate: "Dec 2022",
     },
     {
       title: "Lyricize",
-      link: "deadLink",
       description:
-        "Lyricize is a web application that allows users to search for lyrics to their favorite songs. The application uses the Genius API to retrieve lyrics and song information. Users can also save their favorite lyrics to their profile for easy access.",
+        "Lyricize is a data visualization tool that aggregates lyrics from your Spotify liked songs. It features an interactive bubble map where bubble size corresponds to word frequency, along with customizable list views and word-length filters. Users can also participate in a global leaderboard to see how their lyrical trends compare to the rest of the world.",
       whatILearned: [
-        "How to use third-party APIs to retrieve data.",
-        "How to use Auth0 for user authentication.",
-        "How to use Jest and React Testing Library for unit testing.",
+        "How to communicate between the frontend and backend with the MERN stack. Making certain axios calls within custom hooks for code readability.",
+        "How to use MongoDB (with mongoose) to achieve basic CRUD functionality. Pros and cons of a non-relational database.",
+        `How to tweak an installed npm package and keep the changes in production with the "patch-package" library.`,
       ],
       challenges: [
-        "Handling rate limits and errors from the Genius API.",
-        "Implementing a secure authentication system using Auth0.",
-        "Writing comprehensive unit tests to ensure the reliability of the application.",
+        "Testing various lyric-fetching npm packages to find one that fit the project's needs.",
+        "Sanitizing the fetched lyric data by remove any extraneous metadata, punctuation, and variable whitespace with RegEx.",
+        "Splitting up the API requests into smaller sizes to avoid Heroku's 30 second maximum timeout for HTTP requests.",
       ],
       technologies: [
         {
@@ -217,59 +281,23 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Lyricize, a lyrics search application that I built with React and Auth0.",
       githubRepoLink: "https://github.com/michaelongaro/Lyricize",
-    },
-    {
-      title: "Drawing Dash",
-      link: "deadLink",
-      description:
-        "Drawing Dash is a drawing game where players are given a prompt and must draw it within a time limit. Players can then vote on their favorite drawings. The game features a custom drawing canvas with various tools and colors. Players can also create their own custom prompts to play with friends.",
-      whatILearned: [
-        "How to use the HTML5 Canvas API to create a drawing interface.",
-        "How to use Firebase for realtime data synchronization and authentication.",
-        "How to use React Router for client-side routing.",
-      ],
-      challenges: [
-        "Optimizing the drawing canvas to ensure smooth performance on mobile devices.",
-        "Handling the realtime synchronization of drawing data across multiple clients.",
-        "Designing a user interface that is intuitive and easy to use for players of all ages.",
-      ],
-      technologies: [
-        {
-          imageLocation: javaScriptIcon,
-          altText: "JavaScript",
-        },
-        {
-          imageLocation: reactIcon,
-          altText: "React",
-        },
-        {
-          imageLocation: firebaseIcon,
-          altText: "Firebase",
-        },
-        {
-          imageLocation: auth0Icon,
-          altText: "Auth0",
-        },
-      ],
-      screenshotLink: drawingDashImage,
-      screenshotAltText:
-        "A screenshot of Drawing Dash, a drawing game that I built with React and Firebase.",
-      githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
+      type: "Personal",
+      startDate: "Oct 2022",
+      endDate: "Mar 2023",
     },
     {
       title: "Universal Forecast",
-      link: "deadLink",
       description:
         "Universal Forecast is a weather application that provides users with accurate weather forecasts for any location in the world. The application uses the OpenWeatherMap API to retrieve weather data. Users can also view detailed weather information such as humidity, wind speed, and pressure.",
       whatILearned: [
-        "How to use the OpenWeatherMap API to retrieve weather data.",
-        "How to use the Geolocation API to get the user's current location.",
-        "How to use CSS Grid and Flexbox to create a responsive layout.",
+        "TypeScript fundamentals and the value of splitting code up into small, reusable functions.",
+        "The Fetch API and how to properly retrieve data from an API.",
+        "How to handle custom keyboard navigation through a dropdown list.",
       ],
       challenges: [
-        "Handling different weather conditions and displaying appropriate icons and backgrounds.",
-        "Optimizing the application for mobile devices with limited screen real estate.",
-        "Ensuring that the application is accessible to users with disabilities.",
+        "Manipulation of the DOM while trying to maintain DRY principles.",
+        "Targeting nested elements from a JSON response and creating an interface for the data.",
+        "Creating a layout that is visually pleasing and informative while conforming to the restrictions of the API.",
       ],
       technologies: [
         {
@@ -293,6 +321,49 @@ function useProjectMetadata() {
       screenshotAltText:
         "A screenshot of Universal Forecast, a weather application that I built with HTML, CSS, and JavaScript.",
       githubRepoLink: "https://github.com/michaelongaro/UniversalForecast",
+      type: "Personal",
+      startDate: "Sep 2022",
+      endDate: "Nov 2022",
+    },
+    {
+      title: "Drawing Dash",
+      description:
+        "Drawing Dash is a drawing game where players are given a set of daily random prompts and must draw them within a given time limit. Players can then share and vote on their favorite drawings. The game features an advanced custom drawing canvas with various tools and colors.",
+      whatILearned: [
+        "React, Firebase, and Auth0 stack. How to design a full-stack application that is both secure and feature rich.",
+        "React's built-in context management system along with canvas manipulation techniques.",
+        "UI/UX and responsive design fundamentals.",
+      ],
+      challenges: [
+        "React's learning curve was quite a struggle coming from vanilla JavaScript.",
+        "Logic and rendering of suspense states, structuring Firebase schema, and fine-tuning animations.",
+        "Implementing the paintbucket tool, touch support, and allowing the user to keep drawing if their mouse left the canvas.",
+      ],
+      technologies: [
+        {
+          imageLocation: javaScriptIcon,
+          altText: "JavaScript",
+        },
+        {
+          imageLocation: reactIcon,
+          altText: "React",
+        },
+        {
+          imageLocation: firebaseIcon,
+          altText: "Firebase",
+        },
+        {
+          imageLocation: auth0Icon,
+          altText: "Auth0",
+        },
+      ],
+      screenshotLink: drawingDashImage,
+      screenshotAltText:
+        "A screenshot of Drawing Dash, a drawing game that I built with React and Firebase.",
+      githubRepoLink: "https://github.com/michaelongaro/DrawingDash",
+      type: "Personal",
+      startDate: "Nov 2021",
+      endDate: "Jul 2023",
     },
   ];
 

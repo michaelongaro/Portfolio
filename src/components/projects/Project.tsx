@@ -4,14 +4,17 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 
 export interface IProject {
   title: string;
-  link: string;
+  link?: string;
   description: string;
   whatILearned: string[];
   challenges: string[];
   technologies: ITechnology[];
   screenshotLink: string;
   screenshotAltText: string;
-  githubRepoLink: string;
+  githubRepoLink?: string;
+  type: "Professional" | "Personal";
+  startDate: string;
+  endDate: string;
 }
 
 interface ITechnology {
@@ -29,6 +32,9 @@ function Project({
   screenshotLink,
   screenshotAltText,
   githubRepoLink,
+  type,
+  startDate,
+  endDate,
 }: IProject) {
   const [activeTab, setActiveTab] = useState<"learned" | "challenges">(
     "learned"
@@ -36,8 +42,8 @@ function Project({
 
   return (
     <article className="flex flex-col lg:flex-row gap-8 items-start  border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
-      {/* Image Section */}
-      <div className="w-full lg:w-1/2 space-y-4">
+      {/* Image, Links, Metadata Section */}
+      <div className="w-full flex flex-col lg:w-1/2 space-y-4">
         <div className="relative group overflow-hidden rounded-xl shadow-md">
           <img
             src={screenshotLink}
@@ -47,7 +53,7 @@ function Project({
         </div>
 
         <div className="flex justify-center gap-4">
-          {link !== "deadLink" && (
+          {link && (
             <a
               href={link}
               target="_blank"
@@ -58,13 +64,24 @@ function Project({
               <HiOutlineExternalLink className="size-5" />
             </a>
           )}
-          <a
-            href={githubRepoLink}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
-          >
-            <img src={smallLightGithubIcon} alt="GitHub" className="w-5 h-5" />
-            <span>Repository</span>
-          </a>
+
+          {githubRepoLink && (
+            <a
+              href={githubRepoLink}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
+            >
+              <img
+                src={smallLightGithubIcon}
+                alt="GitHub"
+                className="w-5 h-5"
+              />
+              <span>Repository</span>
+            </a>
+          )}
+        </div>
+
+        <div className="flex self-center lg:self-end gap-2 text-sm opacity-50">
+          {type} | {startDate} - {endDate}
         </div>
       </div>
 
