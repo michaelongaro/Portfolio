@@ -1,28 +1,20 @@
-import { useState, useEffect, useRef } from "react";
-import openInNewTab from "../../util/openInNewTab";
-
-import smallLightGithubIcon from "../../assets/smallLightGithubLogo.png";
-import externalLink from "../../assets/externalLink.svg";
-
-import classes from "./Project.module.css";
+import { useState } from "react";
+import { FaGithub } from "react-icons/fa6";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 export interface IProject {
   title: string;
-  link: string;
+  link?: string;
   description: string;
   whatILearned: string[];
   challenges: string[];
   technologies: ITechnology[];
   screenshotLink: string;
   screenshotAltText: string;
-  githubRepoLink: string;
-  slideInFromLeft: boolean;
-  projectNumber: number;
-  projectNumberBeingShownCurrently: number;
-  setProjectNumberBeingShownCurrently: React.Dispatch<
-    React.SetStateAction<number>
-  >;
-  tabIndexStart: number;
+  githubRepoLink?: string;
+  type: "Professional" | "Personal";
+  startDate: string;
+  endDate: string;
 }
 
 interface ITechnology {
@@ -40,390 +32,120 @@ function Project({
   screenshotLink,
   screenshotAltText,
   githubRepoLink,
-  slideInFromLeft,
-  projectNumber,
-  projectNumberBeingShownCurrently,
-  setProjectNumberBeingShownCurrently,
-  tabIndexStart,
+  type,
+  startDate,
+  endDate,
 }: IProject) {
-  const [showWhatILearned, setShowWhatILearned] = useState(true);
-  const [backgroundPositionX, setBackgroundPositionX] = useState("100%");
-
-  const [hoveringOverTitleAndTechStack, setHoveringOverTitleAndTechStack] =
-    useState(false);
-  const [pressingDownOnTitleAndTechStack, setPressingDownOnTitleAndTechStack] =
-    useState(false);
-
-  const [
-    heightOfTitleAndTechStackContainer,
-    setHeightOfTitleAndTechStackContainer,
-  ] = useState(80);
-  const [heightOfInnerBodyContainer, setHeightOfInnerBodyContainer] =
-    useState(0);
-
-  const projectOuterContainerRef = useRef<HTMLDivElement>(null);
-  const projectInnerContainerRef = useRef<HTMLDivElement>(null);
-  const projectHyperlinkRef = useRef<HTMLAnchorElement>(null);
-
-  // handling backgroundPositionX when projectNumberBeingShownCurrently
-  // changes (i.e. when a project is opened or closed)
-  if (
-    projectNumber !== projectNumberBeingShownCurrently &&
-    backgroundPositionX !== "100%" &&
-    !hoveringOverTitleAndTechStack &&
-    !pressingDownOnTitleAndTechStack
-  ) {
-    setBackgroundPositionX("100%");
-  } else if (
-    projectNumber === projectNumberBeingShownCurrently &&
-    backgroundPositionX !== "50%" &&
-    !hoveringOverTitleAndTechStack &&
-    !pressingDownOnTitleAndTechStack
-  ) {
-    setBackgroundPositionX("50%");
-  }
-
-  useEffect(() => {
-    const resizeHandler = () => {
-      if (window.innerWidth <= 500) {
-        setHeightOfTitleAndTechStackContainer(120);
-      } else if (window.innerWidth > 500 && window.innerWidth < 900) {
-        setHeightOfTitleAndTechStackContainer(130);
-      } else {
-        setHeightOfTitleAndTechStackContainer(80);
-      }
-
-      setHeightOfInnerBodyContainer(
-        projectInnerContainerRef.current?.getBoundingClientRect().height ??
-          heightOfTitleAndTechStackContainer
-      );
-    };
-
-    const resizeObserver = new ResizeObserver(resizeHandler);
-
-    if (projectOuterContainerRef.current) {
-      resizeObserver.observe(projectOuterContainerRef.current);
-    }
-
-    resizeHandler();
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  function handleInteractionStart() {
-    if (projectNumber === projectNumberBeingShownCurrently) {
-      setBackgroundPositionX("0%");
-    } else {
-      setBackgroundPositionX("50%");
-    }
-
-    setHoveringOverTitleAndTechStack(true);
-  }
-
-  function handleInteractionEnd() {
-    if (projectNumber === projectNumberBeingShownCurrently) {
-      setBackgroundPositionX("50%");
-    } else {
-      setBackgroundPositionX("100%");
-    }
-
-    setHoveringOverTitleAndTechStack(false);
-    setPressingDownOnTitleAndTechStack(false);
-  }
-
-  function handleInteractionActive() {
-    if (projectNumber === projectNumberBeingShownCurrently) {
-      setBackgroundPositionX("0%");
-    } else {
-      setBackgroundPositionX("50%");
-    }
-
-    setPressingDownOnTitleAndTechStack(true);
-  }
-
-  function handleInteractionClick() {
-    const element = document.getElementById(
-      `project${projectNumberBeingShownCurrently}`
-    );
-    if (
-      element &&
-      projectNumberBeingShownCurrently !== -1 &&
-      projectNumberBeingShownCurrently < projectNumber
-    ) {
-      element.scrollIntoView({
-        behavior: "smooth",
-      });
-
-      setTimeout(() => {
-        setProjectNumberBeingShownCurrently(-1);
-      }, 400);
-    }
-
-    // scroll to top of one that is being opened
-    if (projectNumber !== projectNumberBeingShownCurrently) {
-      setTimeout(
-        () => {
-          projectOuterContainerRef.current?.scrollIntoView({
-            behavior: "smooth",
-          });
-        },
-        projectNumberBeingShownCurrently !== -1 &&
-          projectNumberBeingShownCurrently < projectNumber
-          ? 800
-          : 0
-      );
-    }
-
-    setTimeout(
-      () => {
-        setProjectNumberBeingShownCurrently(
-          projectNumber !== projectNumberBeingShownCurrently
-            ? projectNumber
-            : -1
-        );
-      },
-      projectNumberBeingShownCurrently !== -1 &&
-        projectNumberBeingShownCurrently < projectNumber
-        ? 900
-        : 0
-    );
-
-    setHoveringOverTitleAndTechStack(false);
-    setPressingDownOnTitleAndTechStack(false);
-  }
+  const [activeTab, setActiveTab] = useState<"learned" | "challenges">(
+    "learned"
+  );
 
   return (
-    <article
-      id={`project${projectNumber}`}
-      ref={projectOuterContainerRef}
-      className={classes.mainProjectWrapper}
-    >
-      <div
-        style={{
-          height:
-            projectNumber === projectNumberBeingShownCurrently
-              ? `${heightOfInnerBodyContainer}px`
-              : heightOfTitleAndTechStackContainer + "px",
-        }}
-        className={`${classes.parentRelativeContainer} 
-         ${slideInFromLeft ? "hiddenLeft" : "hiddenRight"}`}
-      >
-        {/* Title and tech stack */}
-        <div
-          tabIndex={tabIndexStart}
-          style={{
-            cursor: "pointer",
-            boxShadow:
-              projectNumber === projectNumberBeingShownCurrently
-                ? "0 2px 5px rgba(0, 0, 0, 0.3)"
-                : "0 1px 1px rgba(0, 0, 0, 0.3)",
-            backgroundPositionX: backgroundPositionX,
-            filter: pressingDownOnTitleAndTechStack
-              ? "brightness(0.9)"
-              : "none",
-          }}
-          className={classes.titleAndTechStackContainer}
-          onMouseEnter={handleInteractionStart}
-          onFocus={handleInteractionStart}
-          onMouseLeave={handleInteractionEnd}
-          onBlur={handleInteractionEnd}
-          onMouseDown={handleInteractionActive}
-          onTouchStart={handleInteractionActive}
-          onTouchEnd={handleInteractionEnd}
-          onTouchCancel={handleInteractionEnd}
-          onClick={handleInteractionClick}
-          onKeyDown={(e) => {
-            if (
-              document.activeElement !== projectHyperlinkRef.current &&
-              (e.key === "Enter" || e.key === " ")
-            ) {
-              e.preventDefault();
-              handleInteractionClick();
-            }
-          }}
-        >
-          {link === "deadLink" ? (
-            <div className={classes.projectTitle}>{title}</div>
-          ) : (
+    <article className="flex group flex-col lg:flex-row gap-8 border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
+      {/* Image, Links, Metadata Section */}
+      <div className="w-full flex flex-col lg:w-1/2 gap-4">
+        <div className="relative group overflow-hidden rounded-xl shadow-md">
+          <img
+            src={screenshotLink}
+            alt={screenshotAltText}
+            className="w-full h-auto object-cover"
+          />
+        </div>
+
+        <div className="flex justify-center gap-4">
+          {link && (
             <a
-              ref={projectHyperlinkRef}
-              tabIndex={tabIndexStart + 1}
-              className={classes.projectTitle}
               href={link}
               target="_blank"
               rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
             >
-              {title}
-              <img
-                style={{ width: "1rem", height: "1rem" }}
-                src={externalLink}
-                alt={"external link icon"}
-              ></img>
+              <span>Visit</span>
+              <HiOutlineExternalLink className="size-5" />
             </a>
           )}
 
-          <div className={classes.techStackContainer}>
-            <div className={`${classes.techIcons} baseFlex`}>
-              {technologies.map((tech) => (
-                <img
-                  key={tech.altText}
-                  className={"icon"}
-                  src={tech.imageLocation}
-                  title={tech.altText}
-                  alt={tech.altText}
-                />
-              ))}
-            </div>
-          </div>
+          {githubRepoLink && (
+            <a
+              href={githubRepoLink}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors"
+            >
+              <FaGithub className="size-5" />
+              <span>Repository</span>
+            </a>
+          )}
         </div>
 
-        {/* Inner sliding body */}
-        <div
-          ref={projectInnerContainerRef}
-          className={`${
-            slideInFromLeft
-              ? classes.projectContainer
-              : classes.reversedProjectContainer
-          }`}
-        >
-          <p className={classes.description}>{description}</p>
+        <div className="flex lg:mt-auto self-center lg:group-odd:self-end lg:group-even:self-start gap-2 text-sm opacity-50">
+          {type} | {startDate} - {endDate}
+        </div>
+      </div>
 
-          <div className={classes.whatILearnedAndChallenges}>
-            <div className={classes.toggleContainer}>
+      {/* Content Section */}
+      <div className="w-full lg:w-1/2 space-y-6">
+        <div>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+            {title}
+          </h3>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {technologies.map((tech) => (
               <div
-                style={{
-                  transform: showWhatILearned
-                    ? "translateX(0)"
-                    : "translateX(100%)",
-                }}
-                className={classes.toggleIndicator}
-              ></div>
-              <div
-                tabIndex={
-                  projectNumber === projectNumberBeingShownCurrently
-                    ? tabIndexStart + 2
-                    : -1
-                }
-                style={{
-                  cursor: showWhatILearned ? "default" : "pointer",
-                  color: showWhatILearned ? "hsl(0 0% 95%)" : "inherit",
-                  textShadow: showWhatILearned
-                    ? "1px 1px 7px #00000096"
-                    : "none",
-                }}
-                className={classes.toggleText}
-                onClick={() => setShowWhatILearned(true)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    setShowWhatILearned(true);
-                  }
-                }}
+                key={tech.altText}
+                className="relative group"
+                title={tech.altText}
               >
-                What I learned
+                <img
+                  src={tech.imageLocation}
+                  alt={tech.altText}
+                  className="w-8 h-8 object-contain"
+                />
               </div>
-              <div
-                tabIndex={
-                  projectNumber === projectNumberBeingShownCurrently
-                    ? tabIndexStart + 3
-                    : -1
-                }
-                style={{
-                  cursor: !showWhatILearned ? "default" : "pointer",
-                  color: !showWhatILearned ? "hsl(0 0% 95%)" : "inherit",
-                  textShadow: !showWhatILearned
-                    ? "1px 1px 7px #00000096"
-                    : "none",
-                }}
-                className={classes.toggleText}
-                onClick={() => setShowWhatILearned(false)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    setShowWhatILearned(false);
-                  }
-                }}
-              >
-                Challenges
-              </div>
-            </div>
+            ))}
+          </div>
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+            {description}
+          </p>
+        </div>
 
-            <div className={classes.relativeWrapper}>
-              <div
-                style={{
-                  position: "relative",
-                  transform: showWhatILearned
-                    ? "translateX(0)"
-                    : "translateX(-15%)",
-                  opacity: showWhatILearned ? 1 : 0,
-                  zIndex: showWhatILearned ? "auto" : "-1",
-                }}
-                className={classes.toggleContent}
-              >
-                <ul>
-                  {whatILearned.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div
-                style={{
-                  position: "absolute",
-                  transform: !showWhatILearned
-                    ? "translateX(0)"
-                    : "translateX(15%)",
-                  opacity: !showWhatILearned ? 1 : 0,
-                  zIndex: !showWhatILearned ? "auto" : "-1",
-                }}
-                className={classes.toggleContent}
-              >
-                <ul>
-                  {challenges.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+        {/* Tabs */}
+        <div className="bg-gray-50 dark:bg-slate-700/50 rounded-xl p-4">
+          <div className="flex gap-4 border-b border-gray-200 dark:border-gray-600 mb-4">
+            <button
+              onClick={() => setActiveTab("learned")}
+              className={`pb-2 px-1 text-sm font-medium transition-colors relative ${
+                activeTab === "learned"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
+            >
+              What I Learned
+              {activeTab === "learned" && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400" />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("challenges")}
+              className={`pb-2 px-1 text-sm font-medium transition-colors relative ${
+                activeTab === "challenges"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
+            >
+              Challenges
+              {activeTab === "challenges" && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400" />
+              )}
+            </button>
           </div>
 
-          <div className={`${classes.projectImageContainer} baseVertFlex`}>
-            <img
-              tabIndex={
-                projectNumber === projectNumberBeingShownCurrently
-                  ? tabIndexStart + 4
-                  : -1
-              }
-              className={classes.projectImage}
-              src={screenshotLink}
-              alt={screenshotAltText}
-              onClick={() => {
-                openInNewTab(link);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  openInNewTab(link);
-                }
-              }}
-            />
-            <img
-              tabIndex={
-                projectNumber === projectNumberBeingShownCurrently
-                  ? tabIndexStart + 5
-                  : -1
-              }
-              className={classes.githubIcon}
-              src={smallLightGithubIcon}
-              alt={"Github"}
-              onClick={() => {
-                openInNewTab(githubRepoLink);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  openInNewTab(githubRepoLink);
-                }
-              }}
-            />
+          <div className="min-h-[100px]">
+            <ul className="list-disc list-outside pl-6 space-y-2 text-gray-600 dark:text-gray-300 text-sm">
+              {(activeTab === "learned" ? whatILearned : challenges).map(
+                (item, idx) => (
+                  <li key={idx}>{item}</li>
+                )
+              )}
+            </ul>
           </div>
         </div>
       </div>

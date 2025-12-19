@@ -1,40 +1,19 @@
-import { useState, useEffect, useRef } from "react";
-
+import { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import classes from "./Contact.module.css";
-import "../../index.css";
 
 function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
-  const [reachedMobileViewportWidth, setReachedMobileViewportWidth] =
-    useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth <= 768) {
-        setReachedMobileViewportWidth(true);
-      } else {
-        setReachedMobileViewportWidth(false);
-      }
-    }
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   function sendEmail(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsSubmitting(true);
 
     emailjs
       .sendForm(
@@ -48,99 +27,124 @@ function Contact() {
       .then(
         () => {
           toast.success("Message sent!", {
-            position: reachedMobileViewportWidth
-              ? "bottom-center"
-              : "top-right",
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
           setName("");
           setEmail("");
           setMessage("");
         },
-        () => {
-          toast.error(
-            "An error occurred while sending your message. Please try again later.",
-            {
-              position: reachedMobileViewportWidth
-                ? "bottom-center"
-                : "top-right",
-            }
-          );
+        (error) => {
+          console.log("FAILED...", error.text);
+          toast.error("Failed to send message. Please try again.", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         }
-      );
+      )
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (
-    <div id={"contact"} className={`${classes.contactContainer} baseVertFlex`}>
-      <ToastContainer
-        style={
-          reachedMobileViewportWidth
-            ? undefined
-            : {
-                top: "6rem",
-                right: "1rem",
-              }
-        }
-      />
-
-      <h2 className={"heading"}>Contact</h2>
-
-      <div style={{ textAlign: "center" }}>
-        <p className={classes.contactText}>
-          I am happy to address any questions, comments, or opportunities for
-          collaboration that you may have. Please feel free to reach out to me,
-          and I will respond as soon as possible.
-        </p>
+    <section id="contact" className="py-20 scroll-mt-20 w-full">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-blue-500 after:mt-2 after:rounded-full">
+          Contact
+        </h2>
       </div>
 
-      <form
-        ref={formRef}
-        style={{ gap: "1.5rem" }}
-        className={`${classes.formContainer} baseVertFlex`}
-        onSubmit={sendEmail}
-      >
-        <div
-          style={{ gap: "1rem" }}
-          className={`${classes.nameAndEmail} baseFlex`}
+      <div className="max-w-2xl mx-auto px-4">
+        <form
+          ref={formRef}
+          onSubmit={sendEmail}
+          className="bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-8 space-y-6"
         >
-          <label htmlFor={"user_name"}>Name</label>
-          <input
-            tabIndex={48}
-            type="text"
-            name="user_name"
-            id={"user_name"}
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <label htmlFor={"user_email"}>Email</label>
-          <input
-            tabIndex={49}
-            type="email"
-            name="user_email"
-            id={"user_email"}
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div style={{ gap: ".75rem" }} className={"baseVertFlex"}>
-          <label htmlFor={"message"}>Message</label>
-          <textarea
-            tabIndex={50}
-            className={classes.messageInput}
-            name="message"
-            id={"message"}
-            rows={4}
-            required
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </div>
-        <button tabIndex={51} className={classes.submitButton} type="submit">
-          Send
-        </button>
-      </form>
-    </div>
+          <div className="space-y-2">
+            <label
+              htmlFor="user_name"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              name="user_name"
+              id="user_name"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              placeholder="Your Name"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="user_email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              name="user_email"
+              id="user_email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Message
+            </label>
+            <textarea
+              name="message"
+              id="message"
+              required
+              rows={5}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+              placeholder="How can I help you?"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full py-3 px-6 text-white font-semibold rounded-lg shadow-md ${
+              isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"
+            }`}
+          >
+            {isSubmitting ? "Sending..." : "Send Message"}
+          </button>
+        </form>
+      </div>
+      <ToastContainer />
+    </section>
   );
 }
 
