@@ -14,7 +14,7 @@ function AboutMe() {
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
           <div className="w-full md:w-1/3 flex justify-center">
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-slate-700 shadow-2xl">
+            <div className="relative w-56 h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-slate-700 shadow-2xl">
               <img
                 src={myHeadshot}
                 alt="A close-up professional image of my face."
@@ -23,7 +23,7 @@ function AboutMe() {
             </div>
           </div>
 
-          <div className="w-full md:w-2/3 space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-center md:text-left">
+          <div className="w-full md:w-2/3 space-y-6 sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-center md:text-left">
             <p>
               My name is Michael Ongaro, and I am a passionate web developer
               with a focus on creating accessible, enjoyable, and feature-rich
