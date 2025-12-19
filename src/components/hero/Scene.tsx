@@ -1829,7 +1829,9 @@ export default function Scene() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing"
+      className={`absolute inset-0 z-10 ${
+        isLoaded ? "cursor-grab active:cursor-grabbing" : ""
+      }`}
     >
       {!isLoaded && <CanvasLoader isDark={isDark} />}
       <Canvas
