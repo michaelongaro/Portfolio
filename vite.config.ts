@@ -7,4 +7,21 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom"],
+          "vendor-three": [
+            "three",
+            "@react-three/fiber",
+            "@react-three/drei",
+            "@react-three/postprocessing",
+          ],
+          "vendor-utils": ["animejs", "react-icons"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
 });

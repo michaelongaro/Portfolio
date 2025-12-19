@@ -8,6 +8,7 @@ import {
   RoundedBox,
   useTexture,
   Html,
+  Preload,
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
@@ -1929,7 +1930,8 @@ export default function Scene() {
       <Canvas
         shadows
         dpr={[1, 2]}
-        gl={{ antialias: true }}
+        performance={{ min: 0.5 }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
         style={{ touchAction: "pan-y" }}
       >
         <PerspectiveCamera makeDefault position={[0, -1, 3.5]} fov={40} />
@@ -2082,6 +2084,7 @@ export default function Scene() {
             TWO: THREE.TOUCH.DOLLY_ROTATE,
           }}
         />
+        <Preload all />
       </Canvas>
     </div>
   );
