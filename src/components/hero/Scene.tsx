@@ -16,6 +16,7 @@ import { useMemo, useRef, useState, useEffect, Suspense } from "react";
 import headshot from "/assets/headshot.jpg";
 import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
+import LoadingSpinner from "../ui/icons/LoadingSpinner";
 
 function ElasticOrbitControls({
   minPolarAngle,
@@ -1706,9 +1707,17 @@ function DeskGroup({
 function CanvasLoader({ isDark }: any) {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black z-50 pointer-events-none">
+      <div className="flex flex-col gap-8 justify-center size-64 shadow-lg rounded-lg z-10 items-center bg-white dark:bg-slate-800 border dark:border-slate-700 p-8">
+        <LoadingSpinner className="size-16" />
+        <span className="text-lg font-medium">Loading</span>
+      </div>
+
       <img
         src={isDark ? darkPlaceholder : lightPlaceholder}
-        className="w-full h-full object-cover"
+        style={{
+          filter: "blur(8px)",
+        }}
+        className="w-full absolute inset-0 h-full object-cover"
         alt="Loading Scene"
       />
     </div>
