@@ -124,7 +124,7 @@ function Project({
             >
               What I Learned
               {activeTab === "learned" && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400" />
               )}
             </button>
             <button
@@ -137,7 +137,7 @@ function Project({
             >
               Challenges
               {activeTab === "challenges" && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400" />
               )}
             </button>
           </div>
