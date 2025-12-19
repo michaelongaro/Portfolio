@@ -1073,6 +1073,85 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
   );
 }
 
+function MugDesign() {
+  const texture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      // Transparent background
+      ctx.clearRect(0, 0, 512, 512);
+
+      // Draw Text
+      ctx.fillStyle = "#000000";
+      ctx.font = "900 180px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      // Grid positions
+      // Top Left: H
+      ctx.fillText("H", 140, 140);
+      // Bottom Left: M
+      ctx.fillText("M", 140, 372);
+      // Bottom Right: E
+      ctx.fillText("E", 372, 372);
+
+      // Top Right: MN Shape
+      ctx.save();
+      ctx.translate(372, 140);
+      const scale = 1.5;
+      ctx.scale(scale, scale);
+      ctx.translate(-50, -50); // Center the 100x100 path
+
+      ctx.beginPath();
+      // MN Shape Path (approximate 0-100)
+      ctx.moveTo(20, 95); // Bottom Left
+      ctx.lineTo(80, 95); // Bottom Right
+      ctx.lineTo(85, 65); // Lower East slant
+      ctx.lineTo(98, 45); // Arrowhead tip
+      ctx.lineTo(70, 35); // Top of Arrowhead
+      ctx.lineTo(70, 20); // Top border
+      ctx.lineTo(40, 20); // Start of NW Angle
+      ctx.lineTo(40, 5); // Top of NW Angle
+      ctx.lineTo(20, 5); // Left of NW Angle
+      ctx.closePath();
+
+      ctx.fill();
+      ctx.restore();
+    }
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.anisotropy = 16;
+    return tex;
+  }, []);
+
+  return (
+    <mesh position={[0, 0, 0]}>
+      {/* Tapered cylinder segment to match mug */}
+      <cylinderGeometry
+        args={[
+          0.0805, // radiusTop (slightly larger than mug)
+          0.0655, // radiusBottom
+          0.12, // height
+          32, // radialSegments
+          1, // heightSegments
+          true, // openEnded
+          Math.PI / 4, // thetaStart
+          Math.PI / 2, // thetaLength
+        ]}
+      />
+      <meshStandardMaterial
+        map={texture}
+        transparent
+        opacity={0.9}
+        roughness={0.3}
+        metalness={0.0}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  );
+}
+
 function CoffeeMug({ position, scale = 1, isDark }: any) {
   const mugColor = isDark ? "#4a4a4a" : "#f8f8f8";
   const innerColor = isDark ? "#3a3a3a" : "#eeeeee";
@@ -1088,6 +1167,8 @@ function CoffeeMug({ position, scale = 1, isDark }: any) {
           metalness={0.05}
         />
       </mesh>
+
+      <MugDesign />
 
       {/* Mug Bottom */}
       <mesh
