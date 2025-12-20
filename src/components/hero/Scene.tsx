@@ -12,7 +12,14 @@ import {
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
 import * as THREE from "three";
-import { useMemo, useRef, useState, useEffect, Suspense } from "react";
+import {
+  useMemo,
+  useRef,
+  useState,
+  useEffect,
+  Suspense,
+  useTransition,
+} from "react";
 import headshot from "/assets/headshot.jpg";
 import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
@@ -1836,6 +1843,18 @@ export default function Scene() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    // Delay the heavy canvas rendering to allow the spinner to appear smoothly
+    const timer = setTimeout(() => {
+      startTransition(() => {
+        setShouldRender(true);
+      });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -1942,165 +1961,167 @@ export default function Scene() {
       }`}
     >
       {!isLoaded && <CanvasLoader isDark={isDark} />}
-      <Canvas
-        shadows
-        dpr={[1, 2]}
-        performance={{ min: 0.5 }}
-        gl={{ antialias: true, powerPreference: "high-performance" }}
-        style={{ touchAction: "pan-y" }}
-      >
-        <PerspectiveCamera makeDefault position={[0, -1, 3.5]} fov={40} />
+      {shouldRender && (
+        <Canvas
+          shadows
+          dpr={[1, 2]}
+          performance={{ min: 0.5 }}
+          gl={{ antialias: true, powerPreference: "high-performance" }}
+          style={{ touchAction: "pan-y" }}
+        >
+          <PerspectiveCamera makeDefault position={[0, -1, 3.5]} fov={40} />
 
-        <Suspense fallback={null}>
-          <SceneReady setLoaded={setIsLoaded} />
+          <Suspense fallback={null}>
+            <SceneReady setLoaded={setIsLoaded} />
 
-          {/* Environment for reflections */}
-          <Environment preset={isDark ? "night" : "forest"} />
+            {/* Environment for reflections */}
+            <Environment preset={isDark ? "night" : "forest"} />
 
-          {/* Lighting Setup */}
-          {isDark ? (
-            <>
-              {/* Dark mode - only monitor glow */}
-              <ambientLight intensity={0.02} />
+            {/* Lighting Setup */}
+            {isDark ? (
+              <>
+                {/* Dark mode - only monitor glow */}
+                <ambientLight intensity={0.02} />
 
-              {/* Main monitor glow */}
-              <pointLight
-                position={[0, -0.5, -0.5]}
-                intensity={1.5}
-                color="#4a90d9"
-                distance={5}
-                decay={2}
-              />
+                {/* Main monitor glow */}
+                <pointLight
+                  position={[0, -0.5, -0.5]}
+                  intensity={1.5}
+                  color="#4a90d9"
+                  distance={5}
+                  decay={2}
+                />
 
-              {/* Side monitor glow */}
-              <pointLight
-                position={[-2.8, -0.5, -0.3]}
-                intensity={0.8}
-                color="#9b59b6"
-                distance={4}
-                decay={2}
-              />
+                {/* Side monitor glow */}
+                <pointLight
+                  position={[-2.8, -0.5, -0.3]}
+                  intensity={0.8}
+                  color="#9b59b6"
+                  distance={4}
+                  decay={2}
+                />
 
-              {/* Subtle fill light */}
-              <pointLight
-                position={[0, 2, 2]}
-                intensity={0.1}
-                color="#4a90d9"
-                distance={8}
-                decay={2}
-              />
-            </>
-          ) : (
-            <>
-              {/* Light mode - warm sunlight through blinds */}
-              <ambientLight intensity={0.3} color="#fff0e0" />
+                {/* Subtle fill light */}
+                <pointLight
+                  position={[0, 2, 2]}
+                  intensity={0.1}
+                  color="#4a90d9"
+                  distance={8}
+                  decay={2}
+                />
+              </>
+            ) : (
+              <>
+                {/* Light mode - warm sunlight through blinds */}
+                <ambientLight intensity={0.3} color="#fff0e0" />
 
-              {/* Main sunlight source - Warm and bright */}
-              <directionalLight
-                position={[0.5, 2.75, -3]}
-                intensity={10}
-                color="#ffaa55" // Warm golden hour color
-                castShadow
-                shadow-mapSize={[2048, 2048]}
-                shadow-camera-far={30}
-                shadow-camera-left={-10}
-                shadow-camera-right={10}
-                shadow-camera-top={10}
-                shadow-camera-bottom={-10}
-                shadow-bias={-0.0005}
-                shadow-radius={2} // Soften edges slightly
-              />
+                {/* Main sunlight source - Warm and bright */}
+                <directionalLight
+                  position={[0.5, 2.75, -3]}
+                  intensity={10}
+                  color="#ffaa55" // Warm golden hour color
+                  castShadow
+                  shadow-mapSize={[2048, 2048]}
+                  shadow-camera-far={30}
+                  shadow-camera-left={-10}
+                  shadow-camera-right={10}
+                  shadow-camera-top={10}
+                  shadow-camera-bottom={-10}
+                  shadow-bias={-0.0005}
+                  shadow-radius={2} // Soften edges slightly
+                />
 
-              {/* Cool fill light from opposite side */}
-              <pointLight
-                position={[5, 2, 2]}
-                intensity={0.4}
-                color="#d0e0ff"
-                distance={10}
-                decay={2}
-              />
-            </>
-          )}
+                {/* Cool fill light from opposite side */}
+                <pointLight
+                  position={[5, 2, 2]}
+                  intensity={0.4}
+                  color="#d0e0ff"
+                  distance={10}
+                  decay={2}
+                />
+              </>
+            )}
 
-          {/* Scene Content */}
-          <group position={[0, 0, 0]}>
-            <group position={[-4.5, 0, -2.45]}>
-              <Bookshelf
-                position={[0, 1.8, 0]}
+            {/* Scene Content */}
+            <group position={[0, 0, 0]}>
+              <group position={[-4.5, 0, -2.45]}>
+                <Bookshelf
+                  position={[0, 1.8, 0]}
+                  isDark={isDark}
+                  books={topShelfBooks}
+                />
+                <Bookshelf
+                  position={[0, 0.9, 0]}
+                  isDark={isDark}
+                  books={middleShelfBooks}
+                />
+                <Bookshelf
+                  position={[0, 0, 0]}
+                  isDark={isDark}
+                  books={bottomShelfBooks}
+                />
+              </group>
+
+              <Window
+                position={[0, 1, -2.4]}
+                rotation={[0, 0, 0]}
                 isDark={isDark}
-                books={topShelfBooks}
               />
-              <Bookshelf
-                position={[0, 0.9, 0]}
+
+              <Whiteboard
+                position={[4.5, 1, -2.45]}
+                rotation={[0, 0, 0]}
                 isDark={isDark}
-                books={middleShelfBooks}
               />
-              <Bookshelf
-                position={[0, 0, 0]}
-                isDark={isDark}
-                books={bottomShelfBooks}
-              />
+
+              <Walls isDark={isDark} />
+
+              <Ceiling isDark={isDark} />
+
+              <Floor isDark={isDark} />
+
+              <DeskGroup position={[0, 0, -1]} isDark={isDark} />
             </group>
 
-            <Window
-              position={[0, 1, -2.4]}
-              rotation={[0, 0, 0]}
-              isDark={isDark}
-            />
+            {/* Post-processing */}
+            <EffectComposer>
+              <Bloom
+                luminanceThreshold={isDark ? 0.8 : 2}
+                mipmapBlur
+                intensity={isDark ? 0.5 : 0.2}
+                radius={0.3}
+              />
+              <Vignette
+                eskil={false}
+                offset={0.2}
+                darkness={isDark ? 0.6 : 0.3}
+              />
+            </EffectComposer>
+          </Suspense>
 
-            <Whiteboard
-              position={[4.5, 1, -2.45]}
-              rotation={[0, 0, 0]}
-              isDark={isDark}
-            />
-
-            <Walls isDark={isDark} />
-
-            <Ceiling isDark={isDark} />
-
-            <Floor isDark={isDark} />
-
-            <DeskGroup position={[0, 0, -1]} isDark={isDark} />
-          </group>
-
-          {/* Post-processing */}
-          <EffectComposer>
-            <Bloom
-              luminanceThreshold={isDark ? 0.8 : 2}
-              mipmapBlur
-              intensity={isDark ? 0.5 : 0.2}
-              radius={0.3}
-            />
-            <Vignette
-              eskil={false}
-              offset={0.2}
-              darkness={isDark ? 0.6 : 0.3}
-            />
-          </EffectComposer>
-        </Suspense>
-
-        <ElasticOrbitControls
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 1.75}
-          minAzimuthAngle={-Math.PI / 3}
-          maxAzimuthAngle={Math.PI / 3}
-          minDistance={1}
-          maxDistance={isMobile ? 10.5 : 6.5}
-          target={[0, -1.3, -0.3]}
-          enableZoom={true}
-          enablePan={true}
-          mouseButtons={{
-            LEFT: THREE.MOUSE.ROTATE,
-            MIDDLE: null,
-            RIGHT: null,
-          }}
-          touches={{
-            ONE: null as any,
-            TWO: THREE.TOUCH.DOLLY_ROTATE,
-          }}
-        />
-        <Preload all />
-      </Canvas>
+          <ElasticOrbitControls
+            minPolarAngle={Math.PI / 4}
+            maxPolarAngle={Math.PI / 1.75}
+            minAzimuthAngle={-Math.PI / 3}
+            maxAzimuthAngle={Math.PI / 3}
+            minDistance={1}
+            maxDistance={isMobile ? 10.5 : 6.5}
+            target={[0, -1.3, -0.3]}
+            enableZoom={true}
+            enablePan={true}
+            mouseButtons={{
+              LEFT: THREE.MOUSE.ROTATE,
+              MIDDLE: null,
+              RIGHT: null,
+            }}
+            touches={{
+              ONE: null as any,
+              TWO: THREE.TOUCH.DOLLY_ROTATE,
+            }}
+          />
+          <Preload all />
+        </Canvas>
+      )}
     </div>
   );
 }
