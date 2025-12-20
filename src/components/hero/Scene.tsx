@@ -18,6 +18,7 @@ import headshot from "/assets/headshot.jpg";
 import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
 import LoadingSpinner from "../ui/icons/LoadingSpinner";
+import { isIOS } from "react-device-detect";
 
 function ElasticOrbitControls({
   minPolarAngle,
@@ -190,6 +191,7 @@ function Monitor({
             width: "1500px",
             height: "850px",
             userSelect: "none",
+            paddingBottom: isIOS ? "850px" : "0px",
           }}
         >
           <div className="flex flex-col justify-center gap-36 w-full h-full p-16">
