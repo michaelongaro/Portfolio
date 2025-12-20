@@ -91,7 +91,7 @@ function useProjectMetadata() {
       title: "Autostrum",
       link: "https://autostrum.com/",
       description:
-        "Autostrum is a platform for guitar players to create, share, and practice guitar tabs. It comes with a highly interactive editor equipped with keyboard shortcuts to reduce repetitive actions. Every tab is able to be programmatically played back using real guitar audio samples. Playback speed and the looping range can be modified for easier practice. Alternatively artists can directly record their playthrough of the tab.",
+        "Autostrum is a platform for guitar players to create, share, and practice guitar tabs. It comes with a highly interactive editor equipped with keyboard shortcuts to reduce repetitive actions. Every tab is able to be programmatically played back using real guitar audio samples. Playback speed and the looping range can be tweaked for easier practice.",
       whatILearned: [
         "How to create a 'compiler' for the generated audio, as well as extensive usage of the Web Audio API.",
         "How to properly GET and POST files to an AWS S3 bucket using pre-signed URLs for increased security.",
