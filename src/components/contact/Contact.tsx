@@ -1,19 +1,23 @@
 import { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { FaCheck } from "react-icons/fa";
+import { BiErrorCircle } from "react-icons/bi";
 
 function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   const formRef = useRef<HTMLFormElement>(null);
 
   function sendEmail(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     emailjs
       .sendForm(
@@ -26,32 +30,24 @@ function Contact() {
       )
       .then(
         () => {
-          toast.success("Message sent!", {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          setSubmitStatus("success");
           setName("");
           setEmail("");
           setMessage("");
+
+          // Reset status after 3 seconds
+          setTimeout(() => {
+            setSubmitStatus("idle");
+          }, 3000);
         },
         (error) => {
           console.log("FAILED...", error.text);
-          toast.error("Failed to send message. Please try again.", {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          setSubmitStatus("error");
+
+          // Reset status after 3 seconds
+          setTimeout(() => {
+            setSubmitStatus("idle");
+          }, 3000);
         }
       )
       .finally(() => {
@@ -132,18 +128,31 @@ function Contact() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-full py-3 px-6 text-white font-semibold rounded-lg shadow-md ${
-              isSubmitting
+            disabled={isSubmitting || submitStatus === "success"}
+            className={`w-full py-3 px-6 text-white font-semibold rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-300 ${
+              isSubmitting || submitStatus === "success"
                 ? "bg-gray-400 cursor-not-allowed"
+                : submitStatus === "error"
+                ? "bg-red-600 hover:bg-red-700"
                 : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"
             }`}
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            {isSubmitting ? (
+              "Sending..."
+            ) : submitStatus === "success" ? (
+              <>
+                Message sent <FaCheck />
+              </>
+            ) : submitStatus === "error" ? (
+              <>
+                Error sending <BiErrorCircle />
+              </>
+            ) : (
+              "Send Message"
+            )}
           </button>
         </form>
       </div>
-      <ToastContainer />
     </section>
   );
 }
