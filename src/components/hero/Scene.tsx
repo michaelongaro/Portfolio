@@ -1513,7 +1513,7 @@ function Chain({
 }
 
 function Bookend({ position }: any) {
-  const start: [number, number, number] = [0, 0, 0.12];
+  const start: [number, number, number] = [0, 0, 0.25];
   const end: [number, number, number] = [0, 0.4, -0.15];
 
   return (
@@ -1552,7 +1552,7 @@ function Bookend({ position }: any) {
 
 function Bookshelf({ position, isDark, books }: any) {
   const shelfWidth = 1.8;
-  const shelfDepth = 0.3;
+  const shelfDepth = 0.55;
   const shelfThickness = 0.05;
   const bookendThickness = 0.02;
 
