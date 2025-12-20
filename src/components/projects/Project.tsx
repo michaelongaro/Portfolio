@@ -48,7 +48,7 @@ function Project({
           <img
             src={screenshotLink}
             alt={screenshotAltText}
-            className="w-full h-auto object-cover"
+            className="w-full h-auto object-cover rounded-xl border dark:border-slate-700"
           />
         </div>
 

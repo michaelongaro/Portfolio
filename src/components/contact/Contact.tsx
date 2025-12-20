@@ -71,7 +71,7 @@ function Contact() {
         <form
           ref={formRef}
           onSubmit={sendEmail}
-          className="bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-8 space-y-6"
+          className="bg-white dark:bg-slate-800 border dark:border-slate-700 shadow-xl rounded-2xl p-8 space-y-6"
         >
           <div className="space-y-2">
             <label
