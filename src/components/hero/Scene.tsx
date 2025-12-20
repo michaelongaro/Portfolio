@@ -1096,7 +1096,7 @@ function MugDesign({ scale = 1 }: { scale?: number }) {
 
       // Draw Text
       ctx.fillStyle = "#000000";
-      ctx.font = "900 190px Inter, sans-serif";
+      ctx.font = "900 200px Inter, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
@@ -1141,7 +1141,7 @@ function MugDesign({ scale = 1 }: { scale?: number }) {
           32, // radialSegments
           1, // heightSegments
           true, // openEnded
-          Math.PI / 6, // thetaStart
+          Math.PI / 16, // thetaStart
           Math.PI / 2, // thetaLength
         ]}
       />
@@ -1211,7 +1211,10 @@ function CoffeeMug({ position, scale = 1, isDark }: any) {
       </mesh>
 
       {/* Handle */}
-      <mesh position={[-0.07, 0, 0]} rotation={[0, 0, -Math.PI * 1.48]}>
+      <mesh
+        position={[-0.05, 0, 0.05]}
+        rotation={[0, Math.PI * 0.25, -Math.PI * 1.48]}
+      >
         <torusGeometry args={[0.045, 0.012, 16, 32, Math.PI]} />
         <meshStandardMaterial
           color={mugColor}
