@@ -3,7 +3,6 @@ import {
   OrbitControls,
   Text,
   PerspectiveCamera,
-  ContactShadows,
   Environment,
   RoundedBox,
   useTexture,
@@ -30,6 +29,15 @@ function ElasticOrbitControls({
   const controlsRef = useRef<any>(null);
   const [isDragging, setIsDragging] = useState(false);
   const baseRotateSpeed = props.rotateSpeed || 1.0;
+
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (controls) {
+      // overriding the default 'none' set by OrbitControls to always
+      // allow scrolling on mobile
+      controls.domElement.style.touchAction = "pan-y";
+    }
+  }, []);
 
   useFrame((state, delta) => {
     const controls = controlsRef.current;
