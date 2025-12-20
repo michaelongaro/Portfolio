@@ -200,7 +200,9 @@ function Monitor({
                 <img
                   src={image}
                   alt="Profile"
-                  className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg"
+                  className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg pointer-events-none select-none"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               )}
 
@@ -227,7 +229,7 @@ function Monitor({
                     href="https://github.com/michaelongaro"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-4xl underline hover:opacity-80 ${
+                    className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
                       isDark ? "text-blue-400" : "text-blue-600"
                     }`}
                   >
@@ -237,7 +239,7 @@ function Monitor({
                     href="/assets/MichaelOngaroResume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-4xl underline hover:opacity-80 ${
+                    className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
                       isDark ? "text-blue-400" : "text-blue-600"
                     }`}
                   >
@@ -247,7 +249,7 @@ function Monitor({
                     href="https://www.linkedin.com/in/michaelongaro/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-4xl underline hover:opacity-80 ${
+                    className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
                       isDark ? "text-blue-400" : "text-blue-600"
                     }`}
                   >
