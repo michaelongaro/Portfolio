@@ -11,6 +11,7 @@ import {
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
+import { useExploration } from "../../context/ExplorationContext";
 import * as THREE from "three";
 import {
   useMemo,
@@ -25,12 +26,22 @@ import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
 import LoadingSpinner from "../ui/icons/LoadingSpinner";
 import { isIOS } from "react-device-detect";
+import { IoClose } from "react-icons/io5";
+import { LuRotate3D } from "react-icons/lu";
+import {
+  PiMouseLeftClickFill,
+  PiMouseScroll,
+  PiMouseRightClickFill,
+} from "react-icons/pi";
+import { AiOutlineDrag } from "react-icons/ai";
+import { TbRotate360 } from "react-icons/tb";
 
 function ElasticOrbitControls({
   minPolarAngle,
   maxPolarAngle,
   minAzimuthAngle,
   maxAzimuthAngle,
+  enabled = true,
   ...props
 }: any) {
   const controlsRef = useRef<any>(null);
@@ -41,12 +52,14 @@ function ElasticOrbitControls({
     const controls = controlsRef.current;
     if (controls) {
       // overriding the default 'none' set by OrbitControls to always
-      // allow scrolling on mobile
-      controls.domElement.style.touchAction = "pan-y";
+      // allow scrolling on mobile when not enabled
+      controls.domElement.style.touchAction = enabled ? "none" : "pan-y";
     }
-  }, []);
+  }, [enabled]);
 
   useFrame((state, delta) => {
+    if (!enabled) return;
+
     const controls = controlsRef.current;
     if (!controls) return;
 
@@ -277,38 +290,38 @@ function Monitor({
             </div>
 
             {/* Controls Section */}
-            <div className="flex flex-col items-center justify-center mb-8">
-              <h3
-                className={`text-6xl font-bold mb-4 ${
-                  isDark ? "text-gray-200" : "text-gray-800"
-                }`}
-              >
+            <div className="flex flex-col gap-8 items-center justify-center mb-8">
+              <h3 className="text-6xl font-bold mb-4 text-gray-200 ">
                 Controls
               </h3>
-              <div className="hidden md:flex flex-col items-center">
-                <p
-                  className={`text-5xl ${
-                    isDark ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  Click and drag to pan the camera
-                </p>
-                <p
-                  className={`text-5xl ${
-                    isDark ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  Alt + Scroll to zoom
-                </p>
+              <div className="hidden md:flex items-center gap-16 font-medium text-6xl text-gray-400">
+                <div className="flex gap-2 items-center">
+                  <PiMouseLeftClickFill className="size-16" />
+                  Pan
+                </div>
+                <div className="flex gap-2 items-center">
+                  <PiMouseScroll className="size-16" />
+                  Zoom
+                </div>
+                <div className="flex gap-2 items-center">
+                  <PiMouseRightClickFill className="size-16" />
+                  Rotate
+                </div>
               </div>
-              <div className="flex md:hidden flex-col items-center">
-                <p
-                  className={`text-5xl ${
-                    isDark ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  Use two fingers to pan and zoom
-                </p>
+              <div className="flex md:hidden flex-col items-center gap-16 font-medium text-6xl text-gray-400">
+                <div className="flex gap-8 items-center">
+                  <div className="relative size-16 flex justify-center items-center">
+                    <div className="rounded-full size-8 bg-gray-400"></div>
+                  </div>
+                  Pan
+                </div>
+                <div className="flex gap-12 items-center">
+                  <div className="relative size-16 flex justify-center items-center">
+                    <div className="absolute bottom-0 left-0 rounded-full size-8 bg-gray-400"></div>
+                    <div className="absolute top-0 right-0 rounded-full size-8 bg-gray-400"></div>
+                  </div>
+                  Zoom + Rotate
+                </div>
               </div>
             </div>
           </div>
@@ -1839,6 +1852,7 @@ function SceneReady({ setLoaded }: { setLoaded: (loaded: boolean) => void }) {
 
 export default function Scene() {
   const { theme } = useTheme();
+  const { isExploring, setIsExploring } = useExploration();
   const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
@@ -1863,23 +1877,6 @@ export default function Scene() {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (!e.altKey) {
-        e.stopPropagation();
-      }
-    };
-
-    container.addEventListener("wheel", handleWheel, { capture: true });
-
-    return () => {
-      container.removeEventListener("wheel", handleWheel, { capture: true });
-    };
   }, []);
 
   const topShelfBooks = [
@@ -1957,17 +1954,42 @@ export default function Scene() {
     <div
       ref={containerRef}
       className={`absolute inset-0 z-10 ${
-        isLoaded ? "cursor-grab active:cursor-grabbing" : ""
+        isLoaded && isExploring ? "cursor-grab active:cursor-grabbing" : ""
       }`}
     >
       {!isLoaded && <CanvasLoader isDark={isDark} />}
+
+      {isLoaded && (
+        <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex justify-center">
+          <button
+            onClick={() => setIsExploring(!isExploring)}
+            className={`flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors ${
+              isExploring ? "p-2 sm:p-4" : "sm:px-8 sm:py-4 py-3 px-6"
+            }`}
+          >
+            {isExploring ? (
+              <IoClose className="size-6 sm:size-8 w-[34px] sm:w-[28px]" />
+            ) : (
+              <>
+                <LuRotate3D className="size-5 sm:size-6" />
+                Explore Scene
+              </>
+            )}
+          </button>
+        </div>
+      )}
+
       {shouldRender && (
         <Canvas
           shadows
           dpr={[1, 2]}
           performance={{ min: 0.5 }}
           gl={{ antialias: true, powerPreference: "high-performance" }}
-          style={{ touchAction: "pan-y" }}
+          style={{
+            // pointerEvents: isExploring ? "auto" : "none",
+            touchAction: isExploring ? "none" : "pan-y",
+          }}
+          className="z-10"
         >
           <PerspectiveCamera makeDefault position={[0, -1, 3.5]} fov={40} />
 
@@ -2100,6 +2122,7 @@ export default function Scene() {
           </Suspense>
 
           <ElasticOrbitControls
+            enabled={isExploring}
             minPolarAngle={Math.PI / 4}
             maxPolarAngle={Math.PI / 1.75}
             minAzimuthAngle={-Math.PI / 3}
@@ -2107,16 +2130,16 @@ export default function Scene() {
             minDistance={1}
             maxDistance={isMobile ? 10.5 : 6.5}
             target={[0, -1.3, -0.3]}
-            enableZoom={true}
-            enablePan={true}
+            enableZoom={isExploring}
+            enablePan={isExploring}
             mouseButtons={{
-              LEFT: THREE.MOUSE.ROTATE,
-              MIDDLE: null,
-              RIGHT: null,
+              LEFT: isExploring ? THREE.MOUSE.PAN : null,
+              MIDDLE: isExploring ? THREE.MOUSE.DOLLY : null,
+              RIGHT: isExploring ? THREE.MOUSE.ROTATE : null,
             }}
             touches={{
-              ONE: null as any,
-              TWO: THREE.TOUCH.DOLLY_ROTATE,
+              ONE: isExploring ? THREE.TOUCH.PAN : null,
+              TWO: isExploring ? THREE.TOUCH.DOLLY_ROTATE : null,
             }}
           />
           <Preload all />
