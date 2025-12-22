@@ -1972,7 +1972,7 @@ export default function Scene() {
             ) : (
               <>
                 <LuRotate3D className="size-5 sm:size-6" />
-                Explore Scene
+                Explore
               </>
             )}
           </button>
@@ -1997,7 +1997,14 @@ export default function Scene() {
             <SceneReady setLoaded={setIsLoaded} />
 
             {/* Environment for reflections */}
-            <Environment preset={isDark ? "night" : "forest"} />
+            <Environment
+              // preset={isDark ? "night" : "forest"}
+              files={
+                isDark
+                  ? "/assets/rogland_clear_night_1k.exr"
+                  : "/assets/pretoria_gardens_1k.exr"
+              }
+            />
 
             {/* Lighting Setup */}
             {isDark ? (
