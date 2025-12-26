@@ -73,7 +73,7 @@ function Skills() {
       className="py-20 w-full max-w-3xl scroll-mt-20"
     >
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-blue-500 after:mt-2 after:rounded-full">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-orange-600 after:mt-2 after:rounded-full">
           Skills
         </h2>
       </div>
@@ -84,7 +84,7 @@ function Skills() {
             key={index}
             className="skill-icon opacity-0 flex flex-col items-center gap-2 group"
           >
-            <div className="w-16 h-16 md:w-20 md:h-20 p-3 bg-white border dark:border-slate-700 dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
+            <div className="w-16 h-16 md:w-20 md:h-20 p-3 bg-white border dark:border-stone-700 dark:bg-stone-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
               <img
                 src={skill.src}
                 alt={skill.title}
@@ -102,7 +102,7 @@ function Skills() {
       <div className="text-center mt-12 text-gray-600 dark:text-gray-400">
         <p>
           Currently learning:{" "}
-          <span className="font-semibold text-blue-500">Rust</span>
+          <span className="font-semibold text-orange-500">Rust</span>
         </p>
       </div>
     </section>

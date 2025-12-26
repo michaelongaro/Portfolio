@@ -6,7 +6,7 @@ function AboutMe() {
   return (
     <section id="aboutme" className="py-20 scroll-mt-20">
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-blue-500 after:mt-2 after:rounded-full">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-orange-600 after:mt-2 after:rounded-full">
           About Me
         </h2>
       </div>
@@ -14,7 +14,7 @@ function AboutMe() {
       <div className="flex flex-col gap-8 items-center">
         <div className="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
           <div className="w-full md:w-1/3 flex justify-center">
-            <div className="relative w-56 h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-slate-700 shadow-2xl">
+            <div className="relative w-56 h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-stone-300 shadow-2xl">
               <img
                 src={myHeadshot}
                 alt="A close-up professional image of my face."
@@ -48,7 +48,7 @@ function AboutMe() {
           href={resumePDF}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md md:-ml-24 transition-all "
+          className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg shadow-md md:-ml-24 transition-all "
         >
           <span>View Resume</span>
           <HiOutlineExternalLink className="size-5" />

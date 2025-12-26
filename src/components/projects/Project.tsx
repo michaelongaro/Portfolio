@@ -41,14 +41,14 @@ function Project({
   );
 
   return (
-    <article className="flex group flex-col lg:flex-row gap-8 border dark:border-slate-700 max-w-6xl mx-auto p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
+    <article className="flex group flex-col lg:flex-row gap-8 border dark:border-stone-700 max-w-6xl mx-auto p-6 bg-white dark:bg-stone-800 rounded-2xl shadow-xl lg:odd:!flex-row-reverse">
       {/* Image, Links, Metadata Section */}
       <div className="w-full flex flex-col lg:w-1/2 gap-4">
         <div className="relative group overflow-hidden rounded-xl shadow-md">
           <img
             src={screenshotLink}
             alt={screenshotAltText}
-            className="w-full h-auto object-cover rounded-xl border dark:border-slate-700"
+            className="w-full h-auto object-cover rounded-xl border dark:border-stone-700"
           />
         </div>
 
@@ -58,10 +58,10 @@ function Project({
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
             >
               <span>Visit</span>
-              <HiOutlineExternalLink className="size-5" />
+              <HiOutlineExternalLink className="size-[19px] mt-[1px]" />
             </a>
           )}
 
@@ -108,32 +108,32 @@ function Project({
         </div>
 
         {/* Tabs */}
-        <div className="bg-gray-50 dark:bg-slate-700/50 rounded-xl p-4">
+        <div className="bg-gray-50 dark:bg-stone-700/50 border dark:border-stone-700 rounded-xl p-4">
           <div className="flex gap-4 border-b border-gray-200 dark:border-gray-600 mb-4">
             <button
               onClick={() => setActiveTab("learned")}
               className={`pb-2 px-1 text-sm font-medium transition-colors relative ${
                 activeTab === "learned"
-                  ? "text-blue-600 dark:text-blue-400"
+                  ? "text-orange-600 dark:text-orange-600"
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
               What I Learned
               {activeTab === "learned" && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400" />
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-600" />
               )}
             </button>
             <button
               onClick={() => setActiveTab("challenges")}
               className={`pb-2 px-1 text-sm font-medium transition-colors relative ${
                 activeTab === "challenges"
-                  ? "text-blue-600 dark:text-blue-400"
+                  ? "text-orange-600 dark:text-orange-600"
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
               Challenges
               {activeTab === "challenges" && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400" />
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-600 dark:bg-orange-600" />
               )}
             </button>
           </div>

@@ -17,14 +17,14 @@ export default function Navbar() {
   const linkStates = useNavbarHighlighter();
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md">
+    <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a
               href="/"
-              className="text-xl sm:text-2xl font-bold text-primary-light dark:text-primary-dark font-mono"
+              className="text-xl sm:text-2xl font-bold tracking-tight text-primary-light"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -44,8 +44,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     linkStates[idx]
-                      ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-slate-800"
-                      : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-slate-800"
+                      ? "text-orange-600 dark:text-orange-600 bg-orange-50 dark:bg-stone-800"
+                      : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-stone-800"
                   }`}
                 >
                   {link.name}
@@ -55,7 +55,7 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-stone-800"
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
@@ -76,7 +76,7 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleTheme}
-              className="p-2 mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
+              className="p-2 mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-stone-800"
             >
               {theme === "light" ? (
                 <LuSun
@@ -104,8 +104,8 @@ export default function Navbar() {
                 href={link.href}
                 className={` px-3 py-2 rounded-md text-base font-medium ${
                   linkStates[idx]
-                    ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-slate-800"
-                    : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-slate-800"
+                    ? "text-orange-600 dark:text-orange-600 bg-orange-50 dark:bg-stone-800"
+                    : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-stone-800"
                 }`}
                 onClick={() => setIsOpen(false)}
               >

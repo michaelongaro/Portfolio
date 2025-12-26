@@ -6,16 +6,12 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: "#3b82f6", // blue-500
-          dark: "#60a5fa", // blue-400
+          light: "oklch(70.5% 0.213 47.604)", // orange-500
+          dark: "oklch(70.5% 0.213 47.604)", // orange-500
         },
         background: {
-          light: "#ffffff",
-          dark: "#0f172a", // slate-900
-        },
-        surface: {
-          light: "#f3f4f6", // gray-100
-          dark: "#1e293b", // slate-800
+          light: "oklch(97% 0.001 106.424)",
+          dark: "oklch(21.6% 0.006 56.043)", // stone-900
         },
         text: {
           light: "#1f2937", // gray-800

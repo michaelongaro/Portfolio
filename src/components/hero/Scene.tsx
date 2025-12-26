@@ -33,8 +33,6 @@ import {
   PiMouseScroll,
   PiMouseRightClickFill,
 } from "react-icons/pi";
-import { AiOutlineDrag } from "react-icons/ai";
-import { TbRotate360 } from "react-icons/tb";
 
 function ElasticOrbitControls({
   minPolarAngle,
@@ -213,7 +211,7 @@ function Monitor({
         <Html
           transform
           occlude="blending"
-          position={[0, 0, 0.232]}
+          position={[0, 0, 0.231]}
           scale={0.04}
           style={{
             width: "1500px",
@@ -247,7 +245,7 @@ function Monitor({
                 </h1>
                 <h2
                   className={`text-5xl font-medium mb-8 ${
-                    isDark ? "text-blue-300" : "text-gray-700"
+                    isDark ? "text-orange-300" : "text-gray-700"
                   }`}
                 >
                   {subtext}
@@ -260,7 +258,7 @@ function Monitor({
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
-                      isDark ? "text-blue-400" : "text-blue-600"
+                      isDark ? "text-orange-600" : "text-orange-600"
                     }`}
                   >
                     GitHub
@@ -270,7 +268,7 @@ function Monitor({
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
-                      isDark ? "text-blue-400" : "text-blue-600"
+                      isDark ? "text-orange-600" : "text-orange-600"
                     }`}
                   >
                     Resume
@@ -280,7 +278,7 @@ function Monitor({
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
-                      isDark ? "text-blue-400" : "text-blue-600"
+                      isDark ? "text-orange-600" : "text-orange-600"
                     }`}
                   >
                     LinkedIn
@@ -291,7 +289,7 @@ function Monitor({
 
             {/* Controls Section */}
             <div className="flex flex-col gap-8 items-center justify-center mb-8">
-              <h3 className="text-6xl font-bold mb-4 text-gray-200 ">
+              <h3 className="text-6xl font-bold mb-4 text-gray-700 dark:text-gray-200 ">
                 Controls
               </h3>
               <div className="hidden md:flex items-center gap-16 font-medium text-6xl text-gray-400">
@@ -1826,7 +1824,7 @@ function DeskGroup({
 function CanvasLoader({ isDark }: any) {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black z-50 pointer-events-none">
-      <div className="flex flex-col gap-8 justify-center size-64 shadow-lg rounded-lg z-10 items-center bg-white dark:bg-slate-800 border dark:border-slate-700 p-8">
+      <div className="flex flex-col gap-8 justify-center size-64 shadow-lg rounded-lg z-10 items-center bg-white dark:bg-stone-800 border dark:border-stone-700 p-8">
         <LoadingSpinner className="size-16" />
         <span className="text-lg font-medium">Loading</span>
       </div>
@@ -1963,7 +1961,7 @@ export default function Scene() {
         <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex justify-center">
           <button
             onClick={() => setIsExploring(!isExploring)}
-            className={`flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors ${
+            className={`flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors ${
               isExploring ? "p-2 sm:p-4" : "sm:px-8 sm:py-4 py-3 px-6"
             }`}
           >
