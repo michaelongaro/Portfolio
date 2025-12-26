@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import useNavbarHighlighter from "../../util/useNavbarHighlighter";
-import Hamburger from "hamburger-react";
 import { LuSun, LuMoon } from "react-icons/lu";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoClose } from "react-icons/io5";
 
 const navLinks = [
   { name: "Skills", href: "#skills" },
@@ -73,10 +74,10 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex gap-3 items-center">
             <button
               onClick={toggleTheme}
-              className="p-2 mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-stone-800"
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-stone-800"
             >
               {theme === "light" ? (
                 <LuSun
@@ -89,7 +90,14 @@ export default function Navbar() {
                 <LuMoon className="size-[18px] text-blue-400" />
               )}
             </button>
-            <Hamburger toggled={isOpen} toggle={setIsOpen} size={20} />
+
+            <button onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? (
+                <IoClose className="size-6" />
+              ) : (
+                <RxHamburgerMenu className="size-6" />
+              )}
+            </button>
           </div>
         </div>
       </div>
