@@ -1784,7 +1784,7 @@ function DeskGroup({
 
       {/* Main Monitor - centered on desk */}
       <Monitor
-        position={[0.2, -1.3, -0.7]}
+        position={[0, -1.3, -0.7]}
         text="Michael Ongaro"
         subtext="Full Stack Developer"
         isDark={isDark}
@@ -1794,29 +1794,25 @@ function DeskGroup({
 
       {/* Side Monitor - angled */}
       <Monitor
-        position={[-1.45, -1.3, -0.35]}
-        rotation={[0, 0.45, 0]}
+        position={[-1.62, -1.3, -0.35]}
+        rotation={[0, 0.5, 0]}
         isDark={isDark}
         screenColor={isDark ? "#0a0512" : "#f8f9fa"}
         screenImage="/assets/altMonitor.png"
       />
 
       {/* Keyboard */}
-      <Keyboard
-        position={[0.1, -2, 0.6]}
-        rotation={[0, 0, 0]}
-        isDark={isDark}
-      />
+      <Keyboard position={[0, -2, 0.6]} rotation={[0, 0, 0]} isDark={isDark} />
 
       {/* Mouse Pad */}
-      <MousePad position={[1.4, -2.008, 0.55]} />
+      <MousePad position={[1.3, -2.008, 0.55]} />
 
       {/* Mouse - to the right of keyboard */}
-      <Mouse position={[1.4, -2.005, 0.55]} isDark={isDark} />
+      <Mouse position={[1.3, -2.005, 0.55]} isDark={isDark} />
 
       {/* Desk accessories */}
       <DeskLamp
-        position={[1.9, -2, -0.5]}
+        position={[1.8, -2, -0.5]}
         rotation={[0, -1.2, 0]}
         scale={1.8}
         isDark={isDark}
