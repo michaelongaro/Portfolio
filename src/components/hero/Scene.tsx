@@ -1878,8 +1878,8 @@ export default function Scene() {
     const camera = controls.object;
 
     // Default values
-    const defaultPos = new THREE.Vector3(0, -1, 3.5);
-    const defaultTarget = new THREE.Vector3(0, -1.3, -0.3);
+    const defaultPos = new THREE.Vector3(0, -1, 2.2);
+    const defaultTarget = new THREE.Vector3(0, -1.35, 0.3);
 
     // Animate
     const startPos = camera.position.clone();
@@ -2092,7 +2092,7 @@ export default function Scene() {
           }}
           className="z-10"
         >
-          <PerspectiveCamera makeDefault position={[0, -1, 3.5]} fov={40} />
+          <PerspectiveCamera makeDefault position={[0, -1, 2.2]} fov={40} />
 
           <Suspense fallback={null}>
             <SceneReady setLoaded={setIsLoaded} />
@@ -2239,7 +2239,7 @@ export default function Scene() {
             maxAzimuthAngle={Math.PI / 3}
             minDistance={1}
             maxDistance={isMobile ? 10.5 : 6.5}
-            target={[0, -1.3, -0.3]}
+            target={[0, -1.35, -0.3]}
             enableZoom={isExploring}
             enablePan={isExploring}
             mouseButtons={{
