@@ -73,7 +73,7 @@ function Skills() {
       className="py-20 w-full max-w-3xl scroll-mt-20"
     >
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-orange-600 after:mt-2 after:rounded-full">
+        <h2 className="cursive text-5xl md:text-6xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-orange-600 after:mt-2 after:rounded-full">
           Skills
         </h2>
       </div>

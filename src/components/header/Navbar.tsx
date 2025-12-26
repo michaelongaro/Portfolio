@@ -24,7 +24,7 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <a
               href="/"
-              className="text-xl sm:text-2xl font-bold tracking-tight text-primary-light"
+              className="cursive text-3xl sm:text-4xl font-bold text-primary-light"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -42,7 +42,7 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  className={`cursive px-4 py-1 tracking-wide rounded-md text-2xl font-medium ${
                     linkStates[idx]
                       ? "text-orange-600 dark:text-orange-600 bg-orange-50 dark:bg-stone-800"
                       : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-stone-800"
@@ -102,7 +102,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className={` px-3 py-2 rounded-md text-base font-medium ${
+                className={`cursive px-4 py-1 tracking-wide rounded-md text-xl font-medium ${
                   linkStates[idx]
                     ? "text-orange-600 dark:text-orange-600 bg-orange-50 dark:bg-stone-800"
                     : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-stone-800"

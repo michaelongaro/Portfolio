@@ -248,7 +248,7 @@ function Monitor({
               {/* Text Group */}
               <div className="flex flex-col items-start justify-center h-64">
                 <h1
-                  className={`text-7xl font-bold mb-4 ${
+                  className={`cursive text-8xl font-bold mb-4 ${
                     isDark ? "text-white" : "text-gray-900"
                   }`}
                 >
