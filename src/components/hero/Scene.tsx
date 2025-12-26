@@ -20,111 +20,122 @@ import {
   useEffect,
   Suspense,
   useTransition,
+  forwardRef,
+  useImperativeHandle,
 } from "react";
 import headshot from "/assets/headshot.jpg";
 import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
 import LoadingSpinner from "../ui/icons/LoadingSpinner";
 import { isIOS } from "react-device-detect";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoRefresh, IoMoon, IoSunny } from "react-icons/io5";
 import { LuRotate3D } from "react-icons/lu";
+import anime from "animejs/lib/anime.es.js";
 import {
   PiMouseLeftClickFill,
   PiMouseScroll,
   PiMouseRightClickFill,
 } from "react-icons/pi";
 
-function ElasticOrbitControls({
-  minPolarAngle,
-  maxPolarAngle,
-  minAzimuthAngle,
-  maxAzimuthAngle,
-  enabled = true,
-  ...props
-}: any) {
-  const controlsRef = useRef<any>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const baseRotateSpeed = props.rotateSpeed || 1.0;
+const ElasticOrbitControls = forwardRef(
+  (
+    {
+      minPolarAngle,
+      maxPolarAngle,
+      minAzimuthAngle,
+      maxAzimuthAngle,
+      enabled = true,
+      ...props
+    }: any,
+    ref: any
+  ) => {
+    const controlsRef = useRef<any>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const baseRotateSpeed = props.rotateSpeed || 1.0;
 
-  useEffect(() => {
-    const controls = controlsRef.current;
-    if (controls) {
-      // overriding the default 'none' set by OrbitControls to always
-      // allow scrolling on mobile when not enabled
-      controls.domElement.style.touchAction = enabled ? "none" : "pan-y";
-    }
-  }, [enabled]);
+    useImperativeHandle(ref, () => controlsRef.current);
 
-  useFrame((state, delta) => {
-    if (!enabled) return;
-
-    const controls = controlsRef.current;
-    if (!controls) return;
-
-    const azimuth = controls.getAzimuthalAngle();
-    const polar = controls.getPolarAngle();
-
-    let azOverflow = 0;
-    if (azimuth < minAzimuthAngle) azOverflow = minAzimuthAngle - azimuth;
-    else if (azimuth > maxAzimuthAngle) azOverflow = azimuth - maxAzimuthAngle;
-
-    let polOverflow = 0;
-    if (polar < minPolarAngle) polOverflow = minPolarAngle - polar;
-    else if (polar > maxPolarAngle) polOverflow = polar - maxPolarAngle;
-
-    if (isDragging) {
-      const overflow = Math.max(azOverflow, polOverflow);
-      const resistance = 1 - Math.min(1, overflow * 7);
-      controls.rotateSpeed = baseRotateSpeed * resistance;
-    } else {
-      controls.rotateSpeed = baseRotateSpeed;
-
-      if (azOverflow > 0.001 || polOverflow > 0.001) {
-        const step = delta * 10;
-
-        let targetTheta = azimuth;
-        if (azimuth < minAzimuthAngle) targetTheta = minAzimuthAngle;
-        else if (azimuth > maxAzimuthAngle) targetTheta = maxAzimuthAngle;
-
-        let targetPhi = polar;
-        if (polar < minPolarAngle) targetPhi = minPolarAngle;
-        else if (polar > maxPolarAngle) targetPhi = maxPolarAngle;
-
-        const spherical = new THREE.Spherical();
-        spherical.setFromVector3(
-          controls.object.position.clone().sub(controls.target)
-        );
-
-        spherical.theta = THREE.MathUtils.lerp(
-          spherical.theta,
-          targetTheta,
-          step
-        );
-        spherical.phi = THREE.MathUtils.lerp(spherical.phi, targetPhi, step);
-        spherical.makeSafe();
-
-        const newPos = new THREE.Vector3()
-          .setFromSpherical(spherical)
-          .add(controls.target);
-        controls.object.position.copy(newPos);
-        controls.object.lookAt(controls.target);
+    useEffect(() => {
+      const controls = controlsRef.current;
+      if (controls) {
+        // overriding the default 'none' set by OrbitControls to always
+        // allow scrolling on mobile when not enabled
+        controls.domElement.style.touchAction = enabled ? "none" : "pan-y";
       }
-    }
-  });
+    }, [enabled]);
 
-  return (
-    <OrbitControls
-      ref={controlsRef}
-      {...props}
-      minAzimuthAngle={-Infinity}
-      maxAzimuthAngle={Infinity}
-      minPolarAngle={0}
-      maxPolarAngle={Math.PI}
-      onStart={() => setIsDragging(true)}
-      onEnd={() => setIsDragging(false)}
-    />
-  );
-}
+    useFrame((state, delta) => {
+      if (!enabled) return;
+
+      const controls = controlsRef.current;
+      if (!controls) return;
+
+      const azimuth = controls.getAzimuthalAngle();
+      const polar = controls.getPolarAngle();
+
+      let azOverflow = 0;
+      if (azimuth < minAzimuthAngle) azOverflow = minAzimuthAngle - azimuth;
+      else if (azimuth > maxAzimuthAngle)
+        azOverflow = azimuth - maxAzimuthAngle;
+
+      let polOverflow = 0;
+      if (polar < minPolarAngle) polOverflow = minPolarAngle - polar;
+      else if (polar > maxPolarAngle) polOverflow = polar - maxPolarAngle;
+
+      if (isDragging) {
+        const overflow = Math.max(azOverflow, polOverflow);
+        const resistance = 1 - Math.min(1, overflow * 7);
+        controls.rotateSpeed = baseRotateSpeed * resistance;
+      } else {
+        controls.rotateSpeed = baseRotateSpeed;
+
+        if (azOverflow > 0.001 || polOverflow > 0.001) {
+          const step = delta * 10;
+
+          let targetTheta = azimuth;
+          if (azimuth < minAzimuthAngle) targetTheta = minAzimuthAngle;
+          else if (azimuth > maxAzimuthAngle) targetTheta = maxAzimuthAngle;
+
+          let targetPhi = polar;
+          if (polar < minPolarAngle) targetPhi = minPolarAngle;
+          else if (polar > maxPolarAngle) targetPhi = maxPolarAngle;
+
+          const spherical = new THREE.Spherical();
+          spherical.setFromVector3(
+            controls.object.position.clone().sub(controls.target)
+          );
+
+          spherical.theta = THREE.MathUtils.lerp(
+            spherical.theta,
+            targetTheta,
+            step
+          );
+          spherical.phi = THREE.MathUtils.lerp(spherical.phi, targetPhi, step);
+          spherical.makeSafe();
+
+          const newPos = new THREE.Vector3()
+            .setFromSpherical(spherical)
+            .add(controls.target);
+          controls.object.position.copy(newPos);
+          controls.object.lookAt(controls.target);
+        }
+      }
+    });
+
+    return (
+      <OrbitControls
+        ref={controlsRef}
+        {...props}
+        minAzimuthAngle={-Infinity}
+        maxAzimuthAngle={Infinity}
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI}
+        onStart={() => setIsDragging(true)}
+        onEnd={() => setIsDragging(false)}
+      />
+    );
+  }
+);
 
 function TexturedScreen({ image }: any) {
   const texture = useTexture(image);
@@ -1849,7 +1860,7 @@ function SceneReady({ setLoaded }: { setLoaded: (loaded: boolean) => void }) {
 }
 
 export default function Scene() {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const { isExploring, setIsExploring } = useExploration();
   const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1857,6 +1868,56 @@ export default function Scene() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const controlsRef = useRef<any>(null);
+  const [isAtDefault, setIsAtDefault] = useState(true);
+
+  const handleReset = () => {
+    if (!controlsRef.current) return;
+    const controls = controlsRef.current;
+    const camera = controls.object;
+
+    // Default values
+    const defaultPos = new THREE.Vector3(0, -1, 3.5);
+    const defaultTarget = new THREE.Vector3(0, -1.3, -0.3);
+
+    // Animate
+    const startPos = camera.position.clone();
+    const startTarget = controls.target.clone();
+
+    const obj = { t: 0 };
+    anime({
+      targets: obj,
+      t: 1,
+      duration: 1000,
+      easing: "easeInOutQuad",
+      update: () => {
+        camera.position.lerpVectors(startPos, defaultPos, obj.t);
+        controls.target.lerpVectors(startTarget, defaultTarget, obj.t);
+        controls.update();
+      },
+      complete: () => {
+        setIsAtDefault(true);
+      },
+    });
+  };
+
+  const checkIsAtDefault = () => {
+    if (!controlsRef.current) return;
+    const controls = controlsRef.current;
+    const camera = controls.object;
+
+    const defaultPos = new THREE.Vector3(0, -1, 3.5);
+    const defaultTarget = new THREE.Vector3(0, -1.3, -0.3);
+
+    const distPos = camera.position.distanceTo(defaultPos);
+    const distTarget = controls.target.distanceTo(defaultTarget);
+
+    const isDefault = distPos < 0.05 && distTarget < 0.05;
+    if (isDefault !== isAtDefault) {
+      setIsAtDefault(isDefault);
+    }
+  };
 
   useEffect(() => {
     // Delay the heavy canvas rendering to allow the spinner to appear smoothly
@@ -1958,11 +2019,32 @@ export default function Scene() {
       {!isLoaded && <CanvasLoader isDark={isDark} />}
 
       {isLoaded && (
-        <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex justify-center">
+        <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center gap-4 pointer-events-none">
+          {/* Reset Button */}
+          <div
+            className={`${
+              isExploring
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            <button
+              onClick={handleReset}
+              disabled={isAtDefault}
+              className={`flex items-center justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+              title="Reset View"
+            >
+              <IoRefresh className="size-5 sm:size-7" />
+            </button>
+          </div>
+
+          {/* Explore Button */}
           <button
             onClick={() => setIsExploring(!isExploring)}
-            className={`flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors ${
-              isExploring ? "p-2 sm:p-4" : "sm:px-8 sm:py-4 py-3 px-6"
+            className={`pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg ${
+              isExploring
+                ? "p-2 sm:p-4 w-[50px] sm:w-[60px] justify-center"
+                : "sm:px-8 sm:py-4 py-3 px-6"
             }`}
           >
             {isExploring ? (
@@ -1974,6 +2056,27 @@ export default function Scene() {
               </>
             )}
           </button>
+
+          {/* Theme Toggle */}
+          <div
+            className={`${
+              isExploring
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors"
+              title="Toggle Theme"
+            >
+              {isDark ? (
+                <IoSunny className="size-5 sm:size-7" />
+              ) : (
+                <IoMoon className="size-5 sm:size-7" />
+              )}
+            </button>
+          </div>
         </div>
       )}
 
@@ -2127,6 +2230,8 @@ export default function Scene() {
           </Suspense>
 
           <ElasticOrbitControls
+            ref={controlsRef}
+            onChange={checkIsAtDefault}
             enabled={isExploring}
             minPolarAngle={Math.PI / 4}
             maxPolarAngle={Math.PI / 1.75}
