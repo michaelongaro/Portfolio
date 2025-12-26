@@ -2040,7 +2040,16 @@ export default function Scene() {
 
           {/* Explore Button */}
           <button
-            onClick={() => setIsExploring(!isExploring)}
+            onClick={() => {
+              setIsExploring(!isExploring);
+              window.scroll(0, 0);
+              setTimeout(() => {
+                // very hacky solution, trying to force mobile browser's controls
+                // to appear so there isn't "dead space" since <Hero> is capped at 100svh,
+                // not dvh (caused visual flickering otherwise)
+                window.scrollBy(0, -300);
+              }, 1000);
+            }}
             className={`pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg ${
               isExploring
                 ? "p-2 sm:p-4 w-[50px] sm:w-[60px] justify-center"
