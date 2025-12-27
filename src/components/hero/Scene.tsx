@@ -299,7 +299,7 @@ function Monitor({
             </div>
 
             {/* Controls Section */}
-            <div className="flex flex-col gap-8 items-center justify-center mb-8">
+            <div className="flex flex-col gap-12 md:gap-8 items-center justify-center mb-8">
               <h3 className="text-6xl font-bold mb-4 text-gray-700 dark:text-gray-200 ">
                 Controls
               </h3>
@@ -317,7 +317,7 @@ function Monitor({
                   Rotate
                 </div>
               </div>
-              <div className="flex md:hidden flex-col items-center gap-16 font-medium text-6xl text-gray-400">
+              <div className="flex md:hidden md:flex-col items-center gap-24 md:gap-12 font-medium text-6xl text-gray-400">
                 <div className="flex gap-8 items-center">
                   <div className="relative size-16 flex justify-center items-center">
                     <div className="rounded-full size-8 bg-gray-400"></div>
@@ -1874,8 +1874,8 @@ export default function Scene() {
     const camera = controls.object;
 
     // Default values
-    const defaultPos = new THREE.Vector3(0, -1, 2.2);
-    const defaultTarget = new THREE.Vector3(0, -1.35, 0.3);
+    const defaultPos = new THREE.Vector3(0, -1, 1.7);
+    const defaultTarget = new THREE.Vector3(0, -1.35, 0);
 
     // Animate
     const startPos = camera.position.clone();
@@ -2027,7 +2027,7 @@ export default function Scene() {
             <button
               onClick={handleReset}
               disabled={isAtDefault}
-              className={`flex items-center justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
               title="Reset View"
             >
               <IoRefresh className="size-5 sm:size-7" />
@@ -2037,14 +2037,17 @@ export default function Scene() {
           {/* Explore Button */}
           <button
             onClick={() => {
+              if (isExploring === false) {
+                window.scroll(0, 0);
+                setTimeout(() => {
+                  // very hacky solution, trying to force mobile browser's controls
+                  // to appear so there isn't "dead space" since <Hero> is capped at 100svh,
+                  // not dvh (caused visual flickering otherwise)
+                  window.scrollBy(0, -300);
+                }, 1000);
+              }
+
               setIsExploring(!isExploring);
-              window.scroll(0, 0);
-              setTimeout(() => {
-                // very hacky solution, trying to force mobile browser's controls
-                // to appear so there isn't "dead space" since <Hero> is capped at 100svh,
-                // not dvh (caused visual flickering otherwise)
-                window.scrollBy(0, -300);
-              }, 1000);
             }}
             className={`pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg ${
               isExploring
@@ -2072,7 +2075,7 @@ export default function Scene() {
           >
             <button
               onClick={toggleTheme}
-              className="flex items-center justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors"
+              className="flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors"
               title="Toggle Theme"
             >
               {isDark ? (
@@ -2097,7 +2100,7 @@ export default function Scene() {
           }}
           className="z-10"
         >
-          <PerspectiveCamera makeDefault position={[0, -1, 2.2]} fov={40} />
+          <PerspectiveCamera makeDefault position={[0, -1, 1.7]} fov={50} />
 
           <Suspense fallback={null}>
             <SceneReady setLoaded={setIsLoaded} />
@@ -2244,7 +2247,7 @@ export default function Scene() {
             maxAzimuthAngle={Math.PI / 3}
             minDistance={1}
             maxDistance={isMobile ? 10.5 : 6.5}
-            target={[0, -1.35, -0.3]}
+            target={[0, -1.35, 0]}
             enableZoom={isExploring}
             enablePan={isExploring}
             mouseButtons={{
