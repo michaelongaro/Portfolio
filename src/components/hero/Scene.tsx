@@ -991,6 +991,139 @@ function Floor({ isDark }: { isDark: boolean }) {
   );
 }
 
+function Pencil({ position, rotation, color = "#FFC107" }: any) {
+  return (
+    <group position={position} rotation={rotation}>
+      {/* Body */}
+      <mesh position={[0, 0, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.008, 0.008, 0.25, 6]} />
+        <meshStandardMaterial color={color} roughness={0.6} />
+      </mesh>
+      {/* Ferrule */}
+      <mesh position={[0, 0.13, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.008, 0.008, 0.015, 16]} />
+        <meshStandardMaterial color="#C0C0C0" metalness={0.8} roughness={0.2} />
+      </mesh>
+      {/* Eraser */}
+      <mesh position={[0, 0.145, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.008, 0.008, 0.015, 16]} />
+        <meshStandardMaterial color="#FF69B4" roughness={0.9} />
+      </mesh>
+      {/* Wood Tip */}
+      <mesh
+        position={[0, -0.135, 0]}
+        rotation={[0, 0, Math.PI]}
+        castShadow
+        receiveShadow
+      >
+        <coneGeometry args={[0.008, 0.02, 6]} />
+        <meshStandardMaterial color="#DEB887" roughness={0.8} />
+      </mesh>
+      {/* Lead */}
+      <mesh position={[0, -0.14, 0]} castShadow receiveShadow>
+        <coneGeometry args={[0.002, 0.005, 6]} />
+        <meshStandardMaterial color="#333333" roughness={0.5} />
+      </mesh>
+    </group>
+  );
+}
+
+function Pen({ position, rotation, color = "#1E90FF" }: any) {
+  return (
+    <group position={position} rotation={rotation}>
+      {/* Body */}
+      <mesh position={[0, 0, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.008, 0.008, 0.25, 16]} />
+        <meshStandardMaterial color={color} roughness={0.2} metalness={0.1} />
+      </mesh>
+      {/* Cap/Clicker */}
+      <mesh position={[0, 0.135, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.007, 0.007, 0.02, 16]} />
+        <meshStandardMaterial color={color} roughness={0.2} />
+      </mesh>
+      {/* Tip Cone */}
+      <mesh
+        position={[0, -0.135, 0]}
+        rotation={[0, 0, Math.PI]}
+        castShadow
+        receiveShadow
+      >
+        <coneGeometry args={[0.008, 0.02, 16]} />
+        <meshStandardMaterial color="#C0C0C0" metalness={0.8} roughness={0.2} />
+      </mesh>
+      {/* Ballpoint */}
+      <mesh position={[0, -0.141, 0]} castShadow receiveShadow>
+        <sphereGeometry args={[0.002, 8, 8]} />
+        <meshStandardMaterial color="#111111" metalness={0.8} roughness={0.2} />
+      </mesh>
+    </group>
+  );
+}
+
+function PencilHolder({
+  position,
+  rotation = [0, 0, 0],
+  scale = 1,
+  isDark,
+}: any) {
+  return (
+    <group position={position} rotation={rotation} scale={scale}>
+      {/* Cup Base */}
+      <mesh position={[0, 0, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.07, 0.07, 0.01, 32]} />
+        <meshStandardMaterial color="#333333" metalness={0.6} roughness={0.4} />
+      </mesh>
+
+      {/* Cup Mesh Body */}
+      <mesh position={[0, 0.1, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.1, 0.07, 0.2, 60, 60, true]} />
+        <meshStandardMaterial
+          color={isDark ? "#555555" : "#333333"}
+          wireframe
+          side={THREE.DoubleSide}
+          metalness={0.5}
+          roughness={0.5}
+        />
+      </mesh>
+
+      {/* Top Rim */}
+      <mesh
+        position={[0, 0.2, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
+        castShadow
+        receiveShadow
+      >
+        <torusGeometry args={[0.1, 0.005, 8, 32]} />
+        <meshStandardMaterial color="#333333" metalness={0.6} roughness={0.4} />
+      </mesh>
+
+      {/* Contents */}
+      <group position={[0, 0.15, 0]}>
+        <Pencil
+          position={[0.03, 0, 0.02]}
+          rotation={[0.2, 0.5, 0.1]}
+          color="#FFC107"
+        />
+        <Pencil
+          position={[-0.02, 0, -0.03]}
+          rotation={[0.1, 2, -0.1]}
+          color="#4CAF50"
+        />
+        <Pen
+          position={[-0.04, 0, 0.04]}
+          rotation={[-0.1, 1, 0.2]}
+          color="#2196F3"
+        />
+        <Pen
+          position={[0.02, 0, -0.04]}
+          rotation={[0.15, 3, -0.15]}
+          color="#F44336"
+        />
+      </group>
+    </group>
+  );
+}
+
 function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
   return (
     <group position={position} rotation={rotation} scale={scale}>
@@ -1773,143 +1906,6 @@ function PC({ position, scale = 1, isDark }: any) {
   );
 }
 
-/**
- * Procedural Leaf Component
- * Represents a single fleshy leaf of the succulent.
- */
-const Leaf = ({ position, rotation, scale, color }) => {
-  return (
-    <group position={position} rotation={rotation} scale={scale}>
-      {/* We deform a Sphere to create the leaf shape */}
-      <mesh castShadow receiveShadow position={[0, 0, 0.5]}>
-        {/* Sphere with high segments for smoothness */}
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshPhysicalMaterial
-          color={color}
-          roughness={0.4}
-          metalness={0.0}
-          clearcoat={0.1} // Waxy coating
-          clearcoatRoughness={0.2}
-          sheen={1.0} // Velvet-like edges often found on succulents
-          sheenColor={new THREE.Color("#ffddcc")}
-          thickness={1.5} // Subsurface scattering simulation
-          transmission={0.0}
-        />
-      </mesh>
-    </group>
-  );
-};
-
-/**
- * Procedural Succulent Generator
- * Uses the Golden Angle to place leaves in a natural spiral.
- */
-const Succulent = ({ leafColor = "#7caea6", tipColor = "#d98c9f" }) => {
-  const leafCount = 45;
-  const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ~137.5 degrees
-
-  const leaves = useMemo(() => {
-    return new Array(leafCount).fill(0).map((_, i) => {
-      // Logic to place leaves in a rosette pattern
-      const t = i / leafCount;
-      const angle = i * goldenAngle;
-
-      // Radius expands as we go out
-      const radius = 0.3 + Math.sqrt(i) * 0.25;
-
-      // Height decreases slightly as we go out (bowl shape)
-      const y = i * 0.02;
-
-      // Position
-      const x = Math.cos(angle) * radius;
-      const z = Math.sin(angle) * radius;
-
-      // Rotation: Look at center, then tilt up
-      // Calculate angle pointing outward
-      const rotationY = -angle;
-      // Tilt: Inner leaves are vertical, outer are flat
-      const rotationX = -Math.PI / 2 + t * (Math.PI / 3);
-
-      // Scale: Inner leaves small, middle fat, outer thin
-      const scaleBase = 1 + t * 0.5;
-      const scale = [scaleBase, 0.2, scaleBase * 1.5]; // Flattened sphere
-
-      return {
-        pos: [x, y, z],
-        rot: [rotationX, rotationY, 0],
-        scale: scale,
-        id: i,
-      };
-    });
-  }, []);
-
-  return (
-    <group>
-      {leaves.map((leaf) => (
-        <Leaf
-          key={leaf.id}
-          position={leaf.pos}
-          rotation={leaf.rot}
-          scale={leaf.scale}
-          color={leafColor}
-        />
-      ))}
-    </group>
-  );
-};
-
-/**
- * The Pot and Soil
- */
-const Pot = () => {
-  return (
-    <group>
-      {/* The Ceramic Pot */}
-      <mesh castShadow receiveShadow position={[0, -0.75, 0]}>
-        <cylinderGeometry args={[1.6, 1.2, 1.8, 64]} />
-        <meshPhysicalMaterial
-          color="#ffffff"
-          roughness={0.8} // Matte ceramic
-          clearcoat={0.0}
-        />
-      </mesh>
-
-      {/* The Soil (Dark Circle) */}
-      <mesh position={[0, 0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[1.55, 32]} />
-        <meshStandardMaterial
-          color="#3d2c20"
-          roughness={1}
-          displacementScale={0.1}
-        />
-      </mesh>
-    </group>
-  );
-};
-
-/**
- * Main Scene Container
- * Handles the configured transforms from controls.
- */
-function SucculentContainer({
-  position = [0, 0, 0],
-  rotation = [0, 0, 0],
-  scale = 1,
-}: any) {
-  return (
-    <group
-      position={position}
-      rotation={rotation}
-      scale={[scale, scale, scale]}
-    >
-      {/* Render the Plant */}
-      <Succulent leafColor={"#7caea6"} />
-      {/* Render the Pot */}
-      <Pot />
-    </group>
-  );
-}
-
 function DeskGroup({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
@@ -1948,11 +1944,11 @@ function DeskGroup({
       <Mouse position={[1.3, -2.005, 0.55]} isDark={isDark} />
 
       {/* Desk accessories */}
-
-      <SucculentContainer
-        position={[1.1, -1.75, -0.3]}
-        rotation={[0, Math.PI * 0.5, 0]}
-        scale={0.15}
+      <PencilHolder
+        position={[1.15, -2, -0.7]}
+        rotation={[0, 0.5, 0]}
+        scale={1.8}
+        isDark={isDark}
       />
 
       <DeskLamp
