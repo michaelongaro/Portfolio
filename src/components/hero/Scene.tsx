@@ -1540,19 +1540,19 @@ function Marker({
     <group position={position} rotation={[0, 0, Math.PI / 2]}>
       {/* Body - White tapered cylinder */}
       <mesh position={[0, -0.02, 0]} castShadow>
-        <cylinderGeometry args={[0.011, 0.011, 0.1, 16]} />
+        <cylinderGeometry args={[0.016, 0.016, 0.15, 16]} />
         <meshStandardMaterial color="#ffffff" roughness={0.3} />
       </mesh>
 
       {/* Cap - Colored */}
       <mesh position={[0, 0.045, 0]} castShadow>
-        <cylinderGeometry args={[0.012, 0.012, 0.045, 16]} />
+        <cylinderGeometry args={[0.017, 0.017, 0.045, 16]} />
         <meshStandardMaterial color={color} roughness={0.3} />
       </mesh>
 
       {/* End cap - Colored small detail */}
-      <mesh position={[0, -0.075, 0]} castShadow>
-        <cylinderGeometry args={[0.01, 0.01, 0.01, 16]} />
+      <mesh position={[0, -0.08, 0]} castShadow>
+        <cylinderGeometry args={[0.015, 0.015, 0.045, 16]} />
         <meshStandardMaterial color={color} roughness={0.3} />
       </mesh>
     </group>
@@ -1612,14 +1612,14 @@ function Whiteboard({ position, rotation, isDark }: any) {
       {/* Markers & Eraser on Tray */}
       <group position={[-0.5, -1.03, 0.1]}>
         {/* Black Marker */}
-        <Marker position={[-0.2, 0.012, 0]} color="#1a1a1a" />
+        <Marker position={[-0.4, 0.012, 0]} color="#1a1a1a" />
         {/* Blue Marker */}
-        <Marker position={[0, 0.012, 0]} color="#0000cc" />
+        <Marker position={[-0.1, 0.012, 0]} color="#0000cc" />
         {/* Green Marker */}
         <Marker position={[0.2, 0.012, 0]} color="#00cc00" />
 
         {/* Eraser */}
-        <mesh position={[0.6, 0.02, 0.05]} castShadow>
+        <mesh position={[0.6, 0.02, 0.02]} castShadow>
           <boxGeometry args={[0.15, 0.04, 0.08]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
