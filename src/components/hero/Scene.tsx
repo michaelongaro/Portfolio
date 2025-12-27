@@ -2090,10 +2090,13 @@ export default function Scene() {
 
       {shouldRender && (
         <Canvas
-          shadows
+          shadows={"percentage"}
           dpr={[1, 2]}
           performance={{ min: 0.5 }}
-          gl={{ antialias: true, powerPreference: "high-performance" }}
+          gl={{
+            powerPreference: "high-performance",
+            antialias: true,
+          }}
           style={{
             // pointerEvents: isExploring ? "auto" : "none",
             touchAction: isExploring ? "none" : "pan-y",
