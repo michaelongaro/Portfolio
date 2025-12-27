@@ -25,7 +25,7 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <a
               href="/"
-              className="cursive text-3xl sm:text-4xl font-bold text-primary-light"
+              className="cursive text-3xl sm:text-4xl font-bold text-orange-600"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -43,10 +43,10 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`cursive px-4 py-1 tracking-wide rounded-md text-2xl font-medium ${
+                  className={`px-4 py-2 rounded-md text-base font-medium ${
                     linkStates[idx]
-                      ? "text-orange-600 dark:text-orange-600 bg-orange-50 dark:bg-stone-800"
-                      : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-stone-800"
+                      ? "text-orange-600 dark:text-orange-600 bg-stone-100 border dark:border-stone-700 dark:bg-stone-800"
+                      : "text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-600 hover:bg-stone-100 dark:hover:bg-stone-800"
                   }`}
                 >
                   {link.name}
@@ -56,7 +56,7 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-stone-800"
+                className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
@@ -77,7 +77,7 @@ export default function Navbar() {
           <div className="md:hidden flex gap-3 items-center">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-stone-800"
+              className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
             >
               {theme === "light" ? (
                 <LuSun
@@ -110,10 +110,10 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className={`cursive px-4 py-1 tracking-wide rounded-md text-xl font-medium ${
+                className={`px-4 py-2 rounded-md text-sm font-medium ${
                   linkStates[idx]
-                    ? "text-orange-600 dark:text-orange-600 bg-orange-50 dark:bg-stone-800"
-                    : "text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark hover:bg-gray-100 dark:hover:bg-stone-800"
+                    ? "text-orange-600 dark:text-orange-600 bg-stone-100 dark:bg-stone-800"
+                    : "text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-600 hover:bg-stone-100 dark:hover:bg-stone-800"
                 }`}
                 onClick={() => setIsOpen(false)}
               >
