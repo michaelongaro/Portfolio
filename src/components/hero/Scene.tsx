@@ -1099,26 +1099,54 @@ function PencilHolder({
 
       {/* Contents */}
       <group position={[0, 0.15, 0]}>
-        <Pencil
-          position={[0.03, 0, 0.02]}
-          rotation={[0.2, 0.5, 0.1]}
-          color="#FFC107"
-        />
-        <Pencil
-          position={[-0.02, 0, -0.03]}
-          rotation={[0.1, 2, -0.1]}
-          color="#4CAF50"
-        />
-        <Pen
-          position={[-0.04, 0, 0.04]}
-          rotation={[-0.1, 1, 0.2]}
-          color="#2196F3"
-        />
-        <Pen
-          position={[0.02, 0, -0.04]}
-          rotation={[0.15, 3, -0.15]}
-          color="#F44336"
-        />
+        {/* Item 1: Pencil Yellow */}
+        <group rotation={[0, 0.1, 0]}>
+          <Pencil
+            position={[0, 0, 0.067]}
+            rotation={[0.35, 0, 0]}
+            color="#FFC107"
+          />
+        </group>
+        {/* Item 2: Pen Blue */}
+        <group rotation={[0, 1.1, 0]}>
+          <Pen
+            position={[0, 0, 0.066]}
+            rotation={[0.38, 0, 0]}
+            color="#2196F3"
+          />
+        </group>
+        {/* Item 3: Pencil Green */}
+        <group rotation={[0, 2.0, 0]}>
+          <Pencil
+            position={[0, 0, 0.068]}
+            rotation={[0.34, 0, 0]}
+            color="#4CAF50"
+          />
+        </group>
+        {/* Item 4: Pen Red */}
+        <group rotation={[0, 3.2, 0]}>
+          <Pen
+            position={[0, 0, 0.071]}
+            rotation={[0.36, 0, 0]}
+            color="#F44336"
+          />
+        </group>
+        {/* Item 5: Pencil Orange */}
+        <group rotation={[0, 4.1, 0]}>
+          <Pencil
+            position={[0, 0, 0.069]}
+            rotation={[0.33, 0, 0]}
+            color="#FF5722"
+          />
+        </group>
+        {/* Item 6: Pen Purple */}
+        <group rotation={[0, 5.3, 0]}>
+          <Pen
+            position={[0, 0, 0.067]}
+            rotation={[0.37, 0, 0]}
+            color="#9C27B0"
+          />
+        </group>
       </group>
     </group>
   );
