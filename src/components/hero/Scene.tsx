@@ -8,6 +8,7 @@ import {
   useTexture,
   Html,
   Preload,
+  AdaptiveDpr,
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
@@ -2488,6 +2489,8 @@ export default function Scene() {
                   : "/assets/pretoria_gardens_1k.exr"
               }
             />
+
+            <AdaptiveDpr pixelated />
 
             {/* Lighting Setup */}
             {isDark ? (
