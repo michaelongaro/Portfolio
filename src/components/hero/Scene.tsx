@@ -2222,7 +2222,7 @@ export default function Scene() {
 
     // Default values
     const defaultPos = new THREE.Vector3(0, -1, 1.7);
-    const defaultTarget = new THREE.Vector3(0, -1.35, 0);
+    const defaultTarget = new THREE.Vector3(0, -1.35, -0.5);
 
     // Animate
     const startPos = camera.position.clone();
@@ -2387,7 +2387,7 @@ export default function Scene() {
       {!isLoaded && <CanvasLoader isDark={isDark} />}
 
       {isLoaded && (
-        <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center gap-4 pointer-events-none">
+        <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center md:gap-8 gap-4 pointer-events-none">
           {/* Reset Button */}
           <div
             className={`${
@@ -2617,12 +2617,12 @@ export default function Scene() {
             onChange={checkIsAtDefault}
             enabled={isExploring}
             minPolarAngle={Math.PI / 4}
-            maxPolarAngle={Math.PI / 1.75}
+            maxPolarAngle={Math.PI / 1.5}
             minAzimuthAngle={-Math.PI / 3}
             maxAzimuthAngle={Math.PI / 3}
-            minDistance={1}
+            minDistance={0.5}
             maxDistance={isMobile ? 10.5 : 6.5}
-            target={[0, -1.35, 0]}
+            target={[0, -1.35, -0.5]}
             enableZoom={isExploring}
             enablePan={isExploring}
             mouseButtons={{
