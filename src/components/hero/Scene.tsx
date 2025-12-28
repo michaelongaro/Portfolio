@@ -1453,7 +1453,7 @@ function Window({ position, rotation, isDark }: any) {
         castShadow
         receiveShadow
       >
-        <boxGeometry args={[slatWidth, height - 0.1, 0.02]} />
+        <boxGeometry args={[slatWidth, height - 0.05, 0.02]} />
         <meshStandardMaterial
           color={isDark ? "#2a2a2a" : "#f0f0f0"}
           roughness={0.5}
