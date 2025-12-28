@@ -580,7 +580,7 @@ function Keyboard({ position, rotation, isDark }: any) {
       {/* Keyboard Base - Wider for TKL */}
       <RoundedBox
         args={[1.7, 0.015, 0.65]}
-        radius={0.01}
+        radius={0.002}
         smoothness={4}
         position={[-0.125, 0, -0.05]}
         receiveShadow
@@ -1331,7 +1331,7 @@ function MugDesign({ scale = 1 }: { scale?: number }) {
   }, [mnPlaid, scale]);
 
   return (
-    <mesh position={[0, 0, 0]}>
+    <mesh position={[0, 0, -0.005]} rotation={[0.05, -0.05, -0.05]}>
       {/* Tapered cylinder segment to match mug */}
       <cylinderGeometry
         args={[
@@ -2164,7 +2164,7 @@ function DeskGroup({
         scale={1.8}
         isDark={isDark}
       />
-      <CoffeeMug position={[-1.6, -1.9, 0.5]} scale={1.35} isDark={isDark} />
+      <CoffeeMug position={[-1.6, -1.89, 0.5]} scale={1.35} isDark={isDark} />
 
       {/* Trash Can - Left of desk */}
       <TrashCan position={[-3.2, -3.65, 0.5]} scale={1.5} isDark={isDark} />
