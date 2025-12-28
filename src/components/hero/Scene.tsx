@@ -1632,8 +1632,8 @@ function BookCoverMaterial({ color }: { color: string }) {
   return (
     <meshStandardMaterial
       color={color}
-      roughness={0.8}
-      metalness={0.1}
+      roughness={0.9}
+      metalness={0}
       onBeforeCompile={(shader) => {
         shader.vertexShader = shader.vertexShader.replace(
           "#include <common>",
@@ -1944,12 +1944,12 @@ function Bookshelf({ position, isDark, books }: any) {
               {/* Spot light for actual illumination in dark mode - angled up */}
               {isDark && (
                 <spotLight
-                  position={[0, 0, -0.2]}
+                  position={[0, 0, 0]}
                   target-position={[0, 0.5, -0.4]}
                   color={ledColor}
-                  intensity={0.4}
+                  intensity={0.2}
                   distance={1}
-                  angle={Math.PI * 10}
+                  angle={Math.PI}
                   penumbra={0.5}
                   decay={1.5}
                 />
