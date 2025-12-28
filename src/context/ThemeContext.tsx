@@ -11,7 +11,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = localStorage.getItem("michael-ongaro-portfolio-theme");
     return (
       (savedTheme as Theme) ||
       (window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -27,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
+    localStorage.setItem("michael-ongaro-portfolio-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
