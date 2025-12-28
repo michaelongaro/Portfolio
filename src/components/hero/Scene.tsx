@@ -1922,41 +1922,30 @@ function Bookshelf({ position, isDark, books }: any) {
             metalness={0.2}
           />
         </mesh>
-        {/* Individual LED lights along the strip */}
-        {Array.from({ length: 7 }).map((_, i) => {
-          const ledSpacing = ledStripWidth / 7;
-          const xPos = -ledStripWidth / 2 + ledSpacing / 2 + i * ledSpacing;
-          return (
-            <group key={i} position={[xPos, -ledStripHeight / 2, 0]}>
-              {/* LED Light Surface - angled upward toward books */}
-              <mesh
-                rotation={[Math.PI * 0.015, 0, 0]}
-                position={[0, 0, -0.005]}
-              >
-                <boxGeometry args={[0.08, 0.005, 0.015]} />
-                <meshStandardMaterial
-                  color={ledColor}
-                  emissive={ledColor}
-                  emissiveIntensity={ledIntensity}
-                  toneMapped={false}
-                />
-              </mesh>
-              {/* Spot light for actual illumination in dark mode - angled up */}
-              {isDark && (
-                <spotLight
-                  position={[0, 0, 0]}
-                  target-position={[0, 0.5, -0.4]}
-                  color={ledColor}
-                  intensity={0.2}
-                  distance={1}
-                  angle={Math.PI}
-                  penumbra={0.5}
-                  decay={1.5}
-                />
-              )}
-            </group>
-          );
-        })}
+        {/* Continuous LED light strip */}
+        <mesh
+          position={[0, -ledStripHeight / 2, -0.005]}
+          rotation={[Math.PI * 0.015, 0, 0]}
+        >
+          <boxGeometry args={[ledStripWidth - 0.05, 0.005, 0.015]} />
+          <meshStandardMaterial
+            color={ledColor}
+            emissive={ledColor}
+            emissiveIntensity={ledIntensity}
+            toneMapped={false}
+          />
+        </mesh>
+        {/* Rect area light for even illumination in dark mode */}
+        {isDark && (
+          <rectAreaLight
+            position={[0, -ledStripHeight / 2, 0.5]}
+            rotation={[Math.PI * 0.5, 0, 0]}
+            width={ledStripWidth - 0.05}
+            height={1}
+            color={ledColor}
+            intensity={2}
+          />
+        )}
       </group>
 
       {/* Left Bookend */}
