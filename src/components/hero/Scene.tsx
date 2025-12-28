@@ -2307,6 +2307,13 @@ export default function Scene() {
       width: 0.1812,
       height: 0.4368,
     },
+    { title: "Code Complete", color: "#1abc9c", width: 0.1656, height: 0.5148 },
+    {
+      title: "Effective Java",
+      color: "#9b59b6",
+      width: 0.1404,
+      height: 0.4524,
+    },
   ];
 
   const middleShelfBooks = [
@@ -2334,6 +2341,12 @@ export default function Scene() {
       width: 0.1452,
       height: 0.468,
     },
+    {
+      title: "Domain-Driven Design",
+      color: "#34495e",
+      width: 0.1608,
+      height: 0.4836,
+    },
   ];
 
   const bottomShelfBooks = [
@@ -2360,6 +2373,18 @@ export default function Scene() {
       color: "#16a085",
       width: 0.1536,
       height: 0.4368,
+    },
+    {
+      title: "Continuous Delivery",
+      color: "#3498db",
+      width: 0.1452,
+      height: 0.4212,
+    },
+    {
+      title: "Database Internals",
+      color: "#e67e22",
+      width: 0.1656,
+      height: 0.4524,
     },
   ];
 
