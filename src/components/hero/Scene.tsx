@@ -2025,16 +2025,16 @@ function TrashCan({ position, scale = 1, isDark }: any) {
       </mesh>
 
       {/* Crumpled paper */}
-      <mesh position={[0.1, -0.28, 0.05]} rotation={[1, 2, 3]} castShadow>
+      <mesh position={[0.1, -0.24, 0.05]} rotation={[1, 2, 3]} castShadow>
         <dodecahedronGeometry args={[0.06, 0]} />
         <meshStandardMaterial color="#f0f0f0" roughness={0.9} />
       </mesh>
-      <mesh position={[-0.1, -0.28, -0.05]} rotation={[2, 1, 0]} castShadow>
+      <mesh position={[-0.1, -0.24, -0.05]} rotation={[2, 1, 0]} castShadow>
         <dodecahedronGeometry args={[0.07, 0]} />
         <meshStandardMaterial color="#f0f0f0" roughness={0.9} />
       </mesh>
       <mesh
-        position={[0.02, -0.28, -0.02]}
+        position={[0.02, -0.24, -0.02]}
         rotation={[0.5, 0.5, 0.5]}
         castShadow
       >
