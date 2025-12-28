@@ -1628,35 +1628,164 @@ function Whiteboard({ position, rotation, isDark }: any) {
   );
 }
 
+function BookCoverMaterial({ color }: { color: string }) {
+  return (
+    <meshStandardMaterial
+      color={color}
+      roughness={0.8}
+      metalness={0.1}
+      onBeforeCompile={(shader) => {
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <common>",
+          `#include <common>
+          varying vec2 vUv2;
+          `
+        );
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <uv_vertex>",
+          `#include <uv_vertex>
+          vUv2 = uv;
+          `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <common>",
+          `#include <common>
+          varying vec2 vUv2;
+          
+          float random(vec2 st) {
+              return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+          }
+          `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <dithering_fragment>",
+          `#include <dithering_fragment>
+          
+          // Simple noise for texture
+          float noise = random(vUv2 * 100.0);
+          float texture = mix(0.85, 1.0, noise);
+          
+          gl_FragColor.rgb *= texture;
+          `
+        );
+      }}
+    />
+  );
+}
+
+function BookPageMaterial() {
+  return (
+    <meshStandardMaterial
+      color="#fdfbf7"
+      roughness={0.9}
+      onBeforeCompile={(shader) => {
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <common>",
+          `#include <common>
+          varying vec3 vLocalPos;
+          `
+        );
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          `#include <begin_vertex>
+          vLocalPos = position;
+          `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <common>",
+          `#include <common>
+          varying vec3 vLocalPos;
+          `
+        );
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <dithering_fragment>",
+          `#include <dithering_fragment>
+          
+          // Use x position to create page lines
+          float pagePos = vLocalPos.x * 800.0;
+          
+          // Consistent spacing: every 8 "units" we have a dark line
+          // This creates a regular pattern of lines
+          float pattern = mod(pagePos, 8.0);
+          
+          // Create a dark line when the pattern is near the end of the cycle
+          float isDarkLine = step(7.5, pattern);
+          
+          // Also add some subtle variation to all pages
+          float subtleVariation = 0.95 + 0.05 * sin(pagePos * 0.5);
+          
+          // Dark lines are significantly darker to look like gaps
+          float brightness = mix(subtleVariation, 0.4, isDarkLine);
+          
+          gl_FragColor.rgb *= brightness;
+          `
+        );
+      }}
+    />
+  );
+}
+
 function Book({ position, width, height, depth, color, title }: any) {
   // Dynamic font size based on spine width and title length
   const fontSize = Math.min(width * 0.65, 0.05);
+  const coverThickness = 0.005;
 
   return (
     <group position={position}>
-      {/* Cover / Spine */}
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[width, height, depth]} />
-        <meshStandardMaterial color={color} roughness={0.4} />
+      {/* Spine */}
+      <mesh
+        position={[0, 0, depth / 2 - coverThickness / 2]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[width, height, coverThickness]} />
+        <BookCoverMaterial color={color} />
       </mesh>
 
-      {/* Pages - visible on top/bottom/back */}
-      <mesh position={[0, 0, -0.01]}>
-        <boxGeometry args={[width - 0.01, height + 0.001, depth - 0.01]} />
-        <meshStandardMaterial color="#fdfbf7" roughness={0.8} />
+      {/* Front Cover (Right) */}
+      <mesh
+        position={[width / 2 - coverThickness / 2, 0, -coverThickness / 2]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[coverThickness, height, depth - coverThickness]} />
+        <BookCoverMaterial color={color} />
+      </mesh>
+
+      {/* Back Cover (Left) */}
+      <mesh
+        position={[-width / 2 + coverThickness / 2, 0, -coverThickness / 2]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[coverThickness, height, depth - coverThickness]} />
+        <BookCoverMaterial color={color} />
+      </mesh>
+
+      {/* Pages */}
+      <mesh position={[0, 0, 0]} castShadow receiveShadow>
+        <boxGeometry
+          args={[width - coverThickness * 2.5, height - 0.02, depth - 0.02]}
+        />
+        <BookPageMaterial />
       </mesh>
 
       <Text
         position={[0, 0, depth / 2 + 0.001]}
         rotation={[0, 0, -Math.PI / 2]}
         fontSize={fontSize}
-        color="#ffffff"
         anchorX="center"
         anchorY="middle"
         maxWidth={height * 0.9}
         font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
+        // @ts-expect-error asdf
+        text={title}
       >
-        {title}
+        <meshStandardMaterial
+          attach="material"
+          color="#ffffff"
+          roughness={0.5}
+        />
       </Text>
     </group>
   );
@@ -1759,6 +1888,13 @@ function Bookshelf({ position, isDark, books }: any) {
   const shelfThickness = 0.05;
   const bookendThickness = 0.02;
 
+  // LED strip settings
+  const ledStripWidth = shelfWidth - 0.1;
+  const ledStripHeight = 0.015;
+  const ledStripDepth = 0.02;
+  const ledColor = "#ffcc66";
+  const ledIntensity = isDark ? 1.5 : 0;
+
   let currentX = -shelfWidth / 2 + bookendThickness + 0.05;
 
   return (
@@ -1768,6 +1904,60 @@ function Bookshelf({ position, isDark, books }: any) {
         <boxGeometry args={[shelfWidth, shelfThickness, shelfDepth]} />
         <WoodMaterial isDark={isDark} />
       </mesh>
+
+      {/* LED Strip - mounted under the front lip of shelf above books */}
+      <group
+        position={[
+          0,
+          shelfThickness / 2 + ledStripHeight / 2,
+          shelfDepth / 2 - ledStripDepth / 2,
+        ]}
+      >
+        {/* LED Strip Housing */}
+        <mesh>
+          <boxGeometry args={[ledStripWidth, ledStripHeight, ledStripDepth]} />
+          <meshStandardMaterial
+            color={isDark ? "#333333" : "#444444"}
+            roughness={0.8}
+            metalness={0.2}
+          />
+        </mesh>
+        {/* Individual LED lights along the strip */}
+        {Array.from({ length: 7 }).map((_, i) => {
+          const ledSpacing = ledStripWidth / 7;
+          const xPos = -ledStripWidth / 2 + ledSpacing / 2 + i * ledSpacing;
+          return (
+            <group key={i} position={[xPos, -ledStripHeight / 2, 0]}>
+              {/* LED Light Surface - angled upward toward books */}
+              <mesh
+                rotation={[Math.PI * 0.015, 0, 0]}
+                position={[0, 0, -0.005]}
+              >
+                <boxGeometry args={[0.08, 0.005, 0.015]} />
+                <meshStandardMaterial
+                  color={ledColor}
+                  emissive={ledColor}
+                  emissiveIntensity={ledIntensity}
+                  toneMapped={false}
+                />
+              </mesh>
+              {/* Spot light for actual illumination in dark mode - angled up */}
+              {isDark && (
+                <spotLight
+                  position={[0, 0, -0.2]}
+                  target-position={[0, 0.5, -0.4]}
+                  color={ledColor}
+                  intensity={0.4}
+                  distance={1}
+                  angle={Math.PI * 10}
+                  penumbra={0.5}
+                  decay={1.5}
+                />
+              )}
+            </group>
+          );
+        })}
+      </group>
 
       {/* Left Bookend */}
       <Bookend position={[-shelfWidth / 2, shelfThickness / 2, 0]} />
@@ -2353,7 +2543,7 @@ export default function Scene() {
 
             {/* Scene Content */}
             <group position={[0, 0, 0]}>
-              <group position={[-4.5, 0, -2.45]}>
+              <group position={[-4.5, 0, -2.35]}>
                 <Bookshelf
                   position={[0, 1.8, 0]}
                   isDark={isDark}
