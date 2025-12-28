@@ -707,9 +707,9 @@ function MousePad({ position }: any) {
 // Wood grain shader material
 function WoodMaterial({ isDark }: { isDark: boolean }) {
   // Darker, richer wood tones (Walnut/Mahogany style)
-  const woodColor = isDark ? "#2a1d15" : "#5c4033";
-  const grainColor = isDark ? "#150e0a" : "#3e2b22";
-  const darkGrainColor = isDark ? "#080503" : "#261a15";
+  const woodColor = "#5c4033";
+  const grainColor = "#3e2b22";
+  const darkGrainColor = "#261a15";
 
   return (
     <meshStandardMaterial
@@ -877,7 +877,7 @@ function Walls({ isDark }: { isDark: boolean }) {
 
   const wallMaterialProps = {
     map: texture,
-    color: isDark ? "#2a2a2a" : "#f0ebe3",
+    color: isDark ? "#44403c" : "#f0ebe3",
     roughness: 0.8,
     metalness: 0.05,
     bumpMap: texture,
@@ -885,7 +885,7 @@ function Walls({ isDark }: { isDark: boolean }) {
   };
 
   const baseboardMaterialProps = {
-    color: isDark ? "#111111" : "#e8e0d5",
+    color: isDark ? "#292524" : "#e8e0d5",
     roughness: 0.7,
     metalness: 0,
   };
