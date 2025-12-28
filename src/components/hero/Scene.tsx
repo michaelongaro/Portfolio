@@ -1070,13 +1070,13 @@ function PencilHolder({
     <group position={position} rotation={rotation} scale={scale}>
       {/* Cup Base */}
       <mesh position={[0, 0, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.07, 0.07, 0.01, 32]} />
+        <cylinderGeometry args={[0.06, 0.06, 0.01, 32]} />
         <meshStandardMaterial color="#333333" metalness={0.6} roughness={0.4} />
       </mesh>
 
       {/* Cup Mesh Body */}
       <mesh position={[0, 0.1, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.1, 0.07, 0.2, 60, 60, true]} />
+        <cylinderGeometry args={[0.09, 0.06, 0.2, 60, 30, true]} />
         <meshStandardMaterial
           color={isDark ? "#555555" : "#333333"}
           wireframe
@@ -1093,7 +1093,7 @@ function PencilHolder({
         castShadow
         receiveShadow
       >
-        <torusGeometry args={[0.1, 0.005, 8, 32]} />
+        <torusGeometry args={[0.09, 0.005, 8, 32]} />
         <meshStandardMaterial color="#333333" metalness={0.6} roughness={0.4} />
       </mesh>
 
@@ -1102,7 +1102,7 @@ function PencilHolder({
         {/* Item 1: Pencil Yellow */}
         <group rotation={[0, 0.1, 0]}>
           <Pencil
-            position={[0, 0, 0.067]}
+            position={[0, -0.01, 0.055]}
             rotation={[0.35, 0, 0]}
             color="#FFC107"
           />
@@ -1110,7 +1110,7 @@ function PencilHolder({
         {/* Item 2: Pen Blue */}
         <group rotation={[0, 1.1, 0]}>
           <Pen
-            position={[0, 0, 0.066]}
+            position={[0, -0.01, 0.053]}
             rotation={[0.38, 0, 0]}
             color="#2196F3"
           />
@@ -1118,7 +1118,7 @@ function PencilHolder({
         {/* Item 3: Pencil Green */}
         <group rotation={[0, 2.0, 0]}>
           <Pencil
-            position={[0, 0, 0.068]}
+            position={[0, -0.01, 0.055]}
             rotation={[0.34, 0, 0]}
             color="#4CAF50"
           />
@@ -1126,7 +1126,7 @@ function PencilHolder({
         {/* Item 4: Pen Red */}
         <group rotation={[0, 3.2, 0]}>
           <Pen
-            position={[0, 0, 0.071]}
+            position={[0, -0.01, 0.054]}
             rotation={[0.36, 0, 0]}
             color="#F44336"
           />
@@ -1134,7 +1134,7 @@ function PencilHolder({
         {/* Item 5: Pencil Orange */}
         <group rotation={[0, 4.1, 0]}>
           <Pencil
-            position={[0, 0, 0.069]}
+            position={[0, -0.01, 0.057]}
             rotation={[0.33, 0, 0]}
             color="#FF5722"
           />
@@ -1142,7 +1142,7 @@ function PencilHolder({
         {/* Item 6: Pen Purple */}
         <group rotation={[0, 5.3, 0]}>
           <Pen
-            position={[0, 0, 0.067]}
+            position={[0, -0.01, 0.057]}
             rotation={[0.37, 0, 0]}
             color="#9C27B0"
           />
@@ -2482,7 +2482,6 @@ export default function Scene() {
 
             {/* Environment for reflections */}
             <Environment
-              // preset={isDark ? "night" : "forest"}
               files={
                 isDark
                   ? "/assets/rogland_clear_night_1k.exr"
