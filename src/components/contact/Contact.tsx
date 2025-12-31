@@ -58,7 +58,7 @@ function Contact() {
   return (
     <section id="contact" className="py-20 scroll-mt-20 w-full">
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-orange-600 after:mt-2 after:rounded-full">
+        <h2 className="text-3xl md:text-4xl font-bold text-stone-800 dark:text-white inline-block relative after:content-[''] after:block after:w-full after:h-1 after:bg-orange-600 after:mt-2 after:rounded-full">
           Contact
         </h2>
       </div>
@@ -72,7 +72,7 @@ function Contact() {
           <div className="space-y-2">
             <label
               htmlFor="user_name"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-300"
             >
               Name
             </label>
@@ -83,7 +83,7 @@ function Contact() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-stone-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-stone-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
               placeholder="Your Name"
             />
           </div>
@@ -91,7 +91,7 @@ function Contact() {
           <div className="space-y-2">
             <label
               htmlFor="user_email"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-300"
             >
               Email
             </label>
@@ -102,7 +102,7 @@ function Contact() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-stone-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-stone-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
               placeholder="your.email@example.com"
             />
           </div>
@@ -110,7 +110,7 @@ function Contact() {
           <div className="space-y-2">
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-stone-700 dark:text-stone-300"
             >
               Message
             </label>
@@ -121,7 +121,7 @@ function Contact() {
               rows={5}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-stone-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none resize-none"
+              className="w-full px-4 py-3 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-stone-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none resize-none"
               placeholder="How can I help you?"
             />
           </div>
@@ -131,7 +131,7 @@ function Contact() {
             disabled={isSubmitting || submitStatus === "success"}
             className={`w-full py-3 px-6 text-white font-semibold rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-300 ${
               isSubmitting || submitStatus === "success"
-                ? "bg-gray-400 cursor-not-allowed"
+                ? "bg-stone-400 cursor-not-allowed"
                 : submitStatus === "error"
                 ? "bg-red-600 hover:bg-red-700"
                 : "bg-orange-600 hover:bg-orange-700 hover:shadow-lg"
