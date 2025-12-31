@@ -2282,6 +2282,29 @@ export default function Scene() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Disable pinch-to-zoom on mobile when exploring the scene
+  useEffect(() => {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (!viewport) return;
+
+    const originalContent = viewport.getAttribute("content") || "";
+
+    if (isExploring) {
+      // Disable pinch-to-zoom
+      viewport.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      );
+    } else {
+      // Re-enable default zoom behavior
+      viewport.setAttribute("content", "width=device-width, initial-scale=1.0");
+    }
+
+    return () => {
+      viewport.setAttribute("content", originalContent);
+    };
+  }, [isExploring]);
+
   const topShelfBooks = [
     {
       title: "The Pragmatic Programmer",
