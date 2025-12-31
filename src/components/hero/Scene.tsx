@@ -2650,6 +2650,7 @@ export default function Scene() {
             target={[0, -1.35, -0.5]}
             enableZoom={isExploring}
             enablePan={isExploring}
+            panSpeed={isMobile ? 1.75 : 1.0}
             mouseButtons={{
               LEFT: isExploring ? THREE.MOUSE.PAN : null,
               MIDDLE: isExploring ? THREE.MOUSE.DOLLY : null,
