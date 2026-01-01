@@ -77,7 +77,7 @@ export default function Navbar() {
           <div className="md:hidden flex gap-3 items-center">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
+              className="p-2 rounded-full active:bg-stone-100 dark:active:bg-stone-800"
             >
               {theme === "light" ? (
                 <LuSun
