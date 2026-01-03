@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { FaCheck } from "react-icons/fa";
 import { BiErrorCircle } from "react-icons/bi";
+import { IoIosMail } from "react-icons/io";
 
 function Contact() {
   const [name, setName] = useState("");
@@ -148,7 +149,10 @@ function Contact() {
                 Error sending <BiErrorCircle />
               </>
             ) : (
-              "Send Message"
+              <div className="flex justify-center items-center gap-2">
+                Send Message
+                <IoIosMail className="size-5 mt-[2px]" />
+              </div>
             )}
           </button>
         </form>
