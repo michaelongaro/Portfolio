@@ -72,15 +72,15 @@ function Contact() {
         >
           <div className="space-y-2">
             <label
-              htmlFor="user_name"
+              htmlFor="from_name"
               className="block text-sm font-medium text-stone-700 dark:text-stone-300"
             >
               Name
             </label>
             <input
               type="text"
-              name="user_name"
-              id="user_name"
+              name="from_name"
+              id="from_name"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
