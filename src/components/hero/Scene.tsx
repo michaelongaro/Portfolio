@@ -2425,7 +2425,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
             <button
               onClick={handleReset}
               disabled={isAtDefault}
-              className={`flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`flex items-center -scale-x-100 border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
               title="Reset View"
             >
               <IoRefresh className="size-5 sm:size-7" />
