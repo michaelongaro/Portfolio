@@ -9,6 +9,8 @@ import {
   Html,
   Preload,
   AdaptiveDpr,
+  useEnvironment,
+  useProgress,
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
@@ -20,14 +22,10 @@ import {
   useState,
   useEffect,
   Suspense,
-  useTransition,
   forwardRef,
   useImperativeHandle,
 } from "react";
 import headshot from "/assets/headshot.jpg";
-import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
-import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
-import LoadingSpinner from "../ui/icons/LoadingSpinner";
 import { isIOS } from "react-device-detect";
 import { IoClose, IoRefresh, IoMoon, IoSunny } from "react-icons/io5";
 import { LuRotate3D } from "react-icons/lu";
@@ -37,6 +35,14 @@ import {
   PiMouseScroll,
   PiMouseRightClickFill,
 } from "react-icons/pi";
+
+const LIGHT_ENVIRONMENT_ASSET = "/assets/pretoria_gardens_1k.exr";
+const DARK_ENVIRONMENT_ASSET = "/assets/rogland_clear_night_1k.exr";
+
+if (typeof window !== "undefined") {
+  useEnvironment.preload({ files: LIGHT_ENVIRONMENT_ASSET });
+  useEnvironment.preload({ files: DARK_ENVIRONMENT_ASSET });
+}
 
 const ElasticOrbitControls = forwardRef(
   (
@@ -48,7 +54,7 @@ const ElasticOrbitControls = forwardRef(
       enabled = true,
       ...props
     }: any,
-    ref: any
+    ref: any,
   ) => {
     const controlsRef = useRef<any>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -103,13 +109,13 @@ const ElasticOrbitControls = forwardRef(
 
           const spherical = new THREE.Spherical();
           spherical.setFromVector3(
-            controls.object.position.clone().sub(controls.target)
+            controls.object.position.clone().sub(controls.target),
           );
 
           spherical.theta = THREE.MathUtils.lerp(
             spherical.theta,
             targetTheta,
-            step
+            step,
           );
           spherical.phi = THREE.MathUtils.lerp(spherical.phi, targetPhi, step);
           spherical.makeSafe();
@@ -135,7 +141,7 @@ const ElasticOrbitControls = forwardRef(
         onEnd={() => setIsDragging(false)}
       />
     );
-  }
+  },
 );
 
 function TexturedScreen({ image }: any) {
@@ -567,7 +573,7 @@ function Keyboard({ position, rotation, isDark }: any) {
             depth={keySize}
             label={label}
             isDark={isDark}
-          />
+          />,
         );
         currentX += keyConfig.width + keyGap;
       });
@@ -610,19 +616,19 @@ function MouseMaterial({ color }: { color: string }) {
           "#include <common>",
           `#include <common>
           varying vec3 vLocalPos;
-          `
+          `,
         );
         shader.vertexShader = shader.vertexShader.replace(
           "#include <begin_vertex>",
           `#include <begin_vertex>
           vLocalPos = position;
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <common>",
           `#include <common>
           varying vec3 vLocalPos;
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <dithering_fragment>",
@@ -649,7 +655,7 @@ function MouseMaterial({ color }: { color: string }) {
           // Apply dark line
           vec3 cutColor = gl_FragColor.rgb * 0.1;
           gl_FragColor.rgb = mix(gl_FragColor.rgb, cutColor, lines);
-          `
+          `,
         );
       }}
     />
@@ -727,14 +733,14 @@ function WoodMaterial({ isDark }: { isDark: boolean }) {
           `#include <common>
           varying vec2 vUv2;
           varying vec3 vWorldPos;
-          `
+          `,
         );
         shader.vertexShader = shader.vertexShader.replace(
           "#include <uv_vertex>",
           `#include <uv_vertex>
           vUv2 = uv;
           vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <common>",
@@ -769,7 +775,7 @@ function WoodMaterial({ isDark }: { isDark: boolean }) {
               f += 0.0625*gnoise( p ); p = m*p;
               return f;
           }
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "vec4 diffuseColor = vec4( diffuse, opacity );",
@@ -799,7 +805,7 @@ function WoodMaterial({ isDark }: { isDark: boolean }) {
           col -= noise * 0.04; // Subtract noise for pores
 
           vec4 diffuseColor = vec4(col, opacity);
-          `
+          `,
         );
       }}
     />
@@ -1320,7 +1326,7 @@ function MugDesign({ scale = 1 }: { scale?: number }) {
           pos2 - imgSize / 2 + 25,
           pos1 - imgSize / 2 - 25,
           imgSize,
-          imgSize
+          imgSize,
         );
       }
 
@@ -1459,7 +1465,7 @@ function Window({ position, rotation, isDark }: any) {
           color={isDark ? "#2a2a2a" : "#f0f0f0"}
           roughness={0.5}
         />
-      </mesh>
+      </mesh>,
     );
   }
 
@@ -1640,13 +1646,13 @@ function BookCoverMaterial({ color }: { color: string }) {
           "#include <common>",
           `#include <common>
           varying vec2 vUv2;
-          `
+          `,
         );
         shader.vertexShader = shader.vertexShader.replace(
           "#include <uv_vertex>",
           `#include <uv_vertex>
           vUv2 = uv;
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <common>",
@@ -1656,7 +1662,7 @@ function BookCoverMaterial({ color }: { color: string }) {
           float random(vec2 st) {
               return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
           }
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <dithering_fragment>",
@@ -1667,7 +1673,7 @@ function BookCoverMaterial({ color }: { color: string }) {
           float texture = mix(0.85, 1.0, noise);
           
           gl_FragColor.rgb *= texture;
-          `
+          `,
         );
       }}
     />
@@ -1684,19 +1690,19 @@ function BookPageMaterial() {
           "#include <common>",
           `#include <common>
           varying vec3 vLocalPos;
-          `
+          `,
         );
         shader.vertexShader = shader.vertexShader.replace(
           "#include <begin_vertex>",
           `#include <begin_vertex>
           vLocalPos = position;
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <common>",
           `#include <common>
           varying vec3 vLocalPos;
-          `
+          `,
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <dithering_fragment>",
@@ -1719,7 +1725,7 @@ function BookPageMaterial() {
           float brightness = mix(subtleVariation, 0.4, isDarkLine);
           
           gl_FragColor.rgb *= brightness;
-          `
+          `,
         );
       }}
     />
@@ -1803,7 +1809,7 @@ function Chain({
   const endVec = useMemo(() => new THREE.Vector3(...end), [end]);
   const vec = useMemo(
     () => new THREE.Vector3().subVectors(endVec, startVec),
-    [startVec, endVec]
+    [startVec, endVec],
   );
   const length = vec.length();
   const linkSize = 0.04;
@@ -1814,13 +1820,13 @@ function Chain({
     const up = new THREE.Vector3(0, 1, 0);
     return new THREE.Quaternion().setFromUnitVectors(
       up,
-      vec.clone().normalize()
+      vec.clone().normalize(),
     );
   }, [vec]);
 
   const links = useMemo(
     () => Array.from({ length: count }, (_, i) => i),
-    [count]
+    [count],
   );
 
   return (
@@ -2176,45 +2182,53 @@ function DeskGroup({
   );
 }
 
-function CanvasLoader({ isDark }: any) {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center bg-black z-50 pointer-events-none">
-      <div className="flex flex-col gap-8 justify-center size-64 shadow-lg rounded-lg z-10 items-center bg-white dark:bg-stone-800 border dark:border-stone-700 p-8">
-        <LoadingSpinner className="size-16" />
-        <span className="text-lg font-medium">Loading</span>
-      </div>
+function SceneEnvironment({ isDark }: { isDark: boolean }) {
+  const lightEnvironmentMap = useEnvironment({
+    files: LIGHT_ENVIRONMENT_ASSET,
+  });
+  const darkEnvironmentMap = useEnvironment({
+    files: DARK_ENVIRONMENT_ASSET,
+  });
 
-      <img
-        src={isDark ? darkPlaceholder : lightPlaceholder}
-        style={{
-          filter: "blur(8px)",
-        }}
-        className="w-full absolute inset-0 h-full object-cover"
-        alt="Loading Scene"
-      />
-    </div>
+  return (
+    <Environment map={isDark ? darkEnvironmentMap : lightEnvironmentMap} />
   );
 }
 
-function SceneReady({ setLoaded }: { setLoaded: (loaded: boolean) => void }) {
+function SceneReady({
+  onReady,
+  setLoaded,
+}: {
+  onReady?: () => void;
+  setLoaded: (loaded: boolean) => void;
+}) {
   useEffect(() => {
     setLoaded(true);
-  }, [setLoaded]);
+    onReady?.();
+  }, [onReady, setLoaded]);
   return null;
 }
 
-export default function Scene() {
+export interface SceneProps {
+  onReady?: () => void;
+  onProgressChange?: (progress: number) => void;
+}
+
+export default function Scene({ onReady, onProgressChange }: SceneProps) {
   const { theme, toggleTheme } = useTheme();
   const { isExploring, setIsExploring } = useExploration();
   const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const { progress: sceneProgress } = useProgress();
 
   const controlsRef = useRef<any>(null);
   const [isAtDefault, setIsAtDefault] = useState(true);
+
+  useEffect(() => {
+    onProgressChange?.(Number.isFinite(sceneProgress) ? sceneProgress : 0);
+  }, [onProgressChange, sceneProgress]);
 
   const handleReset = () => {
     if (!controlsRef.current) return;
@@ -2264,16 +2278,6 @@ export default function Scene() {
   };
 
   useEffect(() => {
-    // Delay the heavy canvas rendering to allow the spinner to appear smoothly
-    const timer = setTimeout(() => {
-      startTransition(() => {
-        setShouldRender(true);
-      });
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 640);
     };
@@ -2293,7 +2297,7 @@ export default function Scene() {
       // Disable pinch-to-zoom
       viewport.setAttribute(
         "content",
-        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
       );
     } else {
       // Re-enable default zoom behavior
@@ -2408,8 +2412,6 @@ export default function Scene() {
         isLoaded && isExploring ? "cursor-grab active:cursor-grabbing" : ""
       }`}
     >
-      {!isLoaded && <CanvasLoader isDark={isDark} />}
-
       {isLoaded && (
         <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center md:gap-8 gap-4 pointer-events-none">
           {/* Reset Button */}
@@ -2484,186 +2486,165 @@ export default function Scene() {
         </div>
       )}
 
-      {shouldRender && (
-        <Canvas
-          shadows={"percentage"}
-          dpr={[1, 2]}
-          performance={{ min: 0.5 }}
-          gl={{
-            powerPreference: "high-performance",
-            antialias: true,
-          }}
-          style={{
-            // pointerEvents: isExploring ? "auto" : "none",
-            touchAction: isExploring ? "none" : "pan-y",
-          }}
-          className="z-10"
-        >
-          <PerspectiveCamera makeDefault position={[0, -1, 1.7]} fov={50} />
+      <Canvas
+        shadows={"percentage"}
+        dpr={[1, 2]}
+        performance={{ min: 0.5 }}
+        gl={{
+          powerPreference: "high-performance",
+          antialias: true,
+        }}
+        style={{
+          touchAction: isExploring ? "none" : "pan-y",
+        }}
+        className="z-10"
+      >
+        <PerspectiveCamera makeDefault position={[0, -1, 1.7]} fov={50} />
 
-          <Suspense fallback={null}>
-            <SceneReady setLoaded={setIsLoaded} />
+        <Suspense fallback={null}>
+          <SceneReady onReady={onReady} setLoaded={setIsLoaded} />
+          <SceneEnvironment isDark={isDark} />
 
-            {/* Environment for reflections */}
-            <Environment
-              files={
-                isDark
-                  ? "/assets/rogland_clear_night_1k.exr"
-                  : "/assets/pretoria_gardens_1k.exr"
-              }
-            />
+          <AdaptiveDpr pixelated />
 
-            <AdaptiveDpr pixelated />
+          {isDark ? (
+            <>
+              <ambientLight intensity={0.02} />
 
-            {/* Lighting Setup */}
-            {isDark ? (
-              <>
-                {/* Dark mode - only monitor glow */}
-                <ambientLight intensity={0.02} />
-
-                {/* Main monitor glow */}
-                <pointLight
-                  position={[0, -0.5, -0.5]}
-                  intensity={1.5}
-                  color="#4a90d9"
-                  distance={5}
-                  decay={2}
-                />
-
-                {/* Side monitor glow */}
-                <pointLight
-                  position={[-2.8, -0.5, -0.3]}
-                  intensity={0.8}
-                  color="#9b59b6"
-                  distance={4}
-                  decay={2}
-                />
-
-                {/* Subtle fill light */}
-                <pointLight
-                  position={[0, 2, 2]}
-                  intensity={0.1}
-                  color="#4a90d9"
-                  distance={8}
-                  decay={2}
-                />
-              </>
-            ) : (
-              <>
-                {/* Light mode - warm sunlight through blinds */}
-                <ambientLight intensity={0.3} color="#fff0e0" />
-
-                {/* Main sunlight source - Warm and bright */}
-                <directionalLight
-                  position={[0.5, 2.75, -3]}
-                  intensity={10}
-                  color="#ffaa55" // Warm golden hour color
-                  castShadow
-                  shadow-mapSize={[2048, 2048]}
-                  shadow-camera-far={30}
-                  shadow-camera-left={-10}
-                  shadow-camera-right={10}
-                  shadow-camera-top={10}
-                  shadow-camera-bottom={-10}
-                  shadow-bias={-0.0005}
-                  shadow-radius={2} // Soften edges slightly
-                />
-
-                {/* Cool fill light from opposite side */}
-                <pointLight
-                  position={[5, 2, 2]}
-                  intensity={0.4}
-                  color="#d0e0ff"
-                  distance={10}
-                  decay={2}
-                />
-              </>
-            )}
-
-            {/* Scene Content */}
-            <group position={[0, 0, 0]}>
-              <group position={[-4.5, 0, -2.35]}>
-                <Bookshelf
-                  position={[0, 1.8, 0]}
-                  isDark={isDark}
-                  books={topShelfBooks}
-                />
-                <Bookshelf
-                  position={[0, 0.9, 0]}
-                  isDark={isDark}
-                  books={middleShelfBooks}
-                />
-                <Bookshelf
-                  position={[0, 0, 0]}
-                  isDark={isDark}
-                  books={bottomShelfBooks}
-                />
-              </group>
-
-              <Window
-                position={[0, 1, -2.4]}
-                rotation={[0, 0, 0]}
-                isDark={isDark}
+              <pointLight
+                position={[0, -0.5, -0.5]}
+                intensity={1.5}
+                color="#4a90d9"
+                distance={5}
+                decay={2}
               />
 
-              <Whiteboard
-                position={[4.5, 1, -2.45]}
-                rotation={[0, 0, 0]}
-                isDark={isDark}
+              <pointLight
+                position={[-2.8, -0.5, -0.3]}
+                intensity={0.8}
+                color="#9b59b6"
+                distance={4}
+                decay={2}
               />
 
-              <Walls isDark={isDark} />
+              <pointLight
+                position={[0, 2, 2]}
+                intensity={0.1}
+                color="#4a90d9"
+                distance={8}
+                decay={2}
+              />
+            </>
+          ) : (
+            <>
+              <ambientLight intensity={0.3} color="#fff0e0" />
 
-              <Ceiling isDark={isDark} />
+              <directionalLight
+                position={[0.5, 2.75, -3]}
+                intensity={10}
+                color="#ffaa55"
+                castShadow
+                shadow-mapSize={[2048, 2048]}
+                shadow-camera-far={30}
+                shadow-camera-left={-10}
+                shadow-camera-right={10}
+                shadow-camera-top={10}
+                shadow-camera-bottom={-10}
+                shadow-bias={-0.0005}
+                shadow-radius={2}
+              />
 
-              <Floor isDark={isDark} />
+              <pointLight
+                position={[5, 2, 2]}
+                intensity={0.4}
+                color="#d0e0ff"
+                distance={10}
+                decay={2}
+              />
+            </>
+          )}
 
-              <DeskGroup position={[0, 0, -1]} isDark={isDark} />
+          <group position={[0, 0, 0]}>
+            <group position={[-4.5, 0, -2.35]}>
+              <Bookshelf
+                position={[0, 1.8, 0]}
+                isDark={isDark}
+                books={topShelfBooks}
+              />
+              <Bookshelf
+                position={[0, 0.9, 0]}
+                isDark={isDark}
+                books={middleShelfBooks}
+              />
+              <Bookshelf
+                position={[0, 0, 0]}
+                isDark={isDark}
+                books={bottomShelfBooks}
+              />
             </group>
 
-            {/* Post-processing */}
-            <EffectComposer>
-              <Bloom
-                luminanceThreshold={isDark ? 0.8 : 2}
-                mipmapBlur
-                intensity={isDark ? 0.5 : 0.2}
-                radius={0.3}
-              />
-              <Vignette
-                eskil={false}
-                offset={0.2}
-                darkness={isDark ? 0.6 : 0.3}
-              />
-            </EffectComposer>
-          </Suspense>
+            <Window
+              position={[0, 1, -2.4]}
+              rotation={[0, 0, 0]}
+              isDark={isDark}
+            />
 
-          <ElasticOrbitControls
-            ref={controlsRef}
-            onChange={checkIsAtDefault}
-            enabled={isExploring}
-            minPolarAngle={Math.PI / 4}
-            maxPolarAngle={Math.PI / 1.5}
-            minAzimuthAngle={-Math.PI / 3}
-            maxAzimuthAngle={Math.PI / 3}
-            minDistance={0.5}
-            maxDistance={isMobile ? 10.5 : 6.5}
-            target={[0, -1.35, -0.5]}
-            enableZoom={isExploring}
-            enablePan={isExploring}
-            panSpeed={isMobile ? 1.75 : 1.0}
-            mouseButtons={{
-              LEFT: isExploring ? THREE.MOUSE.PAN : null,
-              MIDDLE: isExploring ? THREE.MOUSE.DOLLY : null,
-              RIGHT: isExploring ? THREE.MOUSE.ROTATE : null,
-            }}
-            touches={{
-              ONE: isExploring ? THREE.TOUCH.PAN : null,
-              TWO: isExploring ? THREE.TOUCH.DOLLY_ROTATE : null,
-            }}
-          />
-          <Preload all />
-        </Canvas>
-      )}
+            <Whiteboard
+              position={[4.5, 1, -2.45]}
+              rotation={[0, 0, 0]}
+              isDark={isDark}
+            />
+
+            <Walls isDark={isDark} />
+
+            <Ceiling isDark={isDark} />
+
+            <Floor isDark={isDark} />
+
+            <DeskGroup position={[0, 0, -1]} isDark={isDark} />
+          </group>
+
+          <EffectComposer>
+            <Bloom
+              luminanceThreshold={isDark ? 0.8 : 2}
+              mipmapBlur
+              intensity={isDark ? 0.5 : 0.2}
+              radius={0.3}
+            />
+            <Vignette
+              eskil={false}
+              offset={0.2}
+              darkness={isDark ? 0.6 : 0.3}
+            />
+          </EffectComposer>
+        </Suspense>
+
+        <ElasticOrbitControls
+          ref={controlsRef}
+          onChange={checkIsAtDefault}
+          enabled={isExploring}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 1.5}
+          minAzimuthAngle={-Math.PI / 3}
+          maxAzimuthAngle={Math.PI / 3}
+          minDistance={0.5}
+          maxDistance={isMobile ? 10.5 : 6.5}
+          target={[0, -1.35, -0.5]}
+          enableZoom={isExploring}
+          enablePan={isExploring}
+          panSpeed={isMobile ? 1.75 : 1.0}
+          mouseButtons={{
+            LEFT: isExploring ? THREE.MOUSE.PAN : null,
+            MIDDLE: isExploring ? THREE.MOUSE.DOLLY : null,
+            RIGHT: isExploring ? THREE.MOUSE.ROTATE : null,
+          }}
+          touches={{
+            ONE: isExploring ? THREE.TOUCH.PAN : null,
+            TWO: isExploring ? THREE.TOUCH.DOLLY_ROTATE : null,
+          }}
+        />
+        <Preload all />
+      </Canvas>
     </div>
   );
 }
