@@ -33,7 +33,6 @@ function HeroPreview({
         alt="Interactive portfolio preview"
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/40 dark:from-black/25 dark:via-black/35 dark:to-black/65" />
 
       {showExploreButton && (
         <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center">
