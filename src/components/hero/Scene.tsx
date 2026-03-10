@@ -27,7 +27,7 @@ import {
   useImperativeHandle,
 } from "react";
 import headshot from "/assets/headshot.jpg";
-import { isIOS } from "react-device-detect";
+import { isIOS, isMobileOnly } from "react-device-detect";
 import { IoClose, IoRefresh, IoMoon, IoSunny } from "react-icons/io5";
 import { LuRotate3D } from "react-icons/lu";
 import anime from "animejs/lib/anime.es.js";
@@ -2222,12 +2222,21 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
   const { isExploring, setIsExploring } = useExploration();
   const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth <= 640,
+  );
+  const [isLandscapeOrientation, setIsLandscapeOrientation] = useState(
+    () =>
+      typeof window !== "undefined" && window.innerWidth > window.innerHeight,
+  );
   const [isLoaded, setIsLoaded] = useState(false);
   const { progress: sceneProgress } = useProgress();
 
   const controlsRef = useRef<any>(null);
   const [isAtDefault, setIsAtDefault] = useState(true);
+  const useMobileLandscapeControls = isMobileOnly && isLandscapeOrientation;
+  const useSplitMobileLandscapeControls =
+    useMobileLandscapeControls && isExploring;
 
   useEffect(() => {
     onProgressChange?.(Number.isFinite(sceneProgress) ? sceneProgress : 0);
@@ -2283,6 +2292,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 640);
+      setIsLandscapeOrientation(window.innerWidth > window.innerHeight);
     };
 
     window.addEventListener("resize", handleResize);
@@ -2408,6 +2418,79 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
     },
   ];
 
+  const resetButton = (
+    <div
+      className={`${
+        isExploring
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+      }`}
+    >
+      <button
+        onClick={handleReset}
+        disabled={isAtDefault}
+        className="flex items-center -scale-x-100 border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        title="Reset View"
+      >
+        <IoRefresh className="size-5 sm:size-7" />
+      </button>
+    </div>
+  );
+
+  const exploreButton = (
+    <button
+      onClick={() => {
+        if (isExploring === false) {
+          forceScrollToTop();
+          setTimeout(() => {
+            // very hacky solution, trying to force mobile browser's controls
+            // to appear so there isn't "dead space" since <Hero> is capped at 100svh,
+            // not dvh (caused visual flickering otherwise)
+            window.scrollBy(0, -300);
+          }, 1000);
+        }
+
+        setIsExploring(!isExploring);
+      }}
+      className={`pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg ${
+        isExploring
+          ? "p-2 sm:p-4 w-[50px] sm:w-[60px] justify-center"
+          : "sm:px-8 sm:py-4 py-3 px-6"
+      }`}
+    >
+      {isExploring ? (
+        <IoClose className="size-6 sm:size-8 w-[34px] sm:w-[28px]" />
+      ) : (
+        <>
+          <LuRotate3D className="size-5 sm:size-6" />
+          Explore
+        </>
+      )}
+    </button>
+  );
+
+  const themeToggleButton = (
+    <div
+      className={`${
+        isExploring
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+      }`}
+    >
+      <button
+        onClick={toggleTheme}
+        className="flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors"
+        title="Toggle Theme"
+      >
+        {isDark ? (
+          <IoSunny className="size-5 sm:size-7" />
+        ) : (
+          <IoMoon className="size-5 sm:size-7" />
+        )}
+      </button>
+    </div>
+  );
+
   return (
     <div
       ref={containerRef}
@@ -2416,76 +2499,28 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
       }`}
     >
       {isLoaded && (
-        <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center md:gap-8 gap-4 pointer-events-none">
-          {/* Reset Button */}
-          <div
-            className={`${
-              isExploring
-                ? "opacity-100 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <button
-              onClick={handleReset}
-              disabled={isAtDefault}
-              className={`flex items-center -scale-x-100 border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
-              title="Reset View"
-            >
-              <IoRefresh className="size-5 sm:size-7" />
-            </button>
-          </div>
-
-          {/* Explore Button */}
-          <button
-            onClick={() => {
-              if (isExploring === false) {
-                forceScrollToTop();
-                setTimeout(() => {
-                  // very hacky solution, trying to force mobile browser's controls
-                  // to appear so there isn't "dead space" since <Hero> is capped at 100svh,
-                  // not dvh (caused visual flickering otherwise)
-                  window.scrollBy(0, -300);
-                }, 1000);
-              }
-
-              setIsExploring(!isExploring);
-            }}
-            className={`pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg ${
-              isExploring
-                ? "p-2 sm:p-4 w-[50px] sm:w-[60px] justify-center"
-                : "sm:px-8 sm:py-4 py-3 px-6"
-            }`}
-          >
-            {isExploring ? (
-              <IoClose className="size-6 sm:size-8 w-[34px] sm:w-[28px]" />
-            ) : (
-              <>
-                <LuRotate3D className="size-5 sm:size-6" />
-                Explore
-              </>
-            )}
-          </button>
-
-          {/* Theme Toggle */}
-          <div
-            className={`${
-              isExploring
-                ? "opacity-100 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <button
-              onClick={toggleTheme}
-              className="flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors"
-              title="Toggle Theme"
-            >
-              {isDark ? (
-                <IoSunny className="size-5 sm:size-7" />
-              ) : (
-                <IoMoon className="size-5 sm:size-7" />
-              )}
-            </button>
-          </div>
+        <div
+          className={
+            useSplitMobileLandscapeControls
+              ? "absolute bottom-4 left-4 right-4 z-20 flex items-end justify-between pointer-events-none"
+              : "absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center md:gap-8 gap-4 pointer-events-none"
+          }
+        >
+          {useSplitMobileLandscapeControls ? (
+            <>
+              <div className="flex items-center gap-3">
+                {resetButton}
+                {themeToggleButton}
+              </div>
+              {exploreButton}
+            </>
+          ) : (
+            <>
+              {resetButton}
+              {exploreButton}
+              {themeToggleButton}
+            </>
+          )}
         </div>
       )}
 
