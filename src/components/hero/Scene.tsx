@@ -308,7 +308,7 @@ function Monitor({
             </div>
 
             {/* Controls Section */}
-            <div className="flex flex-col gap-12 md:gap-8 items-center justify-center mb-8">
+            <div className="flex flex-col gap-12 md:gap-8 items-center justify-center md:mb-8">
               <h3 className="flex gap-8 justify-center items-center text-6xl font-bold mb-4 text-gray-700 dark:text-gray-200 ">
                 <RotatePhone className="size-16 md:hidden" />
                 Controls
@@ -2087,21 +2087,21 @@ function PC({ position, scale = 1, isDark }: any) {
       ))}
 
       {/* Front Panel Details Group */}
-      <group position={[0, 1.3, 0.53]} rotation={[Math.PI * 1.5, 0, 0]}>
+      <group position={[0.06, 1.3, 0.53]} rotation={[Math.PI * 1.5, 0, 0]}>
         {/* Headphone Jack */}
-        <mesh position={[-0.01, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <mesh position={[-0.01, 0, -0.004]} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.01, 0.01, 0.01, 16]} />
           <meshStandardMaterial color="#000" />
         </mesh>
 
         {/* USB "C" */}
-        <mesh position={[0.03, 0, 0]}>
+        <mesh position={[0.03, 0, -0.004]}>
           <boxGeometry args={[0.015, 0.035, 0.01]} />
           <meshStandardMaterial color="#000" />
         </mesh>
 
         {/* USB A */}
-        <mesh position={[0.08, 0, 0]}>
+        <mesh position={[0.08, 0, -0.004]}>
           <boxGeometry args={[0.025, 0.055, 0.01]} />
           <meshStandardMaterial color="#000" />
         </mesh>
@@ -2109,7 +2109,7 @@ function PC({ position, scale = 1, isDark }: any) {
         {/* Power Button */}
         <group position={[0.15, 0, 0]}>
           <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.01, 32]} />
+            <cylinderGeometry args={[0.025, 0.025, 0.005, 32]} />
             <meshStandardMaterial color="#333" />
           </mesh>
           {/* LED Ring */}
