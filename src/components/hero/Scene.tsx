@@ -36,6 +36,7 @@ import {
   PiMouseScroll,
   PiMouseRightClickFill,
 } from "react-icons/pi";
+import { RotatePhone } from "../ui/icons/RotatePhone";
 
 const LIGHT_ENVIRONMENT_ASSET = "/assets/pretoria_gardens_1k.exr";
 const DARK_ENVIRONMENT_ASSET = "/assets/rogland_clear_night_1k.exr";
@@ -308,7 +309,8 @@ function Monitor({
 
             {/* Controls Section */}
             <div className="flex flex-col gap-12 md:gap-8 items-center justify-center mb-8">
-              <h3 className="text-6xl font-bold mb-4 text-gray-700 dark:text-gray-200 ">
+              <h3 className="flex gap-8 justify-center items-center text-6xl font-bold mb-4 text-gray-700 dark:text-gray-200 ">
+                <RotatePhone className="size-16 md:hidden" />
                 Controls
               </h3>
               <div className="hidden md:flex items-center gap-16 font-medium text-6xl text-gray-400">
@@ -1164,8 +1166,8 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
   return (
     <group position={position} rotation={rotation} scale={scale}>
       {/* Lamp base */}
-      <mesh position={[0, 0.025, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.18, 0.2, 0.03, 32]} />
+      <mesh position={[0, 0.025, 0]} scale={0.9} castShadow receiveShadow>
+        <cylinderGeometry args={[0.19, 0.2, 0.02, 32]} />
         <meshStandardMaterial
           color="#1a1a1a"
           metalness={0.85}
@@ -1548,18 +1550,18 @@ function Marker({
     <group position={position} rotation={[0, 0, Math.PI / 2]}>
       {/* Body - White tapered cylinder */}
       <mesh position={[0, -0.02, 0]} castShadow>
-        <cylinderGeometry args={[0.016, 0.016, 0.15, 16]} />
+        <cylinderGeometry args={[0.016, 0.016, 0.2, 16]} />
         <meshStandardMaterial color="#ffffff" roughness={0.3} />
       </mesh>
 
       {/* Cap - Colored */}
-      <mesh position={[0, 0.045, 0]} castShadow>
+      <mesh position={[0, 0.06, 0]} castShadow>
         <cylinderGeometry args={[0.017, 0.017, 0.045, 16]} />
         <meshStandardMaterial color={color} roughness={0.3} />
       </mesh>
 
       {/* End cap - Colored small detail */}
-      <mesh position={[0, -0.08, 0]} castShadow>
+      <mesh position={[0, -0.11, 0]} castShadow>
         <cylinderGeometry args={[0.015, 0.015, 0.045, 16]} />
         <meshStandardMaterial color={color} roughness={0.3} />
       </mesh>
@@ -1620,15 +1622,15 @@ function Whiteboard({ position, rotation, isDark }: any) {
       {/* Markers & Eraser on Tray */}
       <group position={[-0.5, -1.03, 0.1]}>
         {/* Black Marker */}
-        <Marker position={[-0.4, 0.012, 0]} color="#1a1a1a" />
+        <Marker position={[-0.4, 0.01, 0]} color="#1a1a1a" />
         {/* Blue Marker */}
-        <Marker position={[-0.1, 0.012, 0]} color="#0000cc" />
+        <Marker position={[-0.1, 0.01, 0]} color="#0000cc" />
         {/* Green Marker */}
-        <Marker position={[0.2, 0.012, 0]} color="#00cc00" />
+        <Marker position={[0.2, 0.01, 0]} color="#00cc00" />
 
         {/* Eraser */}
-        <mesh position={[0.6, 0.02, 0.02]} castShadow>
-          <boxGeometry args={[0.15, 0.04, 0.08]} />
+        <mesh position={[0.6, 0.015, 0.02]} castShadow>
+          <boxGeometry args={[0.2, 0.04, 0.08]} />
           <meshStandardMaterial color="#333333" />
         </mesh>
       </group>
@@ -1892,7 +1894,7 @@ function Bookend({ position }: any) {
 
 function Bookshelf({ position, isDark, books }: any) {
   const shelfWidth = 1.8;
-  const shelfDepth = 0.55;
+  const shelfDepth = 0.45;
   const shelfThickness = 0.05;
   const bookendThickness = 0.02;
 
@@ -1908,7 +1910,7 @@ function Bookshelf({ position, isDark, books }: any) {
   return (
     <group position={position}>
       {/* Shelf Board */}
-      <mesh receiveShadow castShadow>
+      <mesh receiveShadow castShadow position={[0, 0, 0.068]}>
         <boxGeometry args={[shelfWidth, shelfThickness, shelfDepth]} />
         <WoodMaterial isDark={isDark} />
       </mesh>
@@ -1918,7 +1920,7 @@ function Bookshelf({ position, isDark, books }: any) {
         position={[
           0,
           shelfThickness / 2 + ledStripHeight / 2,
-          shelfDepth / 2 - ledStripDepth / 2,
+          shelfDepth / 2 - ledStripDepth / 2 + 0.065,
         ]}
       >
         {/* LED Strip Housing */}
@@ -1967,7 +1969,7 @@ function Bookshelf({ position, isDark, books }: any) {
         const bookPos = [
           currentX + book.width / 2,
           book.height / 2 + shelfThickness / 2,
-          0,
+          0.05,
         ];
         currentX += book.width + 0.05;
         return (
@@ -1976,7 +1978,7 @@ function Bookshelf({ position, isDark, books }: any) {
             position={bookPos}
             width={book.width}
             height={book.height}
-            depth={shelfDepth * 0.85}
+            depth={shelfDepth * 0.57}
             color={book.color}
             title={book.title}
           />
@@ -2167,7 +2169,7 @@ function DeskGroup({
       />
 
       <DeskLamp
-        position={[1.8, -2, -0.5]}
+        position={[1.8, -2.037, -0.6]}
         rotation={[0, -1.2, 0]}
         scale={1.8}
         isDark={isDark}
@@ -2602,7 +2604,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
 
             <Floor isDark={isDark} />
 
-            <DeskGroup position={[0, 0, -1]} isDark={isDark} />
+            <DeskGroup position={[0, 0, -1.1]} isDark={isDark} />
           </group>
 
           <EffectComposer>
