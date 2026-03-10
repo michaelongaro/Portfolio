@@ -104,8 +104,8 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden  shadow-lg">
-          <div className="px-2 flex place-self-center max-w-sm justify-between pt-2 pb-3 sm:px-3">
+        <div className="md:hidden flex w-full justify-center shadow-lg">
+          <div className="px-2 flex max-w-sm pt-2 pb-3 sm:px-3">
             {navLinks.map((link, idx) => (
               <a
                 key={link.name}
