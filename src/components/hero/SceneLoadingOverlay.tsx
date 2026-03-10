@@ -113,7 +113,7 @@ export default function SceneLoadingOverlay({
         <div className="flex items-baseline justify-between gap-4">
           <span className="text-lg font-semibold sm:text-xl">Loading</span>
 
-          <span className="text-3xl font-semibold tabular-nums text-orange-600 dark:text-orange-400 sm:text-2xl">
+          <span className="text-xl font-semibold tabular-nums text-orange-600 dark:text-orange-400 sm:text-2xl">
             {roundedProgress}%
           </span>
         </div>
