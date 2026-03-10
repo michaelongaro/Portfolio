@@ -56,7 +56,7 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
+                className="p-2 rounded-full hover:bg-stone-100 hover:text-orange-600 dark:hover:text-orange-600 dark:hover:bg-stone-800"
                 aria-label="Toggle Theme"
               >
                 {theme === "light" ? (
@@ -64,10 +64,10 @@ export default function Navbar() {
                     style={{
                       filter: "drop-shadow(0px 0px 0px rgb(202,138,4))",
                     }}
-                    className="size-[18px] stroke-yellow-500"
+                    className="size-[18px]"
                   />
                 ) : (
-                  <LuMoon className="size-[18px] text-blue-400" />
+                  <LuMoon className="size-[18px]" />
                 )}
               </button>
             </div>
@@ -84,10 +84,10 @@ export default function Navbar() {
                   style={{
                     filter: "drop-shadow(0px 0px 0px rgb(202,138,4))",
                   }}
-                  className="size-[18px] stroke-yellow-600"
+                  className="size-[18px]"
                 />
               ) : (
-                <LuMoon className="size-[18px] text-blue-400" />
+                <LuMoon className="size-[18px]" />
               )}
             </button>
 
