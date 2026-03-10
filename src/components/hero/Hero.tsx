@@ -4,6 +4,7 @@ import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
 import { useExploration } from "../../context/ExplorationContext";
 import { useTheme } from "../../context/ThemeContext";
+import forceScrollToTop from "../../util/forceScrollToTop";
 import SceneLoadingOverlay from "./SceneLoadingOverlay";
 import type { SceneProps } from "./Scene";
 
@@ -93,6 +94,7 @@ function Hero() {
   }, [SceneComponent, hasRequestedScene, setIsExploring]);
 
   const handleExplore = () => {
+    forceScrollToTop();
     setSceneTargetProgress(0);
     setHasRequestedScene(true);
     setIsExploring(true);

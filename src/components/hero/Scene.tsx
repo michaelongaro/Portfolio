@@ -15,6 +15,7 @@ import {
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { useTheme } from "../../context/ThemeContext";
 import { useExploration } from "../../context/ExplorationContext";
+import forceScrollToTop from "../../util/forceScrollToTop";
 import * as THREE from "three";
 import {
   useMemo,
@@ -2436,7 +2437,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
           <button
             onClick={() => {
               if (isExploring === false) {
-                window.scroll(0, 0);
+                forceScrollToTop();
                 setTimeout(() => {
                   // very hacky solution, trying to force mobile browser's controls
                   // to appear so there isn't "dead space" since <Hero> is capped at 100svh,
