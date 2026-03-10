@@ -1978,7 +1978,7 @@ function Bookshelf({ position, isDark, books }: any) {
             position={bookPos}
             width={book.width}
             height={book.height}
-            depth={shelfDepth * 0.57}
+            depth={shelfDepth * 0.85}
             color={book.color}
             title={book.title}
           />
