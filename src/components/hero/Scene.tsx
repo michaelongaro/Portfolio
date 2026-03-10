@@ -2429,7 +2429,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
       <button
         onClick={handleReset}
         disabled={isAtDefault}
-        className="flex items-center -scale-x-100 border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        className="touch-feedback-button touch-feedback-button-neutral flex items-center -scale-x-100 border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         title="Reset View"
       >
         <IoRefresh className="size-5 sm:size-7" />
@@ -2452,7 +2452,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
 
         setIsExploring(!isExploring);
       }}
-      className={`pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg ${
+      className={`touch-feedback-button touch-feedback-button-brand pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 text-white rounded-full shadow-lg ${
         isExploring
           ? "p-2 sm:p-4 w-[50px] sm:w-[60px] justify-center"
           : "sm:px-8 sm:py-4 py-3 px-6"
@@ -2479,7 +2479,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
     >
       <button
         onClick={toggleTheme}
-        className="flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-stone-700 transition-colors"
+        className="touch-feedback-button touch-feedback-button-neutral flex items-center border dark:border-stone-700 justify-center size-[40px] sm:size-[50px] rounded-full bg-white dark:bg-stone-800 text-stone-800 dark:text-white shadow-lg"
         title="Toggle Theme"
       >
         {isDark ? (

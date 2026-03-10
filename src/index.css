@@ -16,6 +16,35 @@
   }
 }
 
+@layer components {
+  .touch-feedback-button {
+    @apply transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .touch-feedback-button-brand:hover {
+      @apply bg-orange-700;
+    }
+
+    .touch-feedback-button-neutral:hover {
+      @apply bg-gray-100 dark:bg-stone-700;
+    }
+  }
+
+  @media (hover: none),
+  (pointer: coarse) {
+    .touch-feedback-button-brand:active {
+      @apply bg-orange-700;
+    }
+
+    .touch-feedback-button-neutral:active {
+      @apply bg-gray-100 dark:bg-stone-700;
+    }
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;

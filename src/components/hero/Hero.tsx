@@ -39,7 +39,7 @@ function HeroPreview({
         <div className="absolute bottom-12 sm:bottom-16 z-20 w-full flex items-center justify-center">
           <button
             onClick={onExplore}
-            className="pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors shadow-lg sm:px-8 sm:py-4 py-3 px-6"
+            className="touch-feedback-button touch-feedback-button-brand pointer-events-auto flex font-medium sm:h-[60px] h-[50px] z-20 text-lg sm:text-xl items-center gap-3 bg-orange-600 text-white rounded-full shadow-lg sm:px-8 sm:py-4 py-3 px-6"
           >
             <LuRotate3D className="size-5 sm:size-6" />
             Explore
