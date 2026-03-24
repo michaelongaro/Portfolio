@@ -92,9 +92,45 @@ const ElasticOrbitControls = forwardRef(
       else if (polar > maxPolarAngle) polOverflow = polar - maxPolarAngle;
 
       if (isDragging) {
-        const overflow = Math.max(azOverflow, polOverflow);
-        const resistance = 1 - Math.min(1, overflow * 7);
-        controls.rotateSpeed = baseRotateSpeed * resistance;
+        // Apply per-axis elastic resistance so hitting the limit on one axis
+        // doesn't block rotation on the other axis
+        controls.rotateSpeed = baseRotateSpeed;
+
+        if (azOverflow > 0.001 || polOverflow > 0.001) {
+          const spherical = new THREE.Spherical();
+          spherical.setFromVector3(
+            controls.object.position.clone().sub(controls.target),
+          );
+
+          if (azOverflow > 0.001) {
+            const azTarget =
+              azimuth < minAzimuthAngle ? minAzimuthAngle : maxAzimuthAngle;
+            const azResistance = Math.min(0.85, azOverflow * 6);
+            spherical.theta = THREE.MathUtils.lerp(
+              spherical.theta,
+              azTarget,
+              azResistance,
+            );
+          }
+
+          if (polOverflow > 0.001) {
+            const polTarget =
+              polar < minPolarAngle ? minPolarAngle : maxPolarAngle;
+            const polResistance = Math.min(0.85, polOverflow * 6);
+            spherical.phi = THREE.MathUtils.lerp(
+              spherical.phi,
+              polTarget,
+              polResistance,
+            );
+          }
+
+          spherical.makeSafe();
+          const newPos = new THREE.Vector3()
+            .setFromSpherical(spherical)
+            .add(controls.target);
+          controls.object.position.copy(newPos);
+          controls.object.lookAt(controls.target);
+        }
       } else {
         controls.rotateSpeed = baseRotateSpeed;
 
@@ -2299,7 +2335,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Disable pinch-to-zoom on mobile when exploring the scene
+  // Disable all browser zooming when exploring the scene
   useEffect(() => {
     const viewport = document.querySelector('meta[name="viewport"]');
     if (!viewport) return;
@@ -2307,19 +2343,54 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
     const originalContent = viewport.getAttribute("content") || "";
 
     if (isExploring) {
-      // Disable pinch-to-zoom
+      // Disable pinch-to-zoom (mobile)
       viewport.setAttribute(
         "content",
         "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
       );
+
+      // Disable Ctrl+scroll zoom and trackpad pinch zoom (desktop)
+      const preventWheelZoom = (e: WheelEvent) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+        }
+      };
+
+      // Disable Ctrl+Plus/Minus/0 keyboard zoom
+      const preventKeyboardZoom = (e: KeyboardEvent) => {
+        if (
+          (e.ctrlKey || e.metaKey) &&
+          (e.key === "+" || e.key === "-" || e.key === "=" || e.key === "0")
+        ) {
+          e.preventDefault();
+        }
+      };
+
+      // Disable gesture-based zoom (Safari)
+      const preventGestureZoom = (e: Event) => {
+        e.preventDefault();
+      };
+
+      document.addEventListener("wheel", preventWheelZoom, { passive: false });
+      document.addEventListener("keydown", preventKeyboardZoom);
+      document.addEventListener("gesturestart", preventGestureZoom);
+      document.addEventListener("gesturechange", preventGestureZoom);
+
+      return () => {
+        viewport.setAttribute("content", originalContent);
+        document.removeEventListener("wheel", preventWheelZoom);
+        document.removeEventListener("keydown", preventKeyboardZoom);
+        document.removeEventListener("gesturestart", preventGestureZoom);
+        document.removeEventListener("gesturechange", preventGestureZoom);
+      };
     } else {
       // Re-enable default zoom behavior
       viewport.setAttribute("content", "width=device-width, initial-scale=1.0");
-    }
 
-    return () => {
-      viewport.setAttribute("content", originalContent);
-    };
+      return () => {
+        viewport.setAttribute("content", originalContent);
+      };
+    }
   }, [isExploring]);
 
   const topShelfBooks = [
