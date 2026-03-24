@@ -59,7 +59,7 @@ export default function Navbar() {
                 className="p-2 rounded-full hover:bg-stone-100 hover:text-orange-600 dark:hover:text-orange-600 dark:hover:bg-stone-800"
                 aria-label="Toggle Theme"
               >
-                {theme === "light" ? (
+                {theme === "dark" ? (
                   <LuSun
                     style={{
                       filter: "drop-shadow(0px 0px 0px rgb(202,138,4))",
@@ -79,7 +79,7 @@ export default function Navbar() {
               onClick={toggleTheme}
               className="p-2 rounded-full active:bg-stone-100 dark:active:bg-stone-800"
             >
-              {theme === "light" ? (
+              {theme === "dark" ? (
                 <LuSun
                   style={{
                     filter: "drop-shadow(0px 0px 0px rgb(202,138,4))",
