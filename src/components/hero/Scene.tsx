@@ -1305,16 +1305,14 @@ function DeskLamp({ position, rotation = [0, 0, 0], scale = 1, isDark }: any) {
               </mesh>
             </group>
 
-            {/* Light Source */}
-            {isDark && (
-              <pointLight
-                position={[0, -0.05, 0]}
-                intensity={3.5}
-                color="#ffeaa7"
-                distance={3}
-                decay={2}
-              />
-            )}
+            {/* Light Source (always mounted to avoid shader recompilation) */}
+            <pointLight
+              position={[0, -0.05, 0]}
+              intensity={isDark ? 3.5 : 0}
+              color="#ffeaa7"
+              distance={3}
+              decay={2}
+            />
           </group>
         </group>
       </group>
@@ -1981,17 +1979,15 @@ function Bookshelf({ position, isDark, books }: any) {
             toneMapped={false}
           />
         </mesh>
-        {/* Rect area light for even illumination in dark mode */}
-        {isDark && (
-          <rectAreaLight
-            position={[0, -ledStripHeight / 2, 0.5]}
-            rotation={[Math.PI * 0.5, 0, 0]}
-            width={ledStripWidth - 0.05}
-            height={1}
-            color={ledColor}
-            intensity={2}
-          />
-        )}
+        {/* Rect area light (always mounted to avoid shader recompilation) */}
+        <rectAreaLight
+          position={[0, -ledStripHeight / 2, 0.5]}
+          rotation={[Math.PI * 0.5, 0, 0]}
+          width={ledStripWidth - 0.05}
+          height={1}
+          color={ledColor}
+          intensity={isDark ? 2 : 0}
+        />
       </group>
 
       {/* Left Bookend */}
@@ -2616,62 +2612,59 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
 
           <AdaptiveDpr pixelated />
 
-          {isDark ? (
-            <>
-              <ambientLight intensity={0.02} />
+          {/* All lights always mounted to avoid shader recompilation on theme switch */}
+          <ambientLight
+            intensity={isDark ? 0.02 : 0.3}
+            color={isDark ? "#ffffff" : "#fff0e0"}
+          />
 
-              <pointLight
-                position={[0, -0.5, -0.5]}
-                intensity={1.5}
-                color="#4a90d9"
-                distance={5}
-                decay={2}
-              />
+          {/* Dark mode point lights */}
+          <pointLight
+            position={[0, -0.5, -0.5]}
+            intensity={isDark ? 1.5 : 0}
+            color="#4a90d9"
+            distance={5}
+            decay={2}
+          />
+          <pointLight
+            position={[-2.8, -0.5, -0.3]}
+            intensity={isDark ? 0.8 : 0}
+            color="#9b59b6"
+            distance={4}
+            decay={2}
+          />
+          <pointLight
+            position={[0, 2, 2]}
+            intensity={isDark ? 0.1 : 0}
+            color="#4a90d9"
+            distance={8}
+            decay={2}
+          />
 
-              <pointLight
-                position={[-2.8, -0.5, -0.3]}
-                intensity={0.8}
-                color="#9b59b6"
-                distance={4}
-                decay={2}
-              />
+          {/* Light mode directional + shadow map (always mounted to keep shadow map pre-allocated) */}
+          <directionalLight
+            position={[0.5, 2.75, -3]}
+            intensity={isDark ? 0 : 10}
+            color="#ffaa55"
+            castShadow
+            shadow-mapSize={[2048, 2048]}
+            shadow-camera-far={30}
+            shadow-camera-left={-10}
+            shadow-camera-right={10}
+            shadow-camera-top={10}
+            shadow-camera-bottom={-10}
+            shadow-bias={-0.0005}
+            shadow-radius={2}
+          />
 
-              <pointLight
-                position={[0, 2, 2]}
-                intensity={0.1}
-                color="#4a90d9"
-                distance={8}
-                decay={2}
-              />
-            </>
-          ) : (
-            <>
-              <ambientLight intensity={0.3} color="#fff0e0" />
-
-              <directionalLight
-                position={[0.5, 2.75, -3]}
-                intensity={10}
-                color="#ffaa55"
-                castShadow
-                shadow-mapSize={[2048, 2048]}
-                shadow-camera-far={30}
-                shadow-camera-left={-10}
-                shadow-camera-right={10}
-                shadow-camera-top={10}
-                shadow-camera-bottom={-10}
-                shadow-bias={-0.0005}
-                shadow-radius={2}
-              />
-
-              <pointLight
-                position={[5, 2, 2]}
-                intensity={0.4}
-                color="#d0e0ff"
-                distance={10}
-                decay={2}
-              />
-            </>
-          )}
+          {/* Light mode fill point light */}
+          <pointLight
+            position={[5, 2, 2]}
+            intensity={isDark ? 0 : 0.4}
+            color="#d0e0ff"
+            distance={10}
+            decay={2}
+          />
 
           <group position={[0, 0, 0]}>
             <group position={[-4.5, 0, -2.35]}>
