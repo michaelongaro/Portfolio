@@ -55,7 +55,6 @@ function Hero() {
   const [isSceneReady, setIsSceneReady] = useState(false);
 
   const handleSceneReady = useCallback(() => {
-    setSceneTargetProgress(100);
     setIsSceneReady(true);
   }, []);
 
@@ -114,7 +113,7 @@ function Hero() {
       <SceneLoadingOverlay
         isDark={isDark}
         isVisible={hasRequestedScene && !isSceneReady}
-        targetProgress={sceneTargetProgress}
+        targetProgress={isSceneReady ? 100 : sceneTargetProgress}
       />
     </section>
   );

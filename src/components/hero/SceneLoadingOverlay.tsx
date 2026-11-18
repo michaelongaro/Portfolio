@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
 
@@ -9,6 +9,8 @@ interface SceneLoadingOverlayProps {
 }
 
 const EXIT_DURATION_MS = 450;
+const PROGRESS_DURATION_MS = 650;
+const COMPLETION_DURATION_MS = 180;
 const INITIAL_PROGRESS = 7;
 const BOOT_PROGRESS_CAP = 18;
 
@@ -18,7 +20,14 @@ export default function SceneLoadingOverlay({
   targetProgress = 0,
 }: SceneLoadingOverlayProps) {
   const [shouldRender, setShouldRender] = useState(isVisible);
-  const [displayProgress, setDisplayProgress] = useState(INITIAL_PROGRESS);
+  const [roundedProgress, setRoundedProgress] = useState(INITIAL_PROGRESS);
+  const fillRef = useRef<HTMLDivElement>(null);
+  const displayProgress = useRef(INITIAL_PROGRESS);
+  const progressTarget = isVisible
+    ? targetProgress > 0
+      ? Math.min(96, Math.max(targetProgress, INITIAL_PROGRESS + 4))
+      : BOOT_PROGRESS_CAP
+    : targetProgress;
 
   useEffect(() => {
     if (isVisible) {
@@ -28,63 +37,54 @@ export default function SceneLoadingOverlay({
 
     const timeoutId = window.setTimeout(() => {
       setShouldRender(false);
-      setDisplayProgress(INITIAL_PROGRESS);
+      displayProgress.current = INITIAL_PROGRESS;
+      setRoundedProgress(INITIAL_PROGRESS);
     }, EXIT_DURATION_MS);
 
     return () => window.clearTimeout(timeoutId);
   }, [isVisible]);
 
   useEffect(() => {
-    if (!shouldRender) {
+    const fill = fillRef.current;
+    const startProgress = displayProgress.current;
+    if (!shouldRender || !fill || progressTarget <= startProgress) {
       return;
     }
 
-    let timeoutId: number;
-
-    const tick = () => {
-      setDisplayProgress((currentProgress) => {
-        const hasRealProgress = targetProgress > 0;
-        const target = isVisible
-          ? hasRealProgress
-            ? Math.min(96, Math.max(targetProgress, INITIAL_PROGRESS + 4))
-            : BOOT_PROGRESS_CAP
-          : 100;
-
-        if (currentProgress >= target) {
-          return currentProgress;
-        }
-
-        const remaining = target - currentProgress;
-        const nextStep =
-          remaining < 2
-            ? remaining
-            : Math.min(
-                remaining,
-                0.8 + Math.random() * Math.min(6.5, remaining * 0.55),
-              );
-
-        return Number((currentProgress + nextStep).toFixed(1));
-      });
-
-      timeoutId = window.setTimeout(
-        tick,
-        isVisible ? 120 + Math.round(Math.random() * 180) : 60,
-      );
+    const updateProgress = (progress: number) => {
+      const rounded = Math.round(progress);
+      if (rounded !== Math.round(displayProgress.current)) {
+        setRoundedProgress(rounded);
+      }
+      displayProgress.current = progress;
+      fill.style.width = `${progress}%`;
     };
 
-    tick();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      updateProgress(progressTarget);
+      return;
+    }
 
-    return () => window.clearTimeout(timeoutId);
-  }, [isVisible, shouldRender, targetProgress]);
+    const duration = isVisible ? PROGRESS_DURATION_MS : COMPLETION_DURATION_MS;
+    const startedAt = performance.now();
+    const animateProgress = (now: number) => {
+      const elapsed = Math.min(Math.max((now - startedAt) / duration, 0), 1);
+      const eased = 1 - (1 - elapsed) ** 2;
+      updateProgress(startProgress + (progressTarget - startProgress) * eased);
+
+      if (elapsed < 1) {
+        frameId = window.requestAnimationFrame(animateProgress);
+      }
+    };
+
+    let frameId = window.requestAnimationFrame(animateProgress);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [isVisible, progressTarget, shouldRender]);
 
   if (!shouldRender) {
     return null;
   }
 
-  const roundedProgress = Math.max(
-    INITIAL_PROGRESS,
-    Math.round(displayProgress),
-  );
   const previewImage = isDark ? darkPlaceholder : lightPlaceholder;
 
   return (
@@ -113,15 +113,19 @@ export default function SceneLoadingOverlay({
         <div className="flex items-baseline justify-between gap-4">
           <span className="text-lg font-semibold sm:text-xl">Loading</span>
 
-          <span className="text-xl font-semibold tabular-nums text-orange-600 dark:text-orange-400 sm:text-2xl">
+          <span
+            className="text-xl font-semibold tabular-nums text-orange-600 dark:text-orange-400 sm:text-2xl"
+            aria-hidden="true"
+          >
             {roundedProgress}%
           </span>
         </div>
 
         <div className="mt-5 h-3 overflow-hidden rounded-full bg-stone-200/80 dark:bg-stone-700/80">
           <div
-            className="scene-progress-fill h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 transition-[width] duration-300 ease-out"
-            style={{ width: `${roundedProgress}%` }}
+            ref={fillRef}
+            className="scene-progress-fill h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600"
+            style={{ width: `${INITIAL_PROGRESS}%` }}
             role="progressbar"
             aria-label="Loading the interactive scene"
             aria-valuemin={0}
