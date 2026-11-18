@@ -121,15 +121,15 @@ function pickguard() {
   return shape;
 }
 
-function electricHeadstock() {
+function electricHeadstock(neckHalfWidth: number) {
   const shape = new THREE.Shape();
-  shape.moveTo(-0.021, 0.803);
-  shape.bezierCurveTo(-0.021, 0.822, -0.043, 0.821, -0.036, 0.84);
+  shape.moveTo(-neckHalfWidth, 0.803);
+  shape.bezierCurveTo(-neckHalfWidth, 0.822, -0.043, 0.821, -0.036, 0.84);
   shape.bezierCurveTo(-0.021, 0.877, -0.003, 0.942, 0.008, 0.971);
   shape.bezierCurveTo(0.017, 1.006, 0.059, 1.005, 0.064, 0.971);
   shape.bezierCurveTo(0.07, 0.938, 0.043, 0.944, 0.041, 0.931);
   shape.bezierCurveTo(0.039, 0.914, 0.054, 0.873, 0.054, 0.851);
-  shape.quadraticCurveTo(0.021, 0.836, 0.021, 0.803);
+  shape.quadraticCurveTo(neckHalfWidth, 0.836, neckHalfWidth, 0.803);
   shape.closePath();
   return shape;
 }
@@ -148,10 +148,10 @@ function acousticBody() {
   return shape;
 }
 
-function acousticHeadstock() {
+function acousticHeadstock(neckHalfWidth: number) {
   const shape = new THREE.Shape();
-  shape.moveTo(-0.022, 0.852);
-  shape.quadraticCurveTo(-0.022, 0.871, -0.033, 0.88);
+  shape.moveTo(-neckHalfWidth, 0.852);
+  shape.quadraticCurveTo(-neckHalfWidth, 0.871, -0.033, 0.88);
   shape.lineTo(-0.032, 0.95);
   shape.lineTo(-0.038, 0.993);
   shape.quadraticCurveTo(-0.022, 0.998, -0.018, 1.005);
@@ -159,7 +159,7 @@ function acousticHeadstock() {
   shape.quadraticCurveTo(0.022, 0.998, 0.038, 0.993);
   shape.lineTo(0.032, 0.95);
   shape.lineTo(0.033, 0.88);
-  shape.quadraticCurveTo(0.022, 0.871, 0.022, 0.852);
+  shape.quadraticCurveTo(neckHalfWidth, 0.871, neckHalfWidth, 0.852);
   shape.closePath();
   return shape;
 }
@@ -181,7 +181,10 @@ const acousticTuners: Tuner[] = [
 
 const instruments = {
   electric: {
-    backOffset: 0.022,
+    bodyBackZ: -0.022,
+    bodyFrontZ: 0.022,
+    cradleBackY: 0.083,
+    cradleFrontY: 0.083,
     board: "maple",
     inlay: "black",
     neckJoin: 0.37,
@@ -191,10 +194,14 @@ const instruments = {
     stringZ: 0.041,
     saddleSpacing: 0.0104,
     frets: 21,
+    headstockAngle: 0,
     tuners: electricTuners,
   },
   acoustic: {
-    backOffset: 0.057,
+    bodyBackZ: -0.025,
+    bodyFrontZ: 0.057,
+    cradleBackY: 0.067,
+    cradleFrontY: 0.081,
     board: "rosewood",
     inlay: "ivory",
     neckJoin: 0.48,
@@ -204,6 +211,7 @@ const instruments = {
     stringZ: 0.073,
     saddleSpacing: 0.0109,
     frets: 20,
+    headstockAngle: THREE.MathUtils.degToRad(-6),
     tuners: acousticTuners,
   },
 } as const;
@@ -221,28 +229,36 @@ function taperedBoard(bottom: number, top: number, baseWidth: number, tipWidth: 
 }
 
 function addNeck(add: AddPart, kind: GuitarKind) {
-  const { backOffset, board, inlay, neckJoin, boardEnd, nut, saddle, stringZ, saddleSpacing, frets, tuners } =
-    instruments[kind];
-  const nutWidth = 0.043;
+  const {
+    bodyFrontZ, board, inlay, neckJoin, boardEnd, nut, saddle, stringZ, saddleSpacing, frets,
+    headstockAngle, tuners,
+  } = instruments[kind];
+  const boardWidth = 0.051;
+  const nutWidth = 0.036;
   const boardZ = stringZ - 0.0038;
   const headZ = boardZ - 0.0055;
   const neckWood = kind === "electric" ? "maple" : "walnut";
-  const widthAt = (y: number) => THREE.MathUtils.mapLinear(y, boardEnd, nut, 0.057, nutWidth);
+  const widthAt = (y: number) => THREE.MathUtils.mapLinear(y, boardEnd, nut, boardWidth, nutWidth);
   const fretY = (fret: number) => saddle + (nut - saddle) * 2 ** (-fret / 12);
 
   add(neckWood, slab(
     taperedBoard(neckJoin, nut, widthAt(neckJoin) - 0.003, nutWidth - 0.003),
-    boardZ - 0.024, 0.016, 0.003,
+    boardZ - 0.019, 0.011, 0.003,
   ));
   add(neckWood, slab(
-    taperedBoard(boardEnd + 0.003, neckJoin + 0.012, 0.053, widthAt(neckJoin) - 0.003),
-    backOffset - 0.003, boardZ - backOffset - 0.003,
+    taperedBoard(boardEnd + 0.003, neckJoin + 0.012, boardWidth - 0.004, widthAt(neckJoin) - 0.003),
+    bodyFrontZ - 0.003, boardZ - bodyFrontZ - 0.003,
   ));
-  add(board, slab(taperedBoard(boardEnd, nut, widthAt(boardEnd), nutWidth), boardZ - 0.007, 0.007));
+  add(board, slab(taperedBoard(boardEnd, nut, boardWidth, nutWidth), boardZ - 0.007, 0.007));
   add("ivory", block([nutWidth, 0.0032, 0.009], [0, nut, boardZ - 0.001]));
 
-  const head = kind === "electric" ? electricHeadstock() : acousticHeadstock();
-  add(kind === "electric" ? "maple" : "black", slab(head, headZ - 0.013, 0.012, 0.001));
+  const headstockTilt = new THREE.Matrix4()
+    .makeTranslation(0, nut, headZ)
+    .multiply(new THREE.Matrix4().makeRotationX(headstockAngle))
+    .multiply(new THREE.Matrix4().makeTranslation(0, -nut, -headZ));
+  const addHeadPart: AddPart = (finish, geometry) => add(finish, geometry.applyMatrix4(headstockTilt));
+  const head = kind === "electric" ? electricHeadstock(nutWidth / 2) : acousticHeadstock(nutWidth / 2);
+  addHeadPart(kind === "electric" ? "maple" : "black", slab(head, headZ - 0.013, 0.012, 0.001));
 
   for (let fret = 1; fret <= frets; fret++) {
     const y = fretY(fret);
@@ -253,30 +269,31 @@ function addNeck(add: AddPart, kind: GuitarKind) {
   for (const fret of [3, 5, 7, 9, 12, 15, 17, 19, 21]) {
     if (fret > frets) break;
     const y = (fretY(fret - 1) + fretY(fret)) / 2;
-    for (const x of fret === 12 ? [-0.012, 0.012] : [0]) {
+    for (const x of fret === 12 ? [-0.010, 0.010] : [0]) {
       add(inlay, disk(x, y, boardZ, 0.00235, 0.0006));
     }
   }
 
   tuners.forEach(([x, y, side], string) => {
-    const nutPoint: Point = [(string - 2.5) * 0.007, nut, stringZ];
+    const nutPoint: Point = [(string - 2.5) * (nutWidth / 6), nut, stringZ];
     const tunerPoint: Point = [x, y, headZ + 0.0047];
+    const [tunerX, tunerY, tunerZ] = new THREE.Vector3(...tunerPoint).applyMatrix4(headstockTilt).toArray();
     const radius = 0.00054 - string * 0.000049;
     add("wire", rod([(string - 2.5) * saddleSpacing, saddle, stringZ + 0.001], nutPoint, radius, 5));
-    add("wire", rod(nutPoint, tunerPoint, radius, 5));
+    add("wire", rod(nutPoint, [tunerX, tunerY, tunerZ], radius, 5));
 
-    add("chrome", disk(x, y, headZ + 0.001, 0.0051, 0.002));
-    add("chrome", disk(...tunerPoint, 0.00245, 0.007));
+    addHeadPart("chrome", disk(x, y, headZ + 0.001, 0.0051, 0.002));
+    addHeadPart("chrome", disk(...tunerPoint, 0.00245, 0.007));
     const pegX = x + side * 0.024;
-    add("chrome", rod([x, y, headZ - 0.008], [pegX, y, headZ - 0.008], 0.0024));
-    add("chrome", slab(roundedRectangle(0.010, 0.013, 0.003), headZ - 0.012, 0.007, 0.001)
+    addHeadPart("chrome", rod([x, y, headZ - 0.008], [pegX, y, headZ - 0.008], 0.0024));
+    addHeadPart("chrome", slab(roundedRectangle(0.010, 0.013, 0.003), headZ - 0.012, 0.007, 0.001)
       .translate(pegX, y, 0));
   });
 
   if (kind === "electric") {
-    add("black", disk(0, 0, headZ, 0.0041, 0.0006).scale(1, 1.4, 1).translate(0, 0.82, 0));
-    add("chrome", block([0.009, 0.004, 0.004], [0.011, 0.874, headZ + 0.002]));
-    add("decal", new THREE.PlaneGeometry(0.107, 0.023)
+    addHeadPart("black", disk(0, 0, headZ, 0.0041, 0.0006).scale(1, 1.4, 1).translate(0, 0.82, 0));
+    addHeadPart("chrome", block([0.009, 0.004, 0.004], [0.011, 0.874, headZ + 0.002]));
+    addHeadPart("decal", new THREE.PlaneGeometry(0.107, 0.023)
       .rotateZ(Math.PI / 2).translate(0.027, 0.898, headZ + 0.0004));
   }
 }
@@ -347,6 +364,11 @@ function addElectricBody(add: AddPart) {
 }
 
 function addAcousticBody(add: AddPart) {
+  const { bodyBackZ, bodyFrontZ, saddleSpacing } = instruments.acoustic;
+  const soundboardDepth = 0.0035;
+  const shellFrontZ = bodyFrontZ - soundboardDepth;
+  const backBindingDepth = 0.002;
+  const shellBackZ = bodyBackZ + backBindingDepth;
   const outline = acousticBody();
   const shell = outline.clone();
   const perimeter = outline.getPoints(16);
@@ -354,26 +376,26 @@ function addAcousticBody(add: AddPart) {
     ({ x, y }) => new THREE.Vector2(x * scale, 0.245 + (y - 0.245) * scale),
   );
   shell.holes.push(new THREE.Path(insetPoints(0.968)));
-  add("walnut", slab(shell, -0.055, 0.1085));
+  add("walnut", slab(shell, shellBackZ, shellFrontZ - shellBackZ));
 
   const faceContour = insetPoints(0.991);
-  add("walnut", slab(new THREE.Shape(faceContour), -0.057, 0.004));
-  add("cavity", new THREE.ShapeGeometry(new THREE.Shape(faceContour)).translate(0, 0, -0.0526));
+  add("walnut", slab(new THREE.Shape(faceContour), bodyBackZ, 0.004));
+  add("cavity", new THREE.ShapeGeometry(new THREE.Shape(faceContour)).translate(0, 0, bodyBackZ + 0.0044));
 
   const soundHoleY = 0.345;
   const soundHoleRadius = 0.0495;
   const top = new THREE.Shape(faceContour);
   top.holes.push(new THREE.Path().absarc(0, soundHoleY, soundHoleRadius, 0, Math.PI * 2, true));
-  add("spruce", slab(top, 0.0535, 0.0035));
+  add("spruce", slab(top, shellFrontZ, soundboardDepth));
 
   const binding = outline.clone();
   binding.holes.push(new THREE.Path(faceContour));
-  add("ivory", slab(binding, 0.0535, 0.0035));
-  add("ivory", slab(binding, -0.057, 0.002));
+  add("ivory", slab(binding, shellFrontZ, soundboardDepth));
+  add("ivory", slab(binding, bodyBackZ, backBindingDepth));
 
   for (const [radius, width] of [[0.052, 0.0012], [0.057, 0.0023], [0.0602, 0.0012], [0.065, 0.0011]]) {
     add("rosette", new THREE.RingGeometry(radius, radius + width, 64)
-      .translate(0, soundHoleY, 0.05715));
+      .translate(0, soundHoleY, bodyFrontZ + 0.00015));
   }
 
   const bridge = new THREE.Shape();
@@ -384,25 +406,27 @@ function addAcousticBody(add: AddPart) {
   bridge.quadraticCurveTo(0, 0.17, -0.042, 0.178);
   bridge.quadraticCurveTo(-0.055, 0.187, -0.077, 0.185);
   bridge.closePath();
-  add("rosewood", slab(bridge, 0.057, 0.0085, 0.0015));
+  add("rosewood", slab(bridge, bodyFrontZ, 0.0085, 0.0015));
   add("ivory", rod([-0.033, 0.198, 0.071], [0.033, 0.200, 0.071], 0.0021));
 
   for (let string = 0; string < 6; string++) {
-    const x = (string - 2.5) * instruments.acoustic.saddleSpacing;
+    const x = (string - 2.5) * saddleSpacing;
     add("black", disk(x, 0.185, 0.0677, 0.0032, 0.0025));
     add("ivory", disk(x, 0.185, 0.0691, 0.001, 0.0006));
     add("wire", rod([x, 0.185, 0.0695], [x, 0.199, 0.074], 0.0004, 5));
   }
 }
 
-function addStand(add: AddPart, bodyDepth: number) {
-  const frontPadZ = bodyDepth + 0.006;
+function addStand(add: AddPart, kind: GuitarKind) {
+  const { bodyBackZ, bodyFrontZ, cradleBackY, cradleFrontY } = instruments[kind];
+  const frontPadZ = bodyFrontZ - bodyBackZ + 0.006;
+  const cradleBackZ = -0.039;
   for (const side of [-1, 1]) {
     const frontFoot: Point = [side * 0.14, 0.013, frontPadZ + 0.023];
     const rearFoot: Point = [side * 0.115, 0.013, -0.205];
     const hinge: Point = [side * 0.071, 0.313, -0.070];
-    const cradle: Point = [side * 0.106, 0.083, frontPadZ];
-    const cradleBack: Point = [side * 0.106, 0.083, -0.039];
+    const cradle: Point = [side * 0.106, cradleFrontY, frontPadZ];
+    const cradleBack: Point = [side * 0.106, cradleBackY, cradleBackZ];
 
     for (const foot of [frontFoot, rearFoot]) {
       add("frame", rod(foot, hinge, 0.0083, 12));
@@ -418,7 +442,7 @@ function addStand(add: AddPart, bodyDepth: number) {
     add("chrome", disk(hinge[0], hinge[1], hinge[2] + 0.009, 0.0044, 0.002));
   }
 
-  add("frame", rod([-0.106, 0.083, -0.039], [0.106, 0.083, -0.039], 0.008));
+  add("frame", rod([-0.106, cradleBackY, cradleBackZ], [0.106, cradleBackY, cradleBackZ], 0.008));
   add("frame", rod([-0.071, 0.313, -0.07], [0.071, 0.313, -0.07], 0.008));
   add("rubber", rod([-0.071, 0.312, -0.041], [0.071, 0.312, -0.041], 0.014, 12));
 }
@@ -449,14 +473,15 @@ export function createGuitarModel(kind: GuitarKind) {
     groups.set(finish, parts);
   };
 
-  const { backOffset } = instruments[kind];
-  const lean = new THREE.Matrix4().makeRotationX(-0.115).setPosition(0, 0.077, backOffset);
+  // Keep the back of each body against the stand's rear pad.
+  const { bodyBackZ } = instruments[kind];
+  const lean = new THREE.Matrix4().makeRotationX(-0.115).setPosition(0, 0.077, -bodyBackZ);
   const addInstrument: AddPart = (finish, geometry) => add(finish, geometry, lean);
 
   const addBody = kind === "electric" ? addElectricBody : addAcousticBody;
   addBody(addInstrument);
   addNeck(addInstrument, kind);
-  addStand(add, backOffset * 2);
+  addStand(add, kind);
 
   // Batch the hardware, frets and other repeated pieces by material.
   return Array.from(groups, ([finish, parts]) => ({
