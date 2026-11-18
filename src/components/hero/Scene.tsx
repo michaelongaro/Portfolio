@@ -2,12 +2,10 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   Text,
-  PerspectiveCamera,
   Environment,
   RoundedBox,
   RoundedBoxGeometry,
   useTexture,
-  Html,
   AdaptiveDpr,
   useEnvironment,
   useProgress,
@@ -18,6 +16,7 @@ import { useExploration } from "../../context/ExplorationContext";
 import forceScrollToTop from "../../util/forceScrollToTop";
 import * as THREE from "three";
 import {
+  useCallback,
   useMemo,
   useRef,
   useState,
@@ -27,18 +26,17 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import headshot from "/assets/headshot.jpg";
 import { isIOS, isMobileOnly } from "react-device-detect";
 import { IoClose, IoRefresh, IoMoon, IoSunny } from "react-icons/io5";
 import { LuRotate3D } from "react-icons/lu";
 import { animate } from "animejs";
-import {
-  PiMouseLeftClickFill,
-  PiMouseScroll,
-  PiMouseRightClickFill,
-} from "react-icons/pi";
-import { RotatePhone } from "../ui/icons/RotatePhone";
 import { Guitars } from "./Guitars";
+import {
+  MONITOR_DISPLAY_SIZE,
+  MonitorContent,
+  MonitorDisplay,
+  type MonitorContentRef,
+} from "./MonitorScreen";
 
 const LIGHT_ENVIRONMENT_ASSET = "/assets/pretoria_gardens_1k.exr";
 const DARK_ENVIRONMENT_ASSET = "/assets/rogland_clear_night_1k.exr";
@@ -47,6 +45,11 @@ const ROOM_BACK_Z = -2.5;
 const ROOM_FRONT_Z = 7.5;
 const ROOM_CENTER_Z = (ROOM_BACK_Z + ROOM_FRONT_Z) / 2;
 const FLOOR_Y = -4.1;
+const CAMERA_POSITION: [number, number, number] = [0, -1, 1.7];
+const CAMERA_TARGET: [number, number, number] = [0, -1.35, -0.5];
+const SCENE_CAMERA = { position: CAMERA_POSITION, fov: 50 };
+const DEFAULT_CAMERA_POSITION = new THREE.Vector3(...CAMERA_POSITION);
+const DEFAULT_CAMERA_TARGET = new THREE.Vector3(...CAMERA_TARGET);
 
 if (typeof window !== "undefined") {
   useEnvironment.preload({ files: LIGHT_ENVIRONMENT_ASSET });
@@ -64,7 +67,9 @@ const ElasticOrbitControls = forwardRef(
     ref: any,
   ) => {
     const controlsRef = useRef<any>(null);
-    const [isDragging, setIsDragging] = useState(false);
+    const isDragging = useRef(false);
+    const offset = useMemo(() => new THREE.Vector3(), []);
+    const spherical = useMemo(() => new THREE.Spherical(), []);
 
     useImperativeHandle(ref, () => controlsRef.current);
 
@@ -77,7 +82,7 @@ const ElasticOrbitControls = forwardRef(
       }
     }, [enabled]);
 
-    useFrame((_, delta) => {
+    useFrame(({ invalidate }, delta) => {
       if (!enabled) return;
 
       const controls = controlsRef.current;
@@ -89,36 +94,43 @@ const ElasticOrbitControls = forwardRef(
       const overflow = Math.abs(polar - limit);
       if (overflow <= 0.001) return;
 
-      const spherical = new THREE.Spherical().setFromVector3(
-        controls.object.position.clone().sub(controls.target),
+      spherical.setFromVector3(
+        offset.copy(controls.object.position).sub(controls.target),
       );
-      const step = isDragging
+      const step = isDragging.current
         ? Math.min(0.85, overflow * 6)
         : Math.min(1, delta * 10);
       spherical.phi = THREE.MathUtils.lerp(spherical.phi, limit, step);
       spherical.makeSafe();
       controls.object.position.setFromSpherical(spherical).add(controls.target);
       controls.object.lookAt(controls.target);
-    });
+      // Keep the elastic return running in demand mode after the gesture ends.
+      invalidate();
+    }, -0.5);
 
     return (
       <OrbitControls
         ref={controlsRef}
         {...props}
+        enabled={enabled}
         minPolarAngle={0}
         maxPolarAngle={Math.PI}
-        onStart={() => setIsDragging(true)}
-        onEnd={() => setIsDragging(false)}
+        onStart={() => {
+          isDragging.current = true;
+        }}
+        onEnd={() => {
+          isDragging.current = false;
+        }}
       />
     );
   },
 );
 
-function TexturedScreen({ image }: any) {
+function TexturedScreen({ image }: { image: string }) {
   const texture = useTexture(image);
   return (
     <mesh position={[0, 0, 0.228]}>
-      <planeGeometry args={[1.5, 0.85]} />
+      <planeGeometry args={MONITOR_DISPLAY_SIZE} />
       <meshBasicMaterial
         map={texture as THREE.Texture<unknown>}
         toneMapped={false}
@@ -130,15 +142,15 @@ function TexturedScreen({ image }: any) {
 function Monitor({
   position,
   rotation = [0, 0, 0],
-  text,
-  subtext,
-  isDark,
-  screenColor = "#1a1a2e",
-  image,
+  contentRef,
   screenImage,
-}: any) {
-  const emissiveIntensity = isDark ? 1.5 : 0.3;
-
+}: {
+  position: THREE.Vector3Tuple;
+  rotation?: THREE.Vector3Tuple;
+} & (
+  | { contentRef: MonitorContentRef; screenImage?: never }
+  | { contentRef?: never; screenImage: string }
+)) {
   return (
     <group position={position} rotation={rotation}>
       {/* Monitor Stand - Base plate (oval shape) */}
@@ -165,154 +177,23 @@ function Monitor({
         <meshStandardMaterial color="#1a1a1a" roughness={0.3} metalness={0.8} />
       </RoundedBox>
 
-      {/* Screen Display */}
-      {screenImage ? (
-        <TexturedScreen image={screenImage} />
+      {contentRef ? (
+        <MonitorDisplay contentRef={contentRef} />
       ) : (
-        <mesh position={[0, 0, 0.228]}>
-          <planeGeometry args={[1.5, 0.85]} />
-          <meshStandardMaterial
-            color={screenColor}
-            emissive={isDark ? "#0f172b" : "#ffffff"}
-            emissiveIntensity={emissiveIntensity}
-            roughness={0.1}
-            metalness={0.1}
-          />
-        </mesh>
-      )}
-
-      {/* Screen glass reflection layer */}
-      <mesh position={[0, 0, 0.23]}>
-        <planeGeometry args={[1.5, 0.85]} />
-        <meshPhysicalMaterial
-          transparent
-          opacity={0.1}
-          roughness={0}
-          metalness={0.1}
-          clearcoat={1}
-          clearcoatRoughness={0}
-        />
-      </mesh>
-
-      {/* Text Content */}
-      {text && (
-        <Html
-          transform
-          occlude="blending"
-          position={[0, 0, 0.231]}
-          scale={0.04}
-          style={{
-            width: "1500px",
-            height: "850px",
-            userSelect: "none",
-            paddingBottom: isIOS ? "850px" : "0px",
-          }}
-        >
-          <div className="flex flex-col justify-center gap-36 w-full h-full p-16">
-            {/* Main Content Group */}
-            <div className="flex flex-row items-start justify-center gap-12 mt-12">
-              {/* Image */}
-              {image && (
-                <img
-                  src={image}
-                  alt={text}
-                  className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg pointer-events-none select-none"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                />
-              )}
-
-              {/* Text Group */}
-              <div className="flex flex-col items-start justify-center h-64">
-                <h1
-                  className={`cursive text-8xl font-bold mb-4 ${
-                    isDark ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  {text}
-                </h1>
-                <h2
-                  className={`text-5xl font-medium mb-8 ${
-                    isDark ? "text-orange-300" : "text-gray-700"
-                  }`}
-                >
-                  {subtext}
-                </h2>
-
-                {/* Links */}
-                <div className="flex gap-8">
-                  <a
-                    href="https://github.com/michaelongaro"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
-                      isDark ? "text-orange-600" : "text-orange-600"
-                    }`}
-                  >
-                    GitHub
-                  </a>
-                  <a
-                    href="/assets/MichaelOngaroResume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
-                      isDark ? "text-orange-600" : "text-orange-600"
-                    }`}
-                  >
-                    Resume
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/michaelongaro/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`text-4xl underline hover:opacity-80 pointer-events-auto ${
-                      isDark ? "text-orange-600" : "text-orange-600"
-                    }`}
-                  >
-                    LinkedIn
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Controls Section */}
-            <div className="flex flex-col gap-12 md:gap-8 items-center justify-center md:mb-8">
-              <h3 className="flex gap-8 justify-center items-center text-6xl font-bold mb-4 text-gray-700 dark:text-gray-200 ">
-                <RotatePhone className="size-16 md:hidden" />
-                Controls
-              </h3>
-              <div className="hidden md:flex items-center gap-16 font-medium text-6xl text-gray-400">
-                <div className="flex gap-2 items-center">
-                  <PiMouseLeftClickFill className="size-16" />
-                  Pan
-                </div>
-                <div className="flex gap-2 items-center">
-                  <PiMouseScroll className="size-16" />
-                  Zoom
-                </div>
-                <div className="flex gap-2 items-center">
-                  <PiMouseRightClickFill className="size-16" />
-                  Rotate
-                </div>
-              </div>
-              <div className="flex md:hidden md:flex-col items-center gap-24 md:gap-12 font-medium text-6xl text-gray-400">
-                <div className="flex gap-8 items-center">
-                  <div className="relative size-16 flex justify-center items-center">
-                    <div className="rounded-full size-8 bg-gray-400"></div>
-                  </div>
-                  Pan
-                </div>
-                <div className="flex gap-12 items-center">
-                  <div className="relative size-16 flex justify-center items-center">
-                    <div className="absolute bottom-0 left-0 rounded-full size-8 bg-gray-400"></div>
-                    <div className="absolute top-0 right-0 rounded-full size-8 bg-gray-400"></div>
-                  </div>
-                  Zoom + Rotate
-                </div>
-              </div>
-            </div>
-          </div>
-        </Html>
+        <>
+          <TexturedScreen image={screenImage} />
+          <mesh position={[0, 0, 0.23]}>
+            <planeGeometry args={MONITOR_DISPLAY_SIZE} />
+            <meshPhysicalMaterial
+              transparent
+              opacity={0.1}
+              roughness={0}
+              metalness={0.1}
+              clearcoat={1}
+              clearcoatRoughness={0}
+            />
+          </mesh>
+        </>
       )}
     </group>
   );
@@ -378,7 +259,13 @@ const applyGlowShader: THREE.Material["onBeforeCompile"] = (shader) => {
   );
 };
 
-function KeyboardGlow({ keys }: { keys: KeyboardKey[] }) {
+function KeyboardGlow({
+  keys,
+  animated,
+}: {
+  keys: KeyboardKey[];
+  animated: boolean;
+}) {
   const meshRef = useRef<THREE.InstancedMesh>(null!);
   const color = useMemo(() => new THREE.Color(), []);
   const elapsedTime = useRef(0);
@@ -389,14 +276,18 @@ function KeyboardGlow({ keys }: { keys: KeyboardKey[] }) {
     keys.forEach(({ x, z, width }, index) => {
       transform.makeScale(width * 0.9, 1, 1).setPosition(x, -0.005, z);
       mesh.setMatrixAt(index, transform);
-      mesh.setColorAt(index, color);
+      mesh.setColorAt(index, color.setHSL((x + z) * 0.1, 0.95, 0.5));
     });
     mesh.instanceMatrix.needsUpdate = true;
-    mesh.instanceColor?.setUsage(THREE.DynamicDrawUsage);
+    mesh.instanceColor?.setUsage(
+      animated ? THREE.DynamicDrawUsage : THREE.StaticDrawUsage,
+    );
     mesh.computeBoundingSphere();
-  }, [keys, color]);
+  }, [keys, color, animated]);
 
   useFrame((_, delta) => {
+    if (!animated) return;
+
     const mesh = meshRef.current;
     const colors = mesh.instanceColor;
     if (!colors) return;
@@ -421,7 +312,65 @@ function KeyboardGlow({ keys }: { keys: KeyboardKey[] }) {
   );
 }
 
-function Keyboard({ position, rotation, isDark }: any) {
+function KeyboardLegends({
+  keys,
+  isDark,
+}: {
+  keys: KeyboardKey[];
+  isDark: boolean;
+}) {
+  const { texture, width, depth, x, z } = useMemo(() => {
+    const left = Math.min(...keys.map((key) => key.x - key.width / 2));
+    const right = Math.max(...keys.map((key) => key.x + key.width / 2));
+    const top = Math.min(...keys.map((key) => key.z)) - KEY_SIZE / 2;
+    const bottom = Math.max(...keys.map((key) => key.z)) + KEY_SIZE / 2;
+    const width = right - left;
+    const depth = bottom - top;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    const pixelsPerUnit = canvas.width / width;
+    canvas.height = Math.round(pixelsPerUnit * depth);
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      context.fillStyle = "#fff";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+
+      for (const { label, x, z } of keys) {
+        if (!label) continue;
+        const fontSize = /^[a-zA-Z0-9]$/.test(label) ? 0.035 : 0.022;
+        context.font = `${fontSize * pixelsPerUnit}px sans-serif`;
+        context.fillText(
+          label,
+          (x - left) * pixelsPerUnit,
+          ((z - top) / depth) * canvas.height,
+        );
+      }
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    return { texture, width, depth, x: (left + right) / 2, z: (top + bottom) / 2 };
+  }, [keys]);
+
+  useEffect(() => () => texture.dispose(), [texture]);
+
+  return (
+    <mesh position={[x, 0.029, z]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[width, depth]} />
+      <meshBasicMaterial
+        map={texture}
+        color={isDark ? "#ffffff" : "#000000"}
+        transparent
+        opacity={0.75}
+        depthWrite={false}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
+
+function Keyboard({ position, rotation, isDark, mobileQuality }: any) {
   const keys = useMemo(() => {
     const keyGap = 0.01;
     const keyUnit = KEY_SIZE + keyGap;
@@ -616,26 +565,30 @@ function Keyboard({ position, rotation, isDark }: any) {
       </RoundedBox>
       {/* Keys */}
       <group position={[0, 0.02, 0]}>
-        <KeyboardGlow keys={keys} />
+        <KeyboardGlow keys={keys} animated={!mobileQuality} />
         {keysByWidth.map(([width, batch]) => (
           <Keycaps key={width} width={width} keys={batch} isDark={isDark} />
         ))}
-        {keys.map(({ id, label, x, z }) =>
-          label ? (
-            <Text
-              key={id}
-              fontSize={/^[a-zA-Z0-9]$/.test(label) ? 0.035 : 0.022}
-              color={isDark ? "#ffffff" : "#000000"}
-              fillOpacity={0.75}
-              anchorX="center"
-              anchorY="middle"
-              position={[x, 0.029, z]}
-              rotation={[-Math.PI / 2, 0, 0]}
-              font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-            >
-              {label}
-            </Text>
-          ) : null,
+        {mobileQuality ? (
+          <KeyboardLegends keys={keys} isDark={isDark} />
+        ) : (
+          keys.map(({ id, label, x, z }) =>
+            label ? (
+              <Text
+                key={id}
+                fontSize={/^[a-zA-Z0-9]$/.test(label) ? 0.035 : 0.022}
+                color={isDark ? "#ffffff" : "#000000"}
+                fillOpacity={0.75}
+                anchorX="center"
+                anchorY="middle"
+                position={[x, 0.029, z]}
+                rotation={[-Math.PI / 2, 0, 0]}
+                font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
+              >
+                {label}
+              </Text>
+            ) : null,
+          )
         )}
       </group>
     </group>
@@ -1930,7 +1883,7 @@ function Bookend({ position }: any) {
   );
 }
 
-function Bookshelf({ position, isDark, books }: any) {
+function Bookshelf({ position, isDark, books, mobileQuality }: any) {
   const shelfWidth = 1.8;
   const shelfDepth = 0.45;
   const shelfThickness = 0.05;
@@ -1984,14 +1937,16 @@ function Bookshelf({ position, isDark, books }: any) {
           />
         </mesh>
         {/* Rect area light (always mounted to avoid shader recompilation) */}
-        <rectAreaLight
-          position={[0, -ledStripHeight / 2, 0.5]}
-          rotation={[Math.PI * 0.5, 0, 0]}
-          width={ledStripWidth - 0.05}
-          height={1}
-          color={ledColor}
-          intensity={isDark ? 2 : 0}
-        />
+        {!mobileQuality && (
+          <rectAreaLight
+            position={[0, -ledStripHeight / 2, 0.5]}
+            rotation={[Math.PI * 0.5, 0, 0]}
+            width={ledStripWidth - 0.05}
+            height={1}
+            color={ledColor}
+            intensity={isDark ? 2 : 0}
+          />
+        )}
       </group>
 
       {/* Left Bookend */}
@@ -2163,32 +2118,36 @@ function DeskGroup({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   isDark,
-}: any) {
+  mobileQuality,
+  monitorContentRef,
+}: {
+  position?: THREE.Vector3Tuple;
+  rotation?: THREE.Vector3Tuple;
+  isDark: boolean;
+  mobileQuality: boolean;
+  monitorContentRef: MonitorContentRef;
+}) {
   return (
     <group position={position} rotation={rotation}>
       <WoodenDesk isDark={isDark} />
 
       {/* Main Monitor - centered on desk */}
-      <Monitor
-        position={[0, -1.3, -0.7]}
-        text="Michael Ongaro"
-        subtext="Full Stack Developer"
-        isDark={isDark}
-        screenColor={isDark ? "#0a0a15" : "#f8f9fa"}
-        image={headshot}
-      />
+      <Monitor position={[0, -1.3, -0.7]} contentRef={monitorContentRef} />
 
       {/* Side Monitor - angled */}
       <Monitor
         position={[-1.62, -1.3, -0.35]}
         rotation={[0, 0.5, 0]}
-        isDark={isDark}
-        screenColor={isDark ? "#0a0512" : "#f8f9fa"}
         screenImage="/assets/altMonitor.png"
       />
 
       {/* Keyboard */}
-      <Keyboard position={[0, -2, 0.6]} rotation={[0, 0, 0]} isDark={isDark} />
+      <Keyboard
+        position={[0, -2, 0.6]}
+        rotation={[0, 0, 0]}
+        isDark={isDark}
+        mobileQuality={mobileQuality}
+      />
 
       {/* Mouse Pad */}
       <MousePad position={[1.3, -2.008, 0.55]} />
@@ -2234,17 +2193,19 @@ function SceneEnvironment({ isDark }: { isDark: boolean }) {
   );
 }
 
-function Sunlight({ isDark }: { isDark: boolean }) {
+function Sunlight({ isDark, mapSize }: { isDark: boolean; mapSize: number }) {
   const lightRef = useRef<THREE.DirectionalLight>(null!);
   const canvas = useThree(({ gl }) => gl.domElement);
+  const invalidate = useThree(({ invalidate }) => invalidate);
 
   useEffect(() => {
     const restoreShadow = () => {
       lightRef.current.shadow.needsUpdate = true;
+      invalidate();
     };
     canvas.addEventListener("webglcontextrestored", restoreShadow);
     return () => canvas.removeEventListener("webglcontextrestored", restoreShadow);
-  }, [canvas]);
+  }, [canvas, invalidate]);
 
   return (
     <directionalLight
@@ -2255,7 +2216,7 @@ function Sunlight({ isDark }: { isDark: boolean }) {
       castShadow
       shadow-autoUpdate={false}
       shadow-needsUpdate
-      shadow-mapSize={[2048, 2048]}
+      shadow-mapSize={[mapSize, mapSize]}
       shadow-camera-far={30}
       shadow-camera-left={-10}
       shadow-camera-right={10}
@@ -2290,7 +2251,15 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
   const { theme, toggleTheme } = useTheme();
   const { isExploring, setIsExploring } = useExploration();
   const isDark = theme === "dark";
+  const [mobileQuality] = useState(
+    () =>
+      isIOS ||
+      isMobileOnly ||
+      window.matchMedia("(hover: none) and (pointer: coarse)").matches,
+  );
   const containerRef = useRef<HTMLDivElement>(null);
+  const sceneSurfaceRef = useRef<HTMLDivElement>(null!);
+  const monitorContentRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth <= 640,
   );
@@ -2328,10 +2297,6 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
     const controls = controlsRef.current;
     const camera = controls.object;
 
-    // Default values
-    const defaultPos = new THREE.Vector3(0, -1, 1.7);
-    const defaultTarget = new THREE.Vector3(0, -1.35, -0.5);
-
     // Animate
     const startPos = camera.position.clone();
     const startTarget = controls.target.clone();
@@ -2342,32 +2307,34 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
       duration: 1000,
       ease: "inOutQuad",
       onUpdate: () => {
-        camera.position.lerpVectors(startPos, defaultPos, obj.t);
-        controls.target.lerpVectors(startTarget, defaultTarget, obj.t);
+        camera.position.lerpVectors(startPos, DEFAULT_CAMERA_POSITION, obj.t);
+        controls.target.lerpVectors(startTarget, DEFAULT_CAMERA_TARGET, obj.t);
         controls.update();
       },
       onComplete: () => {
-        setIsAtDefault(true);
+        // Consume any remaining damping before committing the reset pose.
+        const wasDamped = controls.enableDamping;
+        controls.enableDamping = false;
+        controls.update();
+        controls.enableDamping = wasDamped;
+        camera.position.copy(DEFAULT_CAMERA_POSITION);
+        controls.target.copy(DEFAULT_CAMERA_TARGET);
+        camera.lookAt(DEFAULT_CAMERA_TARGET);
+        controls.dispatchEvent({ type: "change" });
       },
     });
   };
 
-  const checkIsAtDefault = () => {
+  const checkIsAtDefault = useCallback(() => {
     if (!controlsRef.current) return;
     const controls = controlsRef.current;
     const camera = controls.object;
 
-    const defaultPos = new THREE.Vector3(0, -1, 3.5);
-    const defaultTarget = new THREE.Vector3(0, -1.3, -0.3);
-
-    const distPos = camera.position.distanceTo(defaultPos);
-    const distTarget = controls.target.distanceTo(defaultTarget);
-
-    const isDefault = distPos < 0.05 && distTarget < 0.05;
-    if (isDefault !== isAtDefault) {
-      setIsAtDefault(isDefault);
-    }
-  };
+    setIsAtDefault(
+      camera.position.distanceToSquared(DEFAULT_CAMERA_POSITION) < 0.05 ** 2 &&
+        controls.target.distanceToSquared(DEFAULT_CAMERA_TARGET) < 0.05 ** 2,
+    );
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -2639,154 +2606,170 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
         </div>
       )}
 
-      <Canvas
-        shadows={"percentage"}
-        frameloop={isInViewport ? "always" : "never"}
-        dpr={[1, 2]}
-        performance={{ min: 0.5 }}
-        gl={{
-          powerPreference: "high-performance",
-          antialias: true,
-        }}
-        style={{
-          touchAction: isExploring ? "none" : "pan-y",
-        }}
-        className="z-10"
+      <div
+        ref={sceneSurfaceRef}
+        className="absolute inset-0"
+        style={{ touchAction: isExploring ? "none" : "pan-y" }}
       >
-        <PerspectiveCamera makeDefault position={[0, -1, 1.7]} fov={50} />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <MonitorContent contentRef={monitorContentRef} isDark={isDark} />
+        </div>
+        <Canvas
+          eventSource={sceneSurfaceRef}
+          camera={SCENE_CAMERA}
+          shadows={mobileQuality ? "basic" : "percentage"}
+          frameloop={!isInViewport ? "never" : mobileQuality ? "demand" : "always"}
+          dpr={mobileQuality ? 1 : [1, 2]}
+          performance={{ min: 0.5 }}
+          gl={{
+            powerPreference: "high-performance",
+            antialias: !mobileQuality,
+          }}
+          className="z-10"
+        >
+          <Suspense fallback={null}>
+            <SceneReady onReady={onReady} setLoaded={setIsLoaded} />
+            <SceneEnvironment isDark={isDark} />
 
-        <Suspense fallback={null}>
-          <SceneReady onReady={onReady} setLoaded={setIsLoaded} />
-          <SceneEnvironment isDark={isDark} />
+            {!mobileQuality && <AdaptiveDpr pixelated />}
 
-          <AdaptiveDpr pixelated />
+            {/* All lights always mounted to avoid shader recompilation on theme switch */}
+            <ambientLight
+              intensity={isDark ? 0.02 : 0.3}
+              color={isDark ? "#ffffff" : "#fff0e0"}
+            />
 
-          {/* All lights always mounted to avoid shader recompilation on theme switch */}
-          <ambientLight
-            intensity={isDark ? 0.02 : 0.3}
-            color={isDark ? "#ffffff" : "#fff0e0"}
-          />
+            {/* Dark mode point lights */}
+            <pointLight
+              position={[0, -0.5, -0.5]}
+              intensity={isDark ? 1.5 : 0}
+              color="#4a90d9"
+              distance={5}
+              decay={2}
+            />
+            <pointLight
+              position={[-2.8, -0.5, -0.3]}
+              intensity={isDark ? 0.8 : 0}
+              color="#9b59b6"
+              distance={4}
+              decay={2}
+            />
+            <pointLight
+              position={[0, 2, 2]}
+              intensity={isDark ? 0.1 : 0}
+              color="#4a90d9"
+              distance={8}
+              decay={2}
+            />
 
-          {/* Dark mode point lights */}
-          <pointLight
-            position={[0, -0.5, -0.5]}
-            intensity={isDark ? 1.5 : 0}
-            color="#4a90d9"
-            distance={5}
-            decay={2}
-          />
-          <pointLight
-            position={[-2.8, -0.5, -0.3]}
-            intensity={isDark ? 0.8 : 0}
-            color="#9b59b6"
-            distance={4}
-            decay={2}
-          />
-          <pointLight
-            position={[0, 2, 2]}
-            intensity={isDark ? 0.1 : 0}
-            color="#4a90d9"
-            distance={8}
-            decay={2}
-          />
+            {/* Static shadow casters let camera motion and RGB animation reuse the map. */}
+            <Sunlight isDark={isDark} mapSize={mobileQuality ? 1024 : 2048} />
 
-          {/* Static shadow casters let camera motion and RGB animation reuse the map. */}
-          <Sunlight isDark={isDark} />
+            {/* Light mode fill point light */}
+            <pointLight
+              position={[5, 2, 2]}
+              intensity={isDark ? 0 : 0.4}
+              color="#d0e0ff"
+              distance={10}
+              decay={2}
+            />
 
-          {/* Light mode fill point light */}
-          <pointLight
-            position={[5, 2, 2]}
-            intensity={isDark ? 0 : 0.4}
-            color="#d0e0ff"
-            distance={10}
-            decay={2}
-          />
+            <group position={[0, 0, 0]}>
+              <group position={[-4.5, 0, -2.35]}>
+                <Bookshelf
+                  position={[0, 1.8, 0]}
+                  isDark={isDark}
+                  books={topShelfBooks}
+                  mobileQuality={mobileQuality}
+                />
+                <Bookshelf
+                  position={[0, 0.9, 0]}
+                  isDark={isDark}
+                  books={middleShelfBooks}
+                  mobileQuality={mobileQuality}
+                />
+                <Bookshelf
+                  position={[0, 0, 0]}
+                  isDark={isDark}
+                  books={bottomShelfBooks}
+                  mobileQuality={mobileQuality}
+                />
+              </group>
 
-          <group position={[0, 0, 0]}>
-            <group position={[-4.5, 0, -2.35]}>
-              <Bookshelf
-                position={[0, 1.8, 0]}
+              <Window
+                position={[0, 1, -2.4]}
+                rotation={[0, 0, 0]}
                 isDark={isDark}
-                books={topShelfBooks}
               />
-              <Bookshelf
-                position={[0, 0.9, 0]}
+
+              <Whiteboard
+                position={[4.5, 1, -2.45]}
+                rotation={[0, 0, 0]}
                 isDark={isDark}
-                books={middleShelfBooks}
               />
-              <Bookshelf
-                position={[0, 0, 0]}
+
+              <Walls isDark={isDark} />
+
+              <Ceiling isDark={isDark} />
+
+              <Floor isDark={isDark} />
+
+              <DeskGroup
+                position={[0, 0, -1.1]}
                 isDark={isDark}
-                books={bottomShelfBooks}
+                mobileQuality={mobileQuality}
+                monitorContentRef={monitorContentRef}
+              />
+
+              <Guitars
+                floorY={FLOOR_Y}
+                sideWallX={ROOM_HALF_WIDTH}
+                deskWallZ={ROOM_BACK_Z}
+                centerZ={ROOM_CENTER_Z}
               />
             </group>
 
-            <Window
-              position={[0, 1, -2.4]}
-              rotation={[0, 0, 0]}
-              isDark={isDark}
-            />
+            {!mobileQuality && (
+              <EffectComposer multisampling={4}>
+                <Bloom
+                  luminanceThreshold={isDark ? 0.8 : 2}
+                  mipmapBlur
+                  intensity={isDark ? 0.5 : 0.2}
+                  radius={0.3}
+                />
+                <Vignette
+                  eskil={false}
+                  offset={0.2}
+                  darkness={isDark ? 0.6 : 0.3}
+                />
+              </EffectComposer>
+            )}
+          </Suspense>
 
-            <Whiteboard
-              position={[4.5, 1, -2.45]}
-              rotation={[0, 0, 0]}
-              isDark={isDark}
-            />
-
-            <Walls isDark={isDark} />
-
-            <Ceiling isDark={isDark} />
-
-            <Floor isDark={isDark} />
-
-            <DeskGroup position={[0, 0, -1.1]} isDark={isDark} />
-
-            <Guitars
-              floorY={FLOOR_Y}
-              sideWallX={ROOM_HALF_WIDTH}
-              deskWallZ={ROOM_BACK_Z}
-              centerZ={ROOM_CENTER_Z}
-            />
-          </group>
-
-          <EffectComposer multisampling={4}>
-            <Bloom
-              luminanceThreshold={isDark ? 0.8 : 2}
-              mipmapBlur
-              intensity={isDark ? 0.5 : 0.2}
-              radius={0.3}
-            />
-            <Vignette
-              eskil={false}
-              offset={0.2}
-              darkness={isDark ? 0.6 : 0.3}
-            />
-          </EffectComposer>
-        </Suspense>
-
-        <ElasticOrbitControls
-          ref={controlsRef}
-          onChange={checkIsAtDefault}
-          enabled={isExploring}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 1.5}
-          minDistance={0.5}
-          maxDistance={isMobile ? 10.5 : 6.5}
-          target={[0, -1.35, -0.5]}
-          enableZoom={isExploring}
-          enablePan={isExploring}
-          panSpeed={isMobile ? 1.75 : 1.0}
-          mouseButtons={{
-            LEFT: isExploring ? THREE.MOUSE.PAN : null,
-            MIDDLE: isExploring ? THREE.MOUSE.DOLLY : null,
-            RIGHT: isExploring ? THREE.MOUSE.ROTATE : null,
-          }}
-          touches={{
-            ONE: isExploring ? THREE.TOUCH.PAN : null,
-            TWO: isExploring ? THREE.TOUCH.DOLLY_ROTATE : null,
-          }}
-        />
-      </Canvas>
+          <ElasticOrbitControls
+            ref={controlsRef}
+            onChange={checkIsAtDefault}
+            enabled={isExploring}
+            minPolarAngle={Math.PI / 4}
+            maxPolarAngle={Math.PI / 1.5}
+            minDistance={0.5}
+            maxDistance={isMobile ? 10.5 : 6.5}
+            target={CAMERA_TARGET}
+            enableZoom={isExploring}
+            enablePan={isExploring}
+            panSpeed={isMobile ? 1.75 : 1.0}
+            mouseButtons={{
+              LEFT: isExploring ? THREE.MOUSE.PAN : null,
+              MIDDLE: isExploring ? THREE.MOUSE.DOLLY : null,
+              RIGHT: isExploring ? THREE.MOUSE.ROTATE : null,
+            }}
+            touches={{
+              ONE: isExploring ? THREE.TOUCH.PAN : null,
+              TWO: isExploring ? THREE.TOUCH.DOLLY_ROTATE : null,
+            }}
+          />
+        </Canvas>
+      </div>
     </div>
   );
 }
