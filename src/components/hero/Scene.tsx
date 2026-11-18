@@ -38,9 +38,15 @@ import {
   PiMouseRightClickFill,
 } from "react-icons/pi";
 import { RotatePhone } from "../ui/icons/RotatePhone";
+import { Guitars } from "./Guitars";
 
 const LIGHT_ENVIRONMENT_ASSET = "/assets/pretoria_gardens_1k.exr";
 const DARK_ENVIRONMENT_ASSET = "/assets/rogland_clear_night_1k.exr";
+const ROOM_HALF_WIDTH = 7.5;
+const ROOM_BACK_Z = -2.5;
+const ROOM_FRONT_Z = 7.5;
+const ROOM_CENTER_Z = (ROOM_BACK_Z + ROOM_FRONT_Z) / 2;
+const FLOOR_Y = -4.1;
 
 if (typeof window !== "undefined") {
   useEnvironment.preload({ files: LIGHT_ENVIRONMENT_ASSET });
@@ -52,8 +58,6 @@ const ElasticOrbitControls = forwardRef(
     {
       minPolarAngle,
       maxPolarAngle,
-      minAzimuthAngle,
-      maxAzimuthAngle,
       enabled = true,
       ...props
     }: any,
@@ -61,7 +65,6 @@ const ElasticOrbitControls = forwardRef(
   ) => {
     const controlsRef = useRef<any>(null);
     const [isDragging, setIsDragging] = useState(false);
-    const baseRotateSpeed = props.rotateSpeed || 1.0;
 
     useImperativeHandle(ref, () => controlsRef.current);
 
@@ -74,106 +77,34 @@ const ElasticOrbitControls = forwardRef(
       }
     }, [enabled]);
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
       if (!enabled) return;
 
       const controls = controlsRef.current;
       if (!controls) return;
 
-      const azimuth = controls.getAzimuthalAngle();
+      // Keep the vertical limits elastic while allowing a full turn around the room.
       const polar = controls.getPolarAngle();
+      const limit = THREE.MathUtils.clamp(polar, minPolarAngle, maxPolarAngle);
+      const overflow = Math.abs(polar - limit);
+      if (overflow <= 0.001) return;
 
-      let azOverflow = 0;
-      if (azimuth < minAzimuthAngle) azOverflow = minAzimuthAngle - azimuth;
-      else if (azimuth > maxAzimuthAngle)
-        azOverflow = azimuth - maxAzimuthAngle;
-
-      let polOverflow = 0;
-      if (polar < minPolarAngle) polOverflow = minPolarAngle - polar;
-      else if (polar > maxPolarAngle) polOverflow = polar - maxPolarAngle;
-
-      if (isDragging) {
-        // Apply per-axis elastic resistance so hitting the limit on one axis
-        // doesn't block rotation on the other axis
-        controls.rotateSpeed = baseRotateSpeed;
-
-        if (azOverflow > 0.001 || polOverflow > 0.001) {
-          const spherical = new THREE.Spherical();
-          spherical.setFromVector3(
-            controls.object.position.clone().sub(controls.target),
-          );
-
-          if (azOverflow > 0.001) {
-            const azTarget =
-              azimuth < minAzimuthAngle ? minAzimuthAngle : maxAzimuthAngle;
-            const azResistance = Math.min(0.85, azOverflow * 6);
-            spherical.theta = THREE.MathUtils.lerp(
-              spherical.theta,
-              azTarget,
-              azResistance,
-            );
-          }
-
-          if (polOverflow > 0.001) {
-            const polTarget =
-              polar < minPolarAngle ? minPolarAngle : maxPolarAngle;
-            const polResistance = Math.min(0.85, polOverflow * 6);
-            spherical.phi = THREE.MathUtils.lerp(
-              spherical.phi,
-              polTarget,
-              polResistance,
-            );
-          }
-
-          spherical.makeSafe();
-          const newPos = new THREE.Vector3()
-            .setFromSpherical(spherical)
-            .add(controls.target);
-          controls.object.position.copy(newPos);
-          controls.object.lookAt(controls.target);
-        }
-      } else {
-        controls.rotateSpeed = baseRotateSpeed;
-
-        if (azOverflow > 0.001 || polOverflow > 0.001) {
-          const step = delta * 10;
-
-          let targetTheta = azimuth;
-          if (azimuth < minAzimuthAngle) targetTheta = minAzimuthAngle;
-          else if (azimuth > maxAzimuthAngle) targetTheta = maxAzimuthAngle;
-
-          let targetPhi = polar;
-          if (polar < minPolarAngle) targetPhi = minPolarAngle;
-          else if (polar > maxPolarAngle) targetPhi = maxPolarAngle;
-
-          const spherical = new THREE.Spherical();
-          spherical.setFromVector3(
-            controls.object.position.clone().sub(controls.target),
-          );
-
-          spherical.theta = THREE.MathUtils.lerp(
-            spherical.theta,
-            targetTheta,
-            step,
-          );
-          spherical.phi = THREE.MathUtils.lerp(spherical.phi, targetPhi, step);
-          spherical.makeSafe();
-
-          const newPos = new THREE.Vector3()
-            .setFromSpherical(spherical)
-            .add(controls.target);
-          controls.object.position.copy(newPos);
-          controls.object.lookAt(controls.target);
-        }
-      }
+      const spherical = new THREE.Spherical().setFromVector3(
+        controls.object.position.clone().sub(controls.target),
+      );
+      const step = isDragging
+        ? Math.min(0.85, overflow * 6)
+        : Math.min(1, delta * 10);
+      spherical.phi = THREE.MathUtils.lerp(spherical.phi, limit, step);
+      spherical.makeSafe();
+      controls.object.position.setFromSpherical(spherical).add(controls.target);
+      controls.object.lookAt(controls.target);
     });
 
     return (
       <OrbitControls
         ref={controlsRef}
         {...props}
-        minAzimuthAngle={-Infinity}
-        maxAzimuthAngle={Infinity}
         minPolarAngle={0}
         maxPolarAngle={Math.PI}
         onStart={() => setIsDragging(true)}
@@ -1006,7 +937,7 @@ function Walls({ isDark }: { isDark: boolean }) {
   return (
     <group>
       {/* Back wall */}
-      <group position={[0, -0.23, -2.5]}>
+      <group position={[0, -0.23, ROOM_BACK_Z]}>
         {/* Left Panel */}
         <mesh position={[-4.875, 0, 0]} receiveShadow castShadow>
           <planeGeometry args={[5.25, 8]} />
@@ -1034,7 +965,10 @@ function Walls({ isDark }: { isDark: boolean }) {
       </group>
 
       {/* Left wall */}
-      <group position={[-7.5, -0.23, 2.5]} rotation={[0, Math.PI / 2, 0]}>
+      <group
+        position={[-ROOM_HALF_WIDTH, -0.23, ROOM_CENTER_Z]}
+        rotation={[0, Math.PI / 2, 0]}
+      >
         <mesh receiveShadow castShadow>
           <planeGeometry args={[10, 8]} />
           <meshStandardMaterial {...wallMaterialProps} />
@@ -1046,7 +980,10 @@ function Walls({ isDark }: { isDark: boolean }) {
       </group>
 
       {/* Right wall */}
-      <group position={[7.5, -0.23, 2.5]} rotation={[0, -Math.PI / 2, 0]}>
+      <group
+        position={[ROOM_HALF_WIDTH, -0.23, ROOM_CENTER_Z]}
+        rotation={[0, -Math.PI / 2, 0]}
+      >
         <mesh receiveShadow castShadow>
           <planeGeometry args={[10, 8]} />
           <meshStandardMaterial {...wallMaterialProps} />
@@ -1058,7 +995,7 @@ function Walls({ isDark }: { isDark: boolean }) {
       </group>
 
       {/* Front wall */}
-      <group position={[0, -0.23, 7.5]}>
+      <group position={[0, -0.23, ROOM_FRONT_Z]}>
         <mesh receiveShadow castShadow>
           <planeGeometry args={[15, 8]} />
           <meshStandardMaterial {...wallMaterialProps} side={THREE.BackSide} />
@@ -1097,7 +1034,7 @@ function Ceiling({ isDark }: { isDark: boolean }) {
 
 function Floor({ isDark }: { isDark: boolean }) {
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -4.1, 0]} receiveShadow>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, FLOOR_Y, 0]} receiveShadow>
       <planeGeometry args={[15.8, 15]} />
       <WoodMaterial isDark={isDark} />
     </mesh>
@@ -2803,6 +2740,13 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
             <Floor isDark={isDark} />
 
             <DeskGroup position={[0, 0, -1.1]} isDark={isDark} />
+
+            <Guitars
+              floorY={FLOOR_Y}
+              sideWallX={ROOM_HALF_WIDTH}
+              deskWallZ={ROOM_BACK_Z}
+              centerZ={ROOM_CENTER_Z}
+            />
           </group>
 
           <EffectComposer multisampling={4}>
@@ -2826,8 +2770,6 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
           enabled={isExploring}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 1.5}
-          minAzimuthAngle={-Math.PI / 3}
-          maxAzimuthAngle={Math.PI / 3}
           minDistance={0.5}
           maxDistance={isMobile ? 10.5 : 6.5}
           target={[0, -1.35, -0.5]}
