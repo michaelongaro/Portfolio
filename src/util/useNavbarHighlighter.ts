@@ -64,10 +64,12 @@ function useNavbarHighlighter() {
       }
     }
 
-    document.addEventListener("scroll", debounce(scrollHandler, 20));
+    const handleScroll = debounce(scrollHandler, 20);
+    document.addEventListener("scroll", handleScroll);
 
     return () => {
-      document.removeEventListener("scroll", debounce(scrollHandler, 20));
+      document.removeEventListener("scroll", handleScroll);
+      handleScroll.clear();
     };
   }, []);
 

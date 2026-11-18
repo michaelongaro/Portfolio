@@ -1,13 +1,13 @@
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   Text,
   PerspectiveCamera,
   Environment,
   RoundedBox,
+  RoundedBoxGeometry,
   useTexture,
   Html,
-  Preload,
   AdaptiveDpr,
   useEnvironment,
   useProgress,
@@ -22,6 +22,7 @@ import {
   useRef,
   useState,
   useEffect,
+  useLayoutEffect,
   Suspense,
   forwardRef,
   useImperativeHandle,
@@ -30,7 +31,7 @@ import headshot from "/assets/headshot.jpg";
 import { isIOS, isMobileOnly } from "react-device-detect";
 import { IoClose, IoRefresh, IoMoon, IoSunny } from "react-icons/io5";
 import { LuRotate3D } from "react-icons/lu";
-import anime from "animejs/lib/anime.es.js";
+import { animate } from "animejs";
 import {
   PiMouseLeftClickFill,
   PiMouseScroll,
@@ -283,7 +284,7 @@ function Monitor({
               {image && (
                 <img
                   src={image}
-                  alt="Profile"
+                  alt={text}
                   className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg pointer-events-none select-none"
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
@@ -386,81 +387,118 @@ function Monitor({
   );
 }
 
-function Key({ position, width = 0.09, depth = 0.09, label, isDark }: any) {
-  const glowRef = useRef<THREE.MeshStandardMaterial>(null);
+const KEY_SIZE = 0.08;
 
-  useFrame((state) => {
-    if (glowRef.current) {
-      const time = state.clock.getElapsedTime();
-      // RGB Wave effect
-      // Position based offset for wave
-      const xOffset = position[0];
-      const yOffset = position[2];
-      const hue = (time * 0.1 + (xOffset + yOffset) * 0.1) % 1;
-      const color = new THREE.Color().setHSL(hue, 0.95, 0.5);
+type KeyboardKey = {
+  id: string;
+  x: number;
+  z: number;
+  width: number;
+  label: string;
+};
 
-      glowRef.current.color = color;
-      glowRef.current.emissive = color;
-      glowRef.current.emissiveIntensity = 4;
-    }
-  });
+function Keycaps({
+  width,
+  keys,
+  isDark,
+}: {
+  width: number;
+  keys: KeyboardKey[];
+  isDark: boolean;
+}) {
+  const meshRef = useRef<THREE.InstancedMesh>(null!);
 
-  // Font size adjustment
-  const isSmall = label && (label.length > 1 || !/^[a-zA-Z0-9]$/.test(label));
-  const fontSize = isSmall ? 0.022 : 0.035;
+  useLayoutEffect(() => {
+    const mesh = meshRef.current;
+    const transform = new THREE.Matrix4();
+    keys.forEach(({ x, z }, index) => {
+      mesh.setMatrixAt(index, transform.makeTranslation(x, 0.015, z));
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    mesh.computeBoundingSphere();
+  }, [keys]);
 
   return (
-    <group position={position}>
-      {/* Switch / Underglow */}
-      <mesh position={[0, -0.005, 0]}>
-        <boxGeometry args={[width * 0.9, 0.015, depth * 0.9]} />
-        <meshStandardMaterial ref={glowRef} toneMapped={false} />
-      </mesh>
-
-      {/* Key cap */}
-      <RoundedBox
-        args={[width, 0.025, depth]}
+    <instancedMesh
+      ref={meshRef}
+      args={[undefined, undefined, keys.length]}
+      castShadow
+      receiveShadow
+    >
+      <RoundedBoxGeometry
+        args={[width, 0.025, KEY_SIZE]}
         radius={0.005}
         smoothness={2}
-        position={[0, 0.015, 0]}
-        castShadow
-        receiveShadow
-      >
-        <meshStandardMaterial
-          color={isDark ? "#1a1a1a" : "#f0f0f0"}
-          roughness={0.7}
-          metalness={0.1}
-        />
-      </RoundedBox>
-      {/* Key label */}
-      {label && (
-        <Text
-          fontSize={fontSize}
-          color={isDark ? "#ffffff" : "#000000"}
-          fillOpacity={0.75}
-          anchorX="center"
-          anchorY="middle"
-          position={[0, 0.029, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-        >
-          {label}
-        </Text>
-      )}
-    </group>
+      />
+      <meshStandardMaterial
+        color={isDark ? "#1a1a1a" : "#f0f0f0"}
+        roughness={0.7}
+        metalness={0.1}
+      />
+    </instancedMesh>
+  );
+}
+
+const applyGlowShader: THREE.Material["onBeforeCompile"] = (shader) => {
+  // Use each key's lit color for its emissive tint as well.
+  shader.fragmentShader = shader.fragmentShader.replace(
+    "#include <emissivemap_fragment>",
+    "#include <emissivemap_fragment>\ntotalEmissiveRadiance = diffuseColor.rgb * 4.0;",
+  );
+};
+
+function KeyboardGlow({ keys }: { keys: KeyboardKey[] }) {
+  const meshRef = useRef<THREE.InstancedMesh>(null!);
+  const color = useMemo(() => new THREE.Color(), []);
+  const elapsedTime = useRef(0);
+
+  useLayoutEffect(() => {
+    const mesh = meshRef.current;
+    const transform = new THREE.Matrix4();
+    keys.forEach(({ x, z, width }, index) => {
+      transform.makeScale(width * 0.9, 1, 1).setPosition(x, -0.005, z);
+      mesh.setMatrixAt(index, transform);
+      mesh.setColorAt(index, color);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    mesh.instanceColor?.setUsage(THREE.DynamicDrawUsage);
+    mesh.computeBoundingSphere();
+  }, [keys, color]);
+
+  useFrame((_, delta) => {
+    const mesh = meshRef.current;
+    const colors = mesh.instanceColor;
+    if (!colors) return;
+
+    elapsedTime.current += delta;
+    const wave = elapsedTime.current * 0.1;
+    keys.forEach(({ x, z }, index) => {
+      const hue = (wave + (x + z) * 0.1) % 1;
+      mesh.setColorAt(index, color.setHSL(hue, 0.95, 0.5));
+    });
+    colors.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, keys.length]}>
+      <boxGeometry args={[1, 0.015, KEY_SIZE * 0.9]} />
+      <meshStandardMaterial
+        toneMapped={false}
+        onBeforeCompile={applyGlowShader}
+      />
+    </instancedMesh>
   );
 }
 
 function Keyboard({ position, rotation, isDark }: any) {
   const keys = useMemo(() => {
-    const keySize = 0.08;
     const keyGap = 0.01;
-    const keyUnit = keySize + keyGap;
+    const keyUnit = KEY_SIZE + keyGap;
 
     // Helper to create key data
     const k = (label: string, widthUnits = 1) => ({
       label,
-      width: widthUnits * keySize + (widthUnits - 1) * keyGap,
+      width: widthUnits * KEY_SIZE + (widthUnits - 1) * keyGap,
     });
 
     // TKL Layout Definition
@@ -584,7 +622,7 @@ function Keyboard({ position, rotation, isDark }: any) {
       ],
     ];
 
-    const generatedKeys: React.ReactNode[] = [];
+    const generatedKeys: KeyboardKey[] = [];
 
     // Calculate total width of main block to center it
     const startX = -0.95; // Adjusted to center the wider TKL layout
@@ -604,22 +642,29 @@ function Keyboard({ position, rotation, isDark }: any) {
           return;
         }
 
-        generatedKeys.push(
-          <Key
-            key={`${rowIndex}-${i}`}
-            position={[currentX + keyConfig.width / 2, 0, zPos]}
-            width={keyConfig.width}
-            depth={keySize}
-            label={label}
-            isDark={isDark}
-          />,
-        );
+        generatedKeys.push({
+          id: `${rowIndex}-${i}`,
+          x: currentX + keyConfig.width / 2,
+          z: zPos,
+          width: keyConfig.width,
+          label,
+        });
         currentX += keyConfig.width + keyGap;
       });
     });
 
     return generatedKeys;
-  }, [isDark]);
+  }, []);
+
+  const keysByWidth = useMemo(() => {
+    const groups = new Map<number, KeyboardKey[]>();
+    for (const key of keys) {
+      const group = groups.get(key.width);
+      if (group) group.push(key);
+      else groups.set(key.width, [key]);
+    }
+    return Array.from(groups);
+  }, [keys]);
 
   return (
     <group position={position} rotation={rotation}>
@@ -639,7 +684,29 @@ function Keyboard({ position, rotation, isDark }: any) {
         />
       </RoundedBox>
       {/* Keys */}
-      <group position={[0, 0.02, 0]}>{keys}</group>
+      <group position={[0, 0.02, 0]}>
+        <KeyboardGlow keys={keys} />
+        {keysByWidth.map(([width, batch]) => (
+          <Keycaps key={width} width={width} keys={batch} isDark={isDark} />
+        ))}
+        {keys.map(({ id, label, x, z }) =>
+          label ? (
+            <Text
+              key={id}
+              fontSize={/^[a-zA-Z0-9]$/.test(label) ? 0.035 : 0.022}
+              color={isDark ? "#ffffff" : "#000000"}
+              fillOpacity={0.75}
+              anchorX="center"
+              anchorY="middle"
+              position={[x, 0.029, z]}
+              rotation={[-Math.PI / 2, 0, 0]}
+              font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
+            >
+              {label}
+            </Text>
+          ) : null,
+        )}
+      </group>
     </group>
   );
 }
@@ -2230,6 +2297,39 @@ function SceneEnvironment({ isDark }: { isDark: boolean }) {
   );
 }
 
+function Sunlight({ isDark }: { isDark: boolean }) {
+  const lightRef = useRef<THREE.DirectionalLight>(null!);
+  const canvas = useThree(({ gl }) => gl.domElement);
+
+  useEffect(() => {
+    const restoreShadow = () => {
+      lightRef.current.shadow.needsUpdate = true;
+    };
+    canvas.addEventListener("webglcontextrestored", restoreShadow);
+    return () => canvas.removeEventListener("webglcontextrestored", restoreShadow);
+  }, [canvas]);
+
+  return (
+    <directionalLight
+      ref={lightRef}
+      position={[0.5, 2.75, -3]}
+      intensity={isDark ? 0 : 10}
+      color="#ffaa55"
+      castShadow
+      shadow-autoUpdate={false}
+      shadow-needsUpdate
+      shadow-mapSize={[2048, 2048]}
+      shadow-camera-far={30}
+      shadow-camera-left={-10}
+      shadow-camera-right={10}
+      shadow-camera-top={10}
+      shadow-camera-bottom={-10}
+      shadow-bias={-0.0005}
+      shadow-radius={2}
+    />
+  );
+}
+
 function SceneReady({
   onReady,
   setLoaded,
@@ -2262,7 +2362,8 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
       typeof window !== "undefined" && window.innerWidth > window.innerHeight,
   );
   const [isLoaded, setIsLoaded] = useState(false);
-  const { progress: sceneProgress } = useProgress();
+  const [isInViewport, setIsInViewport] = useState(true);
+  const sceneProgress = useProgress((state) => state.progress);
 
   const controlsRef = useRef<any>(null);
   const [isAtDefault, setIsAtDefault] = useState(true);
@@ -2273,6 +2374,17 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
   useEffect(() => {
     onProgressChange?.(Number.isFinite(sceneProgress) ? sceneProgress : 0);
   }, [onProgressChange, sceneProgress]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInViewport(entry.isIntersecting);
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const handleReset = () => {
     if (!controlsRef.current) return;
@@ -2288,17 +2400,16 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
     const startTarget = controls.target.clone();
 
     const obj = { t: 0 };
-    anime({
-      targets: obj,
+    animate(obj, {
       t: 1,
       duration: 1000,
-      easing: "easeInOutQuad",
-      update: () => {
+      ease: "inOutQuad",
+      onUpdate: () => {
         camera.position.lerpVectors(startPos, defaultPos, obj.t);
         controls.target.lerpVectors(startTarget, defaultTarget, obj.t);
         controls.update();
       },
-      complete: () => {
+      onComplete: () => {
         setIsAtDefault(true);
       },
     });
@@ -2593,6 +2704,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
 
       <Canvas
         shadows={"percentage"}
+        frameloop={isInViewport ? "always" : "never"}
         dpr={[1, 2]}
         performance={{ min: 0.5 }}
         gl={{
@@ -2641,21 +2753,8 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
             decay={2}
           />
 
-          {/* Light mode directional + shadow map (always mounted to keep shadow map pre-allocated) */}
-          <directionalLight
-            position={[0.5, 2.75, -3]}
-            intensity={isDark ? 0 : 10}
-            color="#ffaa55"
-            castShadow
-            shadow-mapSize={[2048, 2048]}
-            shadow-camera-far={30}
-            shadow-camera-left={-10}
-            shadow-camera-right={10}
-            shadow-camera-top={10}
-            shadow-camera-bottom={-10}
-            shadow-bias={-0.0005}
-            shadow-radius={2}
-          />
+          {/* Static shadow casters let camera motion and RGB animation reuse the map. */}
+          <Sunlight isDark={isDark} />
 
           {/* Light mode fill point light */}
           <pointLight
@@ -2706,7 +2805,7 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
             <DeskGroup position={[0, 0, -1.1]} isDark={isDark} />
           </group>
 
-          <EffectComposer>
+          <EffectComposer multisampling={4}>
             <Bloom
               luminanceThreshold={isDark ? 0.8 : 2}
               mipmapBlur
@@ -2745,7 +2844,6 @@ export default function Scene({ onReady, onProgressChange }: SceneProps) {
             TWO: isExploring ? THREE.TOUCH.DOLLY_ROTATE : null,
           }}
         />
-        <Preload all />
       </Canvas>
     </div>
   );

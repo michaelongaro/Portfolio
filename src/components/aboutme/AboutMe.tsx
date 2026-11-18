@@ -11,48 +11,42 @@ function AboutMe() {
         </h2>
       </div>
 
-      <div className="flex flex-col gap-8 items-center">
-        <div className="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
-          <div className="w-full md:w-1/3 flex justify-center">
-            <div className="relative w-56 h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-stone-300 shadow-2xl">
-              <img
-                src={myHeadshot}
-                alt="A close-up professional image of my face."
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+      <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1fr_2fr] md:gap-12">
+        <img
+          src={myHeadshot}
+          alt="Michael Ongaro in front of an evergreen tree"
+          width={800}
+          height={800}
+          loading="lazy"
+          className="mx-auto aspect-square w-56 max-w-xs rounded-3xl border-4 border-white object-cover shadow-2xl dark:border-stone-300 md:w-full"
+        />
 
-          <div className="w-full md:w-2/3 space-y-6 sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-center md:text-left">
-            <p>
-              My name is Michael Ongaro, and I am a passionate web developer
-              with a focus on creating accessible, enjoyable, and feature-rich
-              web applications. I believe in the power of small, consistent
-              improvements to drive progress and success. Whether working with
-              established technologies or exploring the cutting-edge, I am
-              always eager to learn and innovate.
-            </p>
+        <div className="space-y-6 text-center leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg/relaxed md:text-left">
+          <p>
+            Hi, I&apos;m Michael, a full-stack developer working with React,
+            Next.js, TypeScript, and PostgreSQL. I like seeing a feature through
+            from the first conversation to launch, working on everything from
+            how the data is structured to how people interact with the app.
+            After launch, I look for ways to make it work better for them.
+          </p>
 
-            <p>
-              One of the things that sets me apart as a developer is my focus on
-              accessibility. I believe that all web applications should be
-              designed to be inclusive and usable by everyone, regardless of
-              their abilities or disabilities. To achieve this goal, I follow
-              industry best practices and strive to stay up-to-date with the
-              latest accessibility standards and guidelines to ensure that my
-              work is always compliant.
-            </p>
-          </div>
+          <p>
+            I enjoy working through the technical details that make an app
+            easier to use. I test the steps people rely on, pay attention to
+            accessibility, and keep the code easy for another developer to
+            pick up.
+          </p>
+
+          <a
+            href={resumePDF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-6 py-3 font-semibold text-white shadow-md transition-colors hover:bg-orange-700"
+          >
+            <span>View Resume</span>
+            <HiOutlineExternalLink className="size-5" />
+          </a>
         </div>
-        <a
-          href={resumePDF}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg shadow-md md:-ml-24 transition-all "
-        >
-          <span>View Resume</span>
-          <HiOutlineExternalLink className="size-5" />
-        </a>
       </div>
     </section>
   );

@@ -138,7 +138,7 @@ function useProjectMetadata() {
       ],
       screenshotLink: autostrumImage,
       screenshotAltText:
-        "A screenshot of Autostrum, a guitar tab creator that I built with the T3 stack.",
+        "The Autostrum homepage showing guitar tab playback controls for Let Her Go.",
       githubRepoLink: "https://github.com/michaelongaro/Autostrum",
       type: "Personal",
       startDate: "Apr 2023",

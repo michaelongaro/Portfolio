@@ -1,11 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dynalight&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -16,31 +23,32 @@
   }
 }
 
-@layer components {
+/* Keep button states in the same layer as their background utilities. */
+@layer utilities {
   .touch-feedback-button {
-    @apply transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500;
+    @apply transition-colors enabled:cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .touch-feedback-button-brand:hover {
+    .touch-feedback-button-brand:enabled:hover {
       @apply bg-orange-700;
     }
 
-    .touch-feedback-button-neutral:hover {
+    .touch-feedback-button-neutral:enabled:hover {
       @apply bg-gray-100 dark:bg-stone-700;
     }
   }
 
   @media (hover: none),
   (pointer: coarse) {
-    .touch-feedback-button-brand:active {
-      @apply bg-orange-700;
+    .touch-feedback-button-brand:enabled:active {
+      @apply bg-orange-700 transition-none;
     }
 
-    .touch-feedback-button-neutral:active {
-      @apply bg-gray-100 dark:bg-stone-700;
+    .touch-feedback-button-neutral:enabled:active {
+      @apply bg-gray-100 transition-none dark:bg-stone-700;
     }
   }
 }

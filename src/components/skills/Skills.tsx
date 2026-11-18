@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import anime from "animejs";
+import { animate, stagger } from "animejs";
 
 import html5Icon from "/assets/html5.png";
 import css3Icon from "/assets/css3.png";
@@ -56,13 +56,16 @@ function Skills() {
 
   useEffect(() => {
     if (inView) {
-      anime({
-        targets: ".skill-icon",
+      const animation = animate(".skill-icon", {
         opacity: [0, 1],
         translateY: [20, 0],
-        delay: anime.stagger(100),
-        easing: "easeOutQuad",
+        delay: stagger(100),
+        duration: 1000,
+        ease: "outQuad",
       });
+      return () => {
+        animation.cancel();
+      };
     }
   }, [inView]);
 

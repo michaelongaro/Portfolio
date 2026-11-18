@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentType } from "react";
+import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { LuRotate3D } from "react-icons/lu";
 import lightPlaceholder from "/assets/threeJSScenePlaceholderLight.png";
 import darkPlaceholder from "/assets/threeJSScenePlaceholderDark.png";
@@ -9,11 +9,6 @@ import SceneLoadingOverlay from "./SceneLoadingOverlay";
 import type { SceneProps } from "./Scene";
 
 type SceneComponentType = ComponentType<SceneProps>;
-
-function preloadImage(source: string) {
-  const image = new Image();
-  image.src = source;
-}
 
 function HeroPreview({
   isDark,
@@ -59,9 +54,9 @@ function Hero() {
   const [sceneTargetProgress, setSceneTargetProgress] = useState(0);
   const [isSceneReady, setIsSceneReady] = useState(false);
 
-  useEffect(() => {
-    preloadImage(lightPlaceholder);
-    preloadImage(darkPlaceholder);
+  const handleSceneReady = useCallback(() => {
+    setSceneTargetProgress(100);
+    setIsSceneReady(true);
   }, []);
 
   useEffect(() => {
@@ -111,13 +106,8 @@ function Hero() {
 
       {SceneComponent && (
         <SceneComponent
-          onReady={() => {
-            setSceneTargetProgress(100);
-            setIsSceneReady(true);
-          }}
-          onProgressChange={(progress) => {
-            setSceneTargetProgress(progress);
-          }}
+          onReady={handleSceneReady}
+          onProgressChange={setSceneTargetProgress}
         />
       )}
 
